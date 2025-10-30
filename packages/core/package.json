@@ -1,0 +1,37 @@
+{
+  "name": "@lmoulanier/el",
+  "version": "1.0.0",
+  "description": "Type-safe createElement function",
+  "type": "module",
+  "source": "src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "createElement"
+  ],
+  "author": "lmoulanier",
+  "license": "MIT",
+  "devDependencies": {
+    "alien-deepsignals": "^0.3.1",
+    "alien-signals": "^3.0.3",
+    "element-attributes": "workspace:*"
+  },
+  "peerDependencies": {
+    "alien-deepsignals": "^0.3.1",
+    "alien-signals": "^3.0.3"
+  },
+  "peerDependenciesMeta": {
+    "alien-deepsignals": {
+      "optional": true
+    },
+    "alien-signals": {
+      "optional": true
+    }
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./alien-deepsignals": "./dist/alien-deepsignals/index.js",
+    "./package.json": "./package.json"
+  }
+}

@@ -1,0 +1,10 @@
+{
+	"scripts": {
+		"build": "pnpm run build:element-attributes && pnpm run build:core",
+		"build:element-attributes": "cd packages/element_attributes/ && node src/build.ts",
+		"build:core": "tsdown --cwd ./packages/core/"
+	},
+	"devDependencies": {
+		"tsdown": "^0.15.12"
+	}
+}

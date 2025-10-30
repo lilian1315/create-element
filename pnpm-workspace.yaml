@@ -1,0 +1,6 @@
+packages:
+  - 'packages/*'
+  - 'examples/*'
+
+overrides:
+  "vite": "npm:rolldown-vite@7.1.14"
