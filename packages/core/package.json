@@ -1,6 +1,6 @@
 {
   "name": "@lmoulanier/el",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Type-safe createElement function",
   "type": "module",
   "source": "src/index.ts",
