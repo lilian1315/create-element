@@ -1,10 +1,10 @@
-import { Computed, effect, isSignal } from "alien-deepsignals"
+import { effect, isComputed, isSignal } from "alien-deepsignals"
 import type { AnyElement, Child } from "../types"
 import type { ReactiveChild } from "./types"
 import { childToNode, classkeys, handleAttribute, handleChildren } from "../utils"
 
 export function handleSignalAttribute(element: AnyElement, key: string | symbol, value: any): void {
-    if (isSignal(value) || value instanceof Computed) {
+    if (isSignal(value) || isComputed(value)) {
         effect(() => handleAttribute(element, key, value.get()))
         return
     }
@@ -26,7 +26,7 @@ function handleClassSignalAttribute(element: AnyElement, name: string, value: an
             element.classList = ''
 
             for (let v of value) {
-                if (isSignal(v) || v instanceof Computed) v = v.get()
+                if (isSignal(v) || isComputed(v)) v = v.get()
                 if (v) element.classList.add(v)
             }
         })
@@ -38,7 +38,7 @@ function handleClassSignalAttribute(element: AnyElement, name: string, value: an
         for(const k of Object.keys(value)) {
             effect(() => {
                 let v = value[k]
-                if ((isSignal(v) || v instanceof Computed)) v = v.get()
+                if (isSignal(v) || isComputed(v)) v = v.get()
                 element.classList.toggle(k as string, v === true)
             })
         }
@@ -57,7 +57,7 @@ function handleStyleSignalAttribute(element: AnyElement, name: string, value: an
             effect(() => {
                 const styleString = Object.entries(value).map(([key, val]) => {
                     const kebabKey = key.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`);
-                    return `${kebabKey}: ${(isSignal(val) || val instanceof Computed ? val.get() : val)};`;
+                    return `${kebabKey}: ${(isSignal(val) || isComputed(val) ? val.get() : val)};`;
                 }).join('');
                 element.setAttribute('style', styleString);
             })
@@ -65,7 +65,7 @@ function handleStyleSignalAttribute(element: AnyElement, name: string, value: an
             for(const key of Object.keys(value)) {
                 effect(() => {
                     let val = value[key]
-                    if (isSignal(val) || val instanceof Computed) val = val.get()
+                    if (isSignal(val) || isComputed(val)) val = val.get()
                     // @ts-expect-error
                     element.style[key] = val
                 })
@@ -85,7 +85,7 @@ function handleDataSignalAttribute(element: AnyElement, key: string, value: any)
         for(const k of Object.keys(value)) {
             let v = value[k]
             effect(() => {
-                if (isSignal(v) || v instanceof Computed) v = v.get()
+                if (isSignal(v) || isComputed(v)) v = v.get()
                 if(typeof v === 'string') element.dataset[k] = v
             })
         }
@@ -97,7 +97,7 @@ function handleDataSignalAttribute(element: AnyElement, key: string, value: any)
 }
 
 export function handleSignalChildren(element: AnyElement, children: Child | ReactiveChild): void {
-    if(isSignal(children) || children instanceof Computed) {
+    if(isSignal(children) || isComputed(children)) {
         let placeholder: Node | null = null
 
         const getPlaceholder = () => {
@@ -179,8 +179,7 @@ function getNodes(reactiveChild: ReactiveChild): Node[] {
 }
 
 function getReactiveChildValue(child: ReactiveChild): Child | Child[] {
-    if (isSignal<Child | Child[]>(child)) return child.get()
-    if (child instanceof Computed) return child.get()
+    if (isSignal(child) || isComputed(child)) return child.get()
 
     throw new Error("Invalid reactive child")
 }

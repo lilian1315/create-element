@@ -1,9 +1,9 @@
 import { i as handleChildren, n as classkeys, r as handleAttribute, t as childToNode } from "../utils-Cxvtubyt.js";
-import { Computed, effect, isSignal } from "alien-deepsignals";
+import { effect, isComputed, isSignal } from "alien-deepsignals";
 
 //#region src/alien-deepsignals/utils.ts
 function handleSignalAttribute(element, key, value) {
-	if (isSignal(value) || value instanceof Computed) {
+	if (isSignal(value) || isComputed(value)) {
 		effect(() => handleAttribute(element, key, value.get()));
 		return;
 	}
@@ -20,7 +20,7 @@ function handleClassSignalAttribute(element, name, value) {
 		effect(() => {
 			element.classList = "";
 			for (let v of value) {
-				if (isSignal(v) || v instanceof Computed) v = v.get();
+				if (isSignal(v) || isComputed(v)) v = v.get();
 				if (v) element.classList.add(v);
 			}
 		});
@@ -29,7 +29,7 @@ function handleClassSignalAttribute(element, name, value) {
 	if (typeof value === "object") {
 		for (const k of Object.keys(value)) effect(() => {
 			let v = value[k];
-			if (isSignal(v) || v instanceof Computed) v = v.get();
+			if (isSignal(v) || isComputed(v)) v = v.get();
 			element.classList.toggle(k, v === true);
 		});
 		return true;
@@ -41,13 +41,13 @@ function handleStyleSignalAttribute(element, name, value) {
 	if (typeof value === "object" && value !== null) {
 		if (element instanceof SVGElement) effect(() => {
 			const styleString = Object.entries(value).map(([key, val]) => {
-				return `${key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${isSignal(val) || val instanceof Computed ? val.get() : val};`;
+				return `${key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${isSignal(val) || isComputed(val) ? val.get() : val};`;
 			}).join("");
 			element.setAttribute("style", styleString);
 		});
 		else for (const key of Object.keys(value)) effect(() => {
 			let val = value[key];
-			if (isSignal(val) || val instanceof Computed) val = val.get();
+			if (isSignal(val) || isComputed(val)) val = val.get();
 			element.style[key] = val;
 		});
 		return true;
@@ -60,7 +60,7 @@ function handleDataSignalAttribute(element, key, value) {
 		for (const k of Object.keys(value)) {
 			let v = value[k];
 			effect(() => {
-				if (isSignal(v) || v instanceof Computed) v = v.get();
+				if (isSignal(v) || isComputed(v)) v = v.get();
 				if (typeof v === "string") element.dataset[k] = v;
 			});
 		}
@@ -69,7 +69,7 @@ function handleDataSignalAttribute(element, key, value) {
 	return false;
 }
 function handleSignalChildren(element, children) {
-	if (isSignal(children) || children instanceof Computed) {
+	if (isSignal(children) || isComputed(children)) {
 		let placeholder = null;
 		const getPlaceholder = () => {
 			if (!placeholder) placeholder = document.createComment("signal placeholder");
@@ -129,8 +129,7 @@ function getNodes(reactiveChild) {
 	return nodes;
 }
 function getReactiveChildValue(child) {
-	if (isSignal(child)) return child.get();
-	if (child instanceof Computed) return child.get();
+	if (isSignal(child) || isComputed(child)) return child.get();
 	throw new Error("Invalid reactive child");
 }
 function insertAfter(parent, newNode, referenceNode) {
