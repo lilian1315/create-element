@@ -7,7 +7,7 @@
   "author": "lmoulanier",
   "license": "MIT",
   "scripts": {
-    "build": "node src/build.ts"
+    "build": "node src/generate.ts"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",

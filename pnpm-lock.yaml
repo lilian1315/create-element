@@ -33,7 +33,7 @@ importers:
     devDependencies:
       '@lmoulanier/elements-writable-properties-types':
         specifier: workspace:^0.0.1
-        version: link:../generated_element_attributes
+        version: link:../elements_writable_properties_types
       alien-deepsignals:
         specifier: ^0.3.1
         version: 0.3.1(alien-signals@3.0.5)
@@ -44,7 +44,7 @@ importers:
         specifier: ^0.15.12
         version: 0.15.12(typescript@5.9.3)
 
-  packages/generated_element_attributes:
+  packages/elements_writable_properties_types:
     devDependencies:
       '@types/cli-progress':
         specifier: ^3.11.6
