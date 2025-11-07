@@ -1,5 +1,5 @@
 import type { Computed, Signal } from "alien-deepsignals"
-import type { BaseElementAttributes, Child, PrefixedElementTag, SpecialAttributes } from "../types"
+import type { BaseElementAttributesTagNameMap, Child, PrefixedElementTag, SpecialAttributes } from "../types"
 
 type MaybeReactive<T> = T | Signal<T> | Computed<T>
 
@@ -26,4 +26,4 @@ type SpecialAttributesSignal = SpecialAttributes<ClassSignalAttribute, StyleSign
 
 export type ReactiveChild = Signal<Child> | Signal<Child[]> | Computed<Child> | Computed<Child[]>;
 
-export type MayBeReactiveAttributes<K extends PrefixedElementTag> = Partial<MayBeReactiveObject<BaseElementAttributes<K>> & SpecialAttributesSignal>
+export type MayBeReactiveAttributes<K extends PrefixedElementTag> = Partial<MayBeReactiveObject<BaseElementAttributesTagNameMap[K]> & SpecialAttributesSignal & Readonly<Record<string | symbol, unknown>>>

@@ -54,21 +54,24 @@ export type PrefixedElementTag =
     | keyof PrefixedSVGElementTagNameMap
     | keyof PrefixedMathMLElementTagNameMap
 
+export type BaseElementAttributesTagNameMap = {
+    [T in PrefixedElementTag]:
+    T extends keyof PrefixedSVGElementTagNameMap ? DOMTypes.SVGElementTagNameMap[PrefixedSVGElementTagNameMap[T]]
+    : T extends keyof PrefixedMathMLElementTagNameMap ? DOMTypes.MathMLElementTagNameMap[PrefixedMathMLElementTagNameMap[T]]
+    : T extends keyof HTMLElementTagNameMap ? DOMTypes.HTMLElementTagNameMap[T]
+    : T extends keyof HTMLElementDeprecatedTagNameMap ? DOMTypes.HTMLElementDeprecatedTagNameMap[T]
+    : never
+}
 
-export type BaseElementAttributes<T extends PrefixedElementTag> =
-    (
-        T extends keyof PrefixedSVGElementTagNameMap ? DOMTypes.SVGElementTagNameMap[PrefixedSVGElementTagNameMap[T]]
-        : T extends keyof PrefixedMathMLElementTagNameMap ? DOMTypes.MathMLElementTagNameMap[PrefixedMathMLElementTagNameMap[T]]
-        : T extends keyof HTMLElementTagNameMap ? DOMTypes.HTMLElementTagNameMap[T]
-        : T extends keyof HTMLElementDeprecatedTagNameMap ? DOMTypes.HTMLElementDeprecatedTagNameMap[T]
-        : never
-    ) & Readonly<Record<string | symbol, unknown>>
+export type ElementAttributesTagNameMap = {
+    [T in PrefixedElementTag]: Partial<BaseElementAttributesTagNameMap[T] & SpecialAttributes & Readonly<Record<string | symbol, unknown>>>
+}
 
-export type ElementAttributes<T extends PrefixedElementTag> = Partial<BaseElementAttributes<T> & SpecialAttributes>
-
-export type ElementFromPrefixedTag<T extends PrefixedElementTag> =
+export type ElementPrefixedTagNameMap = {
+    [T in PrefixedElementTag]:
     T extends keyof PrefixedSVGElementTagNameMap ? SVGElementTagNameMap[PrefixedSVGElementTagNameMap[T]]
     : T extends keyof PrefixedMathMLElementTagNameMap ? MathMLElementTagNameMap[PrefixedMathMLElementTagNameMap[T]]
     : T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T]
     : T extends keyof HTMLElementDeprecatedTagNameMap ? HTMLElementDeprecatedTagNameMap[T]
     : never
+}
