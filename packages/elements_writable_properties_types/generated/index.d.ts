@@ -194,10 +194,6 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/slot)
          */
         slot: string;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/fullscreenchange_event) */
-        onFullscreenChange: ((this: Element, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/fullscreenerror_event) */
-        onFullscreenError: ((this: Element, ev: Event) => any) | null;
     }
 
     /**
@@ -523,230 +519,6 @@ export namespace DOMTypes {
         onwebkittransitionend: ((this: GlobalEventHandlers, ev: Event) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/wheel_event) */
         onwheel: ((this: GlobalEventHandlers, ev: WheelEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/abort_event) */
-        onAbort: ((this: GlobalEventHandlers, ev: UIEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/animationcancel_event) */
-        onAnimationCancel: ((this: GlobalEventHandlers, ev: AnimationEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/animationend_event) */
-        onAnimationEnd: ((this: GlobalEventHandlers, ev: AnimationEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/animationiteration_event) */
-        onAnimationIteration: ((this: GlobalEventHandlers, ev: AnimationEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/animationstart_event) */
-        onAnimationStart: ((this: GlobalEventHandlers, ev: AnimationEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/auxclick_event) */
-        onAuxClick: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/beforeinput_event) */
-        onBeforeInput: ((this: GlobalEventHandlers, ev: InputEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/beforematch_event) */
-        onBeforeMatch: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/beforetoggle_event) */
-        onBeforeToggle: ((this: GlobalEventHandlers, ev: ToggleEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/blur_event) */
-        onBlur: ((this: GlobalEventHandlers, ev: FocusEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLDialogElement/cancel_event) */
-        onCancel: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/canplay_event) */
-        onCanPlay: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/canplaythrough_event) */
-        onCanPlayThrough: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/change_event) */
-        onChange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/click_event) */
-        onClick: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLDialogElement/close_event) */
-        onClose: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/contextlost_event) */
-        onContextLost: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/contextmenu_event) */
-        onContextMenu: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/contextrestored_event) */
-        onContextRestored: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/copy_event) */
-        onCopy: ((this: GlobalEventHandlers, ev: ClipboardEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTrackElement/cuechange_event) */
-        onCueChange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/cut_event) */
-        onCut: ((this: GlobalEventHandlers, ev: ClipboardEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/dblclick_event) */
-        onDblClick: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/drag_event) */
-        onDrag: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/dragend_event) */
-        onDragEnd: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/dragenter_event) */
-        onDragEnter: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/dragleave_event) */
-        onDragLeave: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/dragover_event) */
-        onDragOver: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/dragstart_event) */
-        onDragStart: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/drop_event) */
-        onDrop: ((this: GlobalEventHandlers, ev: DragEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/durationchange_event) */
-        onDurationChange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/emptied_event) */
-        onEmptied: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/ended_event) */
-        onEnded: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/error_event) */
-        onError: OnErrorEventHandler;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/focus_event) */
-        onFocus: ((this: GlobalEventHandlers, ev: FocusEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLFormElement/formdata_event) */
-        onFormData: ((this: GlobalEventHandlers, ev: FormDataEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/gotpointercapture_event) */
-        onGotPointerCapture: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/input_event) */
-        onInput: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLInputElement/invalid_event) */
-        onInvalid: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/keydown_event) */
-        onKeyDown: ((this: GlobalEventHandlers, ev: KeyboardEvent) => any) | null;
-        /**
-         * @deprecated
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/keypress_event)
-         */
-        onKeyPress: ((this: GlobalEventHandlers, ev: KeyboardEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/keyup_event) */
-        onKeyUp: ((this: GlobalEventHandlers, ev: KeyboardEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/load_event) */
-        onLoad: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/loadeddata_event) */
-        onLoadedData: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/loadedmetadata_event) */
-        onLoadedMetadata: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/loadstart_event) */
-        onLoadStart: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/lostpointercapture_event) */
-        onLostPointerCapture: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/mousedown_event) */
-        onMouseDown: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/mouseenter_event) */
-        onMouseEnter: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/mouseleave_event) */
-        onMouseLeave: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/mousemove_event) */
-        onMouseMove: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/mouseout_event) */
-        onMouseOut: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/mouseover_event) */
-        onMouseOver: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/mouseup_event) */
-        onMouseUp: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/paste_event) */
-        onPaste: ((this: GlobalEventHandlers, ev: ClipboardEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/pause_event) */
-        onPause: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/play_event) */
-        onPlay: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/playing_event) */
-        onPlaying: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointercancel_event) */
-        onPointerCancel: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointerdown_event) */
-        onPointerDown: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointerenter_event) */
-        onPointerEnter: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointerleave_event) */
-        onPointerLeave: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointermove_event) */
-        onPointerMove: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointerout_event) */
-        onPointerOut: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointerover_event) */
-        onPointerOver: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /**
-         * Available only in secure contexts.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointerrawupdate_event)
-         */
-        onPointerRawUpdate: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/pointerup_event) */
-        onPointerUp: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/progress_event) */
-        onProgress: ((this: GlobalEventHandlers, ev: ProgressEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/ratechange_event) */
-        onRateChange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLFormElement/reset_event) */
-        onReset: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLVideoElement/resize_event) */
-        onResize: ((this: GlobalEventHandlers, ev: UIEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Document/scroll_event) */
-        onScroll: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Document/scrollend_event) */
-        onScrollEnd: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Document/securitypolicyviolation_event) */
-        onSecurityPolicyViolation: ((this: GlobalEventHandlers, ev: SecurityPolicyViolationEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/seeked_event) */
-        onSeeked: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/seeking_event) */
-        onSeeking: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLInputElement/select_event) */
-        onSelect: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Document/selectionchange_event) */
-        onSelectionChange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node/selectstart_event) */
-        onSelectStart: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLSlotElement/slotchange_event) */
-        onSlotChange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/stalled_event) */
-        onStalled: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLFormElement/submit_event) */
-        onSubmit: ((this: GlobalEventHandlers, ev: SubmitEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/suspend_event) */
-        onSuspend: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/timeupdate_event) */
-        onTimeUpdate: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/toggle_event) */
-        onToggle: ((this: GlobalEventHandlers, ev: ToggleEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/touchcancel_event) */
-        onTouchCancel?: ((this: GlobalEventHandlers, ev: TouchEvent) => any) | null | undefined;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/touchend_event) */
-        onTouchEnd?: ((this: GlobalEventHandlers, ev: TouchEvent) => any) | null | undefined;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/touchmove_event) */
-        onTouchMove?: ((this: GlobalEventHandlers, ev: TouchEvent) => any) | null | undefined;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/touchstart_event) */
-        onTouchStart?: ((this: GlobalEventHandlers, ev: TouchEvent) => any) | null | undefined;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/transitioncancel_event) */
-        onTransitionCancel: ((this: GlobalEventHandlers, ev: TransitionEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/transitionend_event) */
-        onTransitionEnd: ((this: GlobalEventHandlers, ev: TransitionEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/transitionrun_event) */
-        onTransitionRun: ((this: GlobalEventHandlers, ev: TransitionEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/transitionstart_event) */
-        onTransitionStart: ((this: GlobalEventHandlers, ev: TransitionEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/volumechange_event) */
-        onVolumeChange: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/waiting_event) */
-        onWaiting: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /**
-         * @deprecated This is a legacy alias of `onanimationend`.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/animationend_event)
-         */
-        onWebkitAnimationEnd: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /**
-         * @deprecated This is a legacy alias of `onanimationiteration`.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/animationiteration_event)
-         */
-        onWebkitAnimationIteration: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /**
-         * @deprecated This is a legacy alias of `onanimationstart`.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/animationstart_event)
-         */
-        onWebkitAnimationStart: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /**
-         * @deprecated This is a legacy alias of `ontransitionend`.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/transitionend_event)
-         */
-        onWebkitTransitionEnd: ((this: GlobalEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/wheel_event) */
-        onWheel: ((this: GlobalEventHandlers, ev: WheelEvent) => any) | null;
     }
 
     interface HTMLOrSVGElement {
@@ -1008,10 +780,6 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/volume)
          */
         volume: number;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/encrypted_event) */
-        onEncrypted: ((this: HTMLMediaElement, ev: MediaEncryptedEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/waitingforkey_event) */
-        onWaitingForKey: ((this: HTMLMediaElement, ev: Event) => any) | null;
     }
 
     /**
@@ -1109,50 +877,6 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/unload_event)
          */
         onunload: ((this: WindowEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/afterprint_event) */
-        onAfterPrint: ((this: WindowEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/beforeprint_event) */
-        onBeforePrint: ((this: WindowEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/beforeunload_event) */
-        onBeforeUnload: ((this: WindowEventHandlers, ev: BeforeUnloadEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/gamepadconnected_event) */
-        onGamepadConnected: ((this: WindowEventHandlers, ev: GamepadEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/gamepaddisconnected_event) */
-        onGamepadDisconnected: ((this: WindowEventHandlers, ev: GamepadEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/hashchange_event) */
-        onHashChange: ((this: WindowEventHandlers, ev: HashChangeEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/languagechange_event) */
-        onLanguageChange: ((this: WindowEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/message_event) */
-        onMessage: ((this: WindowEventHandlers, ev: MessageEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/messageerror_event) */
-        onMessageError: ((this: WindowEventHandlers, ev: MessageEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/offline_event) */
-        onOffline: ((this: WindowEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/online_event) */
-        onOnline: ((this: WindowEventHandlers, ev: Event) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/pagehide_event) */
-        onPageHide: ((this: WindowEventHandlers, ev: PageTransitionEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/pagereveal_event) */
-        onPageReveal: ((this: WindowEventHandlers, ev: PageRevealEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/pageshow_event) */
-        onPageShow: ((this: WindowEventHandlers, ev: PageTransitionEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/pageswap_event) */
-        onPageSwap: ((this: WindowEventHandlers, ev: PageSwapEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/popstate_event) */
-        onPopState: ((this: WindowEventHandlers, ev: PopStateEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/rejectionhandled_event) */
-        onRejectionHandled: ((this: WindowEventHandlers, ev: PromiseRejectionEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/storage_event) */
-        onStorage: ((this: WindowEventHandlers, ev: StorageEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/unhandledrejection_event) */
-        onUnhandledRejection: ((this: WindowEventHandlers, ev: PromiseRejectionEvent) => any) | null;
-        /**
-         * @deprecated
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/unload_event)
-         */
-        onUnload: ((this: WindowEventHandlers, ev: Event) => any) | null;
     }
 
     /**
@@ -2416,10 +2140,6 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/volume)
          */
         volume: number;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/encrypted_event) */
-        onEncrypted: ((this: HTMLMediaElement, ev: MediaEncryptedEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/waitingforkey_event) */
-        onWaitingForKey: ((this: HTMLMediaElement, ev: Event) => any) | null;
     }
 
     /**
@@ -3709,10 +3429,6 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLVideoElement/width)
          */
         width: number;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLVideoElement/enterpictureinpicture_event) */
-        onEnterPictureInPicture: ((this: HTMLVideoElement, ev: PictureInPictureEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLVideoElement/leavepictureinpicture_event) */
-        onLeavePictureInPicture: ((this: HTMLVideoElement, ev: PictureInPictureEvent) => any) | null;
     }
 
     /**

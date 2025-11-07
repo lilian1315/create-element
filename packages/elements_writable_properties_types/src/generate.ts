@@ -3,8 +3,8 @@ import { getInterfaceRecursiveExtends } from "./utils/get_interface_recursive_ex
 import { SingleBar } from 'cli-progress'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs"
 import { getExcludedInterfaceMembers } from "./utils/get_excluded_interface_members.ts"
-import { isEventHandler } from "./utils/is_event_handler.ts"
-import { getCamelcaseEventHandlerName } from "./utils/get_camelcase_event_handler_name.ts"
+// import { isEventHandler } from "./utils/is_event_handler.ts"
+// import { getCamelcaseEventHandlerName } from "./utils/get_camelcase_event_handler_name.ts"
 
 const progressBar = new SingleBar({
     format: '[{bar}] {percentage}% | {value}/{total}{info}',
@@ -17,7 +17,7 @@ const webTypesFile = tempProject.createSourceFile('index.d.ts', readFileSync('./
 
 const primaryInterfacesNamesSet = new Set<string>()
 const selectedInterfaces = new Set<InterfaceDeclaration>()
-const interfaceEventHandlersNames = new Map<string, Set<string>>()
+// const interfaceEventHandlersNames = new Map<string, Set<string>>()
 const interfaces = webTypesFile.getInterfaces()
 
 console.log('Filtering interfaces...')
@@ -53,15 +53,15 @@ progressBar.stop()
 console.log('Finding event handlers names...')
 progressBar.start(selectedInterfaces.size, 0, { info: '' })
 
-selectedInterfaces.forEach((i) => {
-    progressBar.increment(1, { info: ' | Checking ' + i.getName() })
-    i.getMembers().forEach((m) => {
-        if (!isEventHandler(m, webTypesFile)) return
-        const eventHandlerNames = interfaceEventHandlersNames.get(i.getName()) ?? new Set<string>()
-        eventHandlerNames.add(m.getName())
-        interfaceEventHandlersNames.set(i.getName(), eventHandlerNames)
-    });
-})
+// selectedInterfaces.forEach((i) => {
+//     progressBar.increment(1, { info: ' | Checking ' + i.getName() })
+//     i.getMembers().forEach((m) => {
+//         if (!isEventHandler(m, webTypesFile)) return
+//         const eventHandlerNames = interfaceEventHandlersNames.get(i.getName()) ?? new Set<string>()
+//         eventHandlerNames.add(m.getName())
+//         interfaceEventHandlersNames.set(i.getName(), eventHandlerNames)
+//     });
+// })
 
 progressBar.stop()
 
@@ -78,7 +78,7 @@ await Promise.all(tempFileInterfaces.map(async (i) => {
     if(primaryInterfacesNamesSet.has(i.getName())) i.setIsExported(true)
 
     const excludedMembers = getExcludedInterfaceMembers(i.getName())
-    const eventHandlerNames = interfaceEventHandlersNames.get(i.getName())
+    // const eventHandlerNames = interfaceEventHandlersNames.get(i.getName())
 
     i.getMembers().forEach(m => {
         const name =
@@ -90,15 +90,15 @@ await Promise.all(tempFileInterfaces.map(async (i) => {
 
         progressBar.increment(1, { info: ' | Processing ' + i.getName() + (name ? '.' + name : '') })
 
-        if(m.isKind(SyntaxKind.PropertySignature) && name && eventHandlerNames?.has(name)) {
-            const camelCaseName = getCamelcaseEventHandlerName(i.getName(), name)
+        // if(m.isKind(SyntaxKind.PropertySignature) && name && eventHandlerNames?.has(name)) {
+        //     const camelCaseName = getCamelcaseEventHandlerName(i.getName(), name)
 
-            if(!camelCaseName) throw new Error(`Could not find camelCase name for event handler ${i.getName()}.${name}. Please add it to the map in src/utils/get_camelcase_event_handler_name.ts`)
-            const listenerStructure = m.getStructure()
+        //     if(!camelCaseName) throw new Error(`Could not find camelCase name for event handler ${i.getName()}.${name}. Please add it to the map in src/utils/get_camelcase_event_handler_name.ts`)
+        //     const listenerStructure = m.getStructure()
 
-            listenerStructure.name = camelCaseName
-            i.addProperty(listenerStructure)
-        }
+        //     listenerStructure.name = camelCaseName
+        //     i.addProperty(listenerStructure)
+        // }
 
         if (
             (name && excludedMembers.includes(name))
