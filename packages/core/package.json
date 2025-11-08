@@ -16,15 +16,17 @@
 		"build": "tsdown",
 		"dev": "tsdown -w"
 	},
+	"dependencies": {
+		"@lmoulanier/elements-writable-properties-types": "workspace:^"
+	},
 	"devDependencies": {
 		"alien-deepsignals": "^0.3.1",
-		"alien-signals": "^3.0.5",
-		"@lmoulanier/elements-writable-properties-types": "workspace:^0.0.1",
-		"tsdown": "^0.15.12"
+		"alien-signals": "^3.1.0",
+		"tsdown": "^0.16.1"
 	},
 	"peerDependencies": {
 		"alien-deepsignals": "^0.3.1",
-		"alien-signals": "^3.0.5"
+		"alien-signals": "^3.1.0"
 	},
 	"peerDependenciesMeta": {
 		"alien-deepsignals": {
