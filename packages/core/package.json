@@ -1,6 +1,6 @@
 {
 	"name": "@lmoulanier/el",
-	"version": "0.0.3",
+	"version": "0.1.0",
 	"description": "Type-safe createElement function",
 	"type": "module",
 	"source": "src/index.ts",
@@ -17,7 +17,7 @@
 		"dev": "tsdown -w"
 	},
 	"dependencies": {
-		"@lmoulanier/elements-writable-properties-types": "workspace:^"
+		"@lmoulanier/elements-writable-properties-types": "workspace:*"
 	},
 	"devDependencies": {
 		"alien-deepsignals": "^0.3.1",

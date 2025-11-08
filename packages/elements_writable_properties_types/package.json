@@ -1,6 +1,6 @@
 {
   "name": "@lmoulanier/elements-writable-properties-types",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "",
   "types": "generated/index.d.ts",

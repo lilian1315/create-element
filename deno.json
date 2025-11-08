@@ -2,6 +2,6 @@
     "$schema": "https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json",
     "workspace": ["packages/*"],
     "imports": {
-        "@lmoulanier/elements-writable-properties-types": "jsr:@lmoulanier/elements-writable-properties-types@^0.0.1"
+        "@lmoulanier/elements-writable-properties-types": "jsr:@lmoulanier/elements-writable-properties-types@^0.0.2"
     }
 }
