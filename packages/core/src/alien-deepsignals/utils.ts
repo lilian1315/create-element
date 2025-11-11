@@ -5,10 +5,14 @@ import { childToNode, handleAttribute, handleChildren } from "../utils"
 
 export function handleSignalAttribute(element: DomElement, key: string | symbol, value: any): void {
     if (isSignal(value) || isComputed(value)) {
-        effect(() => handleAttribute(element, key, value.get()))
+        effect(() => doHandleAttribute(element, key, value.get()))
         return
     }
 
+    doHandleAttribute(element, key, value)
+}
+
+function doHandleAttribute(element: DomElement, key: string | symbol, value: any): void {
     if(typeof key === 'string') {
         if(handleClassSignalAttribute(element, key, value)) return
         if(handleStyleSignalAttribute(element, key, value)) return
@@ -83,8 +87,8 @@ function handleDataSignalAttribute(element: DomElement, key: string, value: any)
 
     if (typeof value === 'object' && value !== null) {
         for(const k of Object.keys(value)) {
-            let v = value[k]
             effect(() => {
+                let v = value[k]
                 if (isSignal(v) || isComputed(v)) v = v.get()
                 if(typeof v === 'string') element.dataset[k] = v
             })
