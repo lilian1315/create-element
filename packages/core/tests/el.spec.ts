@@ -1,7 +1,7 @@
 import { describe, test, expect, vi } from 'vitest'
 import { el as elCore } from '../src/index'
 import { el as elAlienDeepsignals } from '../src/alien-deepsignals/index'
-import { PrefixedElementTag, ElementPrefixedTagNameMap } from '../src/types'
+import type { PrefixedElementTag, ElementPrefixedTagNameMap } from '../src/types'
 
 type TagInstanceTuple<
     T extends PrefixedElementTag = PrefixedElementTag
@@ -116,36 +116,42 @@ for (const [factoryName, el] of factories) {
             expect(element.dataset.other).toBe('other test')
         })
 
-        const span = el('span', { children: 'span element' })
-        const span2 = el('span', null, ' span2 element')
-        const span3 = el('span', null, ' span3 element')
+        {
+            const span = el('span', { children: 'span element' })
+            const span2 = el('span', null, ' span2 element')
+            const span3 = el('span', null, ' span3 element')
 
-        const children = [
-            [
-                'first string element ',
-                span,
-                ' last element'
-            ], [span2], span3, ' real last!'
-        ]
+            const children = [
+                [
+                    152,
+                    ' first string element ',
+                    span,
+                    ' last element'
+                ], [span2], span3, ' real last!'
+            ]
 
-        const expectedTextContent = 'first string element span element last element span2 element span3 element real last!'
+            const expectedTextContent = '152 first string element span element last element span2 element span3 element real last!'
 
-        test('support children attribute', () => {
-            const element = el('aside', { children })
+            const doTest = function(element: HTMLElement) {
+                expect(span.innerText).toBe('span element')
+                expect(span2.innerText).toBe(' span2 element')
+                expect(span3.innerText).toBe(' span3 element')
+                expect(element.childNodes[0]).toBeInstanceOf(Text)
+                expect(element.childNodes[0].textContent).toBe('152')
+                expect(element.childNodes[1]).toBeInstanceOf(Text)
+                expect(element.childNodes[1].textContent).toBe(' first string element ')
+                expect(element.childNodes[2]).toBe(span)
+                expect(element.childNodes[3]).toBeInstanceOf(Text)
+                expect(element.childNodes[3].textContent).toBe(' last element')
+                expect(element.childNodes[4]).toBe(span2)
+                expect(element.childNodes[5]).toBe(span3)
+                expect(element.childNodes[6]).toBeInstanceOf(Text)
+                expect(element.childNodes[6].textContent).toBe(' real last!')
+                expect(element.innerText).toBe(expectedTextContent)
+            }
 
-            expect(span.innerText).toBe('span element')
-            expect(element.children[0]).toBe(span)
-            expect(element.innerText).toBe(expectedTextContent)
-        })
-
-        test('support children', () => {
-            const element = el('aside', null, ...children)
-
-            expect(span.innerText).toBe('span element')
-            expect(element.children[0]).toBe(span)
-            expect(element.children[1]).toBe(span2)
-            expect(element.children[2]).toBe(span3)
-            expect(element.innerText).toBe(expectedTextContent)
-        })
+            test('support children attribute', () => doTest(el('aside', { children })))
+            test('support children', () => doTest(el('aside', null, ...children)))
+        }
     })
 }

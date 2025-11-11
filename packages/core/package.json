@@ -15,7 +15,7 @@
 	"scripts": {
 		"build": "tsdown",
 		"dev": "tsdown -w",
-		"test": "vitest"
+		"test": "vitest --dom"
 	},
 	"dependencies": {
 		"@lmoulanier/elements-writable-properties-types": "workspace:*"
