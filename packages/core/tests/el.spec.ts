@@ -1,11 +1,6 @@
 import { describe, test, expect, vi } from 'vitest'
 import { el as elCore } from '../src/index'
 import { el as elAlienDeepsignals } from '../src/alien-deepsignals/index'
-import type { PrefixedElementTag, ElementPrefixedTagNameMap } from '../src/types'
-
-type TagInstanceTuple<
-    T extends PrefixedElementTag = PrefixedElementTag
-> = [T, new () => ElementPrefixedTagNameMap[T]]
 
 const factories: [string, typeof elCore][] = [
     ['core', elCore],
@@ -14,23 +9,16 @@ const factories: [string, typeof elCore][] = [
 
 for (const [factoryName, el] of factories) {
     describe(`el (${factoryName})`, () => {
-        test('create whith just tag', () => {
-            const tagInstanceMap: TagInstanceTuple[] = [
-                ['a', HTMLAnchorElement],
-                ['div', HTMLDivElement],
-                ['svg', SVGSVGElement],
-                ['svg:circle', SVGCircleElement],
-                ['math', Element as any], // MathMLElement not supported by Happy Dom
-                ['math:mi', Element as any], // MathMLElement not supported by Happy Dom
-            ]
-
-            tagInstanceMap.forEach(([tag, constructor]) => {
-                let element = el(tag)
-                expect(element).toBeInstanceOf(constructor)
-            })
+        test.concurrent('create whith just tag', () => {
+            expect(el('a')).toBeInstanceOf(HTMLAnchorElement)
+            expect(el('div')).toBeInstanceOf(HTMLDivElement)
+            expect(el('svg')).toBeInstanceOf(SVGSVGElement)
+            expect(el('svg:circle')).toBeInstanceOf(SVGCircleElement)
+            expect(el('math')).toBeInstanceOf(Element) // MathMLElement not supported by Happy Dom
+            expect(el('math:mi')).toBeInstanceOf(Element) // MathMLElement not supported by Happy Dom
         })
 
-        test('create whith tag and attributes', () => {
+        test.concurrent('create whith tag and attributes', () => {
             const element = el('img', {
                 src: 'http://test/img.png',
                 alt: 'image test',
@@ -42,21 +30,21 @@ for (const [factoryName, el] of factories) {
             expect(element.hidden).toBe(true)
         })
 
-        test('support class attribute (string)', () => {
+        test.concurrent('support class attribute (string)', () => {
             const element = el('span', { class: 'class1 class2' })
 
             expect(element.classList.contains('class1')).toBe(true)
             expect(element.classList.contains('class2')).toBe(true)
         })
 
-        test('support class attribute (array)', () => {
+        test.concurrent('support class attribute (array)', () => {
             const element = el('span', { class: ['class1', 'class2'] })
 
             expect(element.classList.contains('class1')).toBe(true)
             expect(element.classList.contains('class2')).toBe(true)
         })
 
-        test('support class attribute (object)', () => {
+        test.concurrent('support class attribute (object)', () => {
             const element = el('span', {
                 class: {
                     class1: true,
@@ -70,14 +58,14 @@ for (const [factoryName, el] of factories) {
             expect(element.classList.contains('class3')).toBe(false)
         })
 
-        test('support style attribute (string)', () => {
+        test.concurrent('support style attribute (string)', () => {
             const element = el('h2', { style: 'color: red; font-size: 19px' })
 
             expect(element.style.color).toBe('red')
             expect(element.style.fontSize).toBe('19px')
         })
 
-        test('support style attribute (object)', () => {
+        test.concurrent('support style attribute (object)', () => {
             const element = el('h2', {
                 style: {
                     color: 'red',
@@ -89,7 +77,7 @@ for (const [factoryName, el] of factories) {
             expect(element.style.fontSize).toBe('19px')
         })
 
-        test('support event listener attribute', () => {
+        test.concurrent('support event listener attribute', () => {
             const onclick = vi.fn(() => null)
             const element = el('p', { onclick })
 
@@ -104,7 +92,7 @@ for (const [factoryName, el] of factories) {
             expect(onchange).toHaveBeenCalled()
         })
 
-        test('support data attribute', () => {
+        test.concurrent('support data attribute', () => {
             const element = el('main', {
                 data: {
                     name: 'test',
@@ -116,7 +104,7 @@ for (const [factoryName, el] of factories) {
             expect(element.dataset.other).toBe('other test')
         })
 
-        {
+        test.concurrent('support children property / attribute', () => {
             const span = el('span', { children: 'span element' })
             const span2 = el('span', null, ' span2 element')
             const span3 = el('span', null, ' span3 element')
@@ -150,8 +138,8 @@ for (const [factoryName, el] of factories) {
                 expect(element.innerText).toBe(expectedTextContent)
             }
 
-            test('support children attribute', () => doTest(el('aside', { children })))
-            test('support children', () => doTest(el('aside', null, ...children)))
-        }
+            doTest(el('aside', { children }))
+            doTest(el('aside', null, ...children))
+        })
     })
 }

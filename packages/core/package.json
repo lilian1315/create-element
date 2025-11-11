@@ -15,14 +15,16 @@
 	"scripts": {
 		"build": "tsdown",
 		"dev": "tsdown -w",
-		"test": "vitest --dom"
+		"test": "vitest",
+		"coverage": "vitest run --coverage"
 	},
 	"dependencies": {
 		"@lmoulanier/elements-writable-properties-types": "workspace:*"
 	},
 	"devDependencies": {
+		"@vitest/browser-playwright": "^4.0.8",
+		"@vitest/coverage-v8": "4.0.8",
 		"alien-deepsignals": "^0.3.1",
-		"happy-dom": "^20.0.10",
 		"tsdown": "^0.16.1",
 		"vitest": "^4.0.8"
 	},
