@@ -8,16 +8,16 @@ export function handleAttribute(element: DomElement, key: string | symbol, value
         if (handleDataAttribute(element, key, value)) return
     }
 
-    if(key in element) {
+    if(key in element || typeof key === 'symbol') {
         try {
             // try to set the value directly
             // @ts-expect-error
             element[key] = value;
             return
         } catch {}
+    } else {
+        element.setAttribute(key, String(value))
     }
-
-    if(typeof key === 'string') element.setAttribute(key, String(value))
 }
 
 export function handleClassAttribute(element: DomElement, name: string, value: any): boolean {
@@ -52,16 +52,7 @@ export function handleStyleAttribute(element: DomElement, name: string, value: a
     if (typeof value === 'string') {
         element.setAttribute('style', value)
     } else if (typeof value === 'object' && value !== null) {
-        if(element instanceof SVGElement) {
-            const styleString = Object.entries(value).map(([key, val]) => {
-                const kebabKey = key.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`);
-                return `${kebabKey}: ${val};`;
-            }).join(' ');
-            element.setAttribute('style', styleString);
-        } else {
-            Object.assign(element.style, value)
-        }
-
+        Object.assign(element.style, value)
     }
 
     return true
@@ -74,7 +65,6 @@ export function handleDataAttribute(element: DomElement, key: string, value: any
 }
 
 export function handleChildren(element: DomElement, children: Children) {
-
     childrenToNodes(children).forEach((node) => element.appendChild(node))
 }
 

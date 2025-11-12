@@ -57,23 +57,13 @@ function handleStyleSignalAttribute(element: DomElement, name: string, value: an
     if (name !== 'style') return false
 
     if (typeof value === 'object' && value !== null) {
-        if(element instanceof SVGElement) {
+        for(const key of Object.keys(value)) {
             effect(() => {
-                const styleString = Object.entries(value).map(([key, val]) => {
-                    const kebabKey = key.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`);
-                    return `${kebabKey}: ${(isSignal(val) || isComputed(val) ? val.get() : val)};`;
-                }).join('');
-                element.setAttribute('style', styleString);
+                let val = value[key]
+                if (isSignal(val) || isComputed(val)) val = val.get()
+                // @ts-expect-error
+                element.style[key] = val
             })
-        } else {
-            for(const key of Object.keys(value)) {
-                effect(() => {
-                    let val = value[key]
-                    if (isSignal(val) || isComputed(val)) val = val.get()
-                    // @ts-expect-error
-                    element.style[key] = val
-                })
-            }
         }
 
         return true
@@ -181,9 +171,7 @@ export function reactiveChildrenToNodes(reactiveChild: ReactiveChild): Node[] {
 }
 
 function getReactiveChildValue(child: ReactiveChild): Child | Child[] {
-    if (isSignal(child) || isComputed(child)) return child.get()
-
-    throw new Error("Invalid reactive child")
+    return child.get()
 }
 
 function insertAfter(parent: Node, newNode: Node, referenceNode: Node): void {
