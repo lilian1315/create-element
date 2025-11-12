@@ -30,6 +30,17 @@ for (const [factoryName, el] of factories) {
             expect(element.hidden).toBe(true)
         })
 
+        test.concurrent('create whith tag and unknown attributes', () => {
+            const symbol = Symbol()
+            const element = el('picture', {
+                [symbol]: 'Test symbol',
+                unknown: 'Test unknown'
+            })
+            /** @ts-expect-error */
+            expect(element[symbol]).toBe('Test symbol')
+            expect(element.getAttribute('unknown')).toBe('Test unknown')
+        })
+
         test.concurrent('support class attribute (string)', () => {
             const element = el('span', { class: 'class1 class2' })
 
@@ -113,9 +124,11 @@ for (const [factoryName, el] of factories) {
                 [
                     152,
                     ' first string element ',
+                    null,
                     span,
-                    ' last element'
-                ], [span2], span3, ' real last!'
+                    undefined,
+                    ' last element',
+                ], [null, undefined, span2], null, span3, undefined, ' real last!'
             ]
 
             const expectedTextContent = '152 first string element span element last element span2 element span3 element real last!'
