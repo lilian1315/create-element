@@ -1,93 +1,80 @@
 import { effect, isComputed, isSignal } from "alien-deepsignals"
 import type { DomElement, Child } from "../types"
-import type { Children, ReactiveChild } from "./types"
-import { childToNode, handleAttribute, handleChildren } from "../utils"
+import type { Children, ReactiveChild, SpecialAttributesSignal } from "./types"
+import { childToNode, handleAnyAttribute, handleChildren, handleClassAttribute, handleStyleAttribute } from "../utils"
 
-export function handleSignalAttribute(element: DomElement, key: string | symbol, value: any): void {
+export function handleAnySignalAttribute(element: DomElement, key: string | symbol, value: any): void {
     if (isSignal(value) || isComputed(value)) {
-        effect(() => doHandleAttribute(element, key, value.get()))
+        effect(() => handleAnyAttribute(element, key, value.get()))
         return
     }
 
-    doHandleAttribute(element, key, value)
+    handleAnyAttribute(element, key, value)
 }
 
-function doHandleAttribute(element: DomElement, key: string | symbol, value: any): void {
-    if(typeof key === 'string') {
-        if(handleClassSignalAttribute(element, key, value)) return
-        if(handleStyleSignalAttribute(element, key, value)) return
-        if(handleDataSignalAttribute(element, key, value)) return
+export function handleClassSignalAttribute(element: DomElement, value: SpecialAttributesSignal['class']): void {
+    if(typeof value === 'string') {
+        handleClassAttribute(element, value)
+        return
     }
-
-    handleAttribute(element, key, value)
-}
-
-function handleClassSignalAttribute(element: DomElement, name: string, value: any): boolean {
-    if (name !== 'class') return false
 
     if(Array.isArray(value)) {
+        element.classList = ''
+        element.classList.add(...value)
+        return
+    }
+
+    if (isSignal(value) || isComputed(value)) {
         effect(() => {
             element.classList = ''
+            handleClassAttribute(element, value.get())
+        })
+        return
+    }
 
-            for (let v of value) {
-                if (isSignal(v) || isComputed(v)) v = v.get()
-                if (v) element.classList.add(v)
+    for(const k of Object.keys(value)) {
+        effect(() => {
+            let v = value[k]
+            if (isSignal(v) || isComputed(v)) v = v.get()
+            element.classList.toggle(k as string, v === true)
+        })
+    }
+
+    return
+}
+
+export function handleStyleSignalAttribute(element: DomElement, value: SpecialAttributesSignal['style']): void {
+    if(typeof value === 'string') {
+        handleStyleAttribute(element, value)
+        return
+    }
+
+    if (isSignal(value) || isComputed(value)) {
+        effect(() => handleStyleAttribute(element, value.get()))
+        return
+    }
+
+    for(const key of Object.keys(value)) {
+        effect(() => {
+            // @ts-expect-error
+            let val = value[key]
+            if (isSignal(val) || isComputed(val)) val = val.get()
+            // @ts-expect-error
+            element.style[key] = val
+        })
+    }
+}
+
+export function handleDataSignalAttribute(element: DomElement, value: SpecialAttributesSignal['data']): void {
+    for(const k of Object.keys(value)) {
+        effect(() => {
+            let v = value[k]
+            if (isSignal(v) || isComputed(v)) v = v.get()
+            if(typeof v === 'string') {
+                element.dataset[k] = v
             }
         })
-
-        return true
     }
-
-    if(typeof value === 'object') {
-        for(const k of Object.keys(value)) {
-            effect(() => {
-                let v = value[k]
-                if (isSignal(v) || isComputed(v)) v = v.get()
-                element.classList.toggle(k as string, v === true)
-            })
-        }
-
-        return true
-    }
-
-    return false
-}
-
-function handleStyleSignalAttribute(element: DomElement, name: string, value: any): boolean {
-    if (name !== 'style') return false
-
-    if (typeof value === 'object' && value !== null) {
-        for(const key of Object.keys(value)) {
-            effect(() => {
-                let val = value[key]
-                if (isSignal(val) || isComputed(val)) val = val.get()
-                // @ts-expect-error
-                element.style[key] = val
-            })
-        }
-
-        return true
-    }
-
-    return false
-}
-
-function handleDataSignalAttribute(element: DomElement, key: string, value: any): boolean {
-    if (key !== 'data') return false
-
-    if (typeof value === 'object' && value !== null) {
-        for(const k of Object.keys(value)) {
-            effect(() => {
-                let v = value[k]
-                if (isSignal(v) || isComputed(v)) v = v.get()
-                if(typeof v === 'string') element.dataset[k] = v
-            })
-        }
-
-        return true
-    }
-
-    return false
 }
 
 export function handleSignalChildren(element: DomElement, children: Children): void {
@@ -95,7 +82,9 @@ export function handleSignalChildren(element: DomElement, children: Children): v
         let placeholder: Node | null = null
 
         const getPlaceholder = () => {
-            if (!placeholder) placeholder = document.createComment('signal placeholder')
+            if (!placeholder) {
+                placeholder = document.createComment('signal placeholder')
+            }
             return placeholder
         }
 
@@ -113,7 +102,9 @@ export function handleSignalChildren(element: DomElement, children: Children): v
                 const isInNew = node && newNodes.indexOf(node) !== -1
 
                 if (node && !isInNew && i + 1 < nodes.length) {
-                    if (element.contains(node)) element.removeChild(node)
+                    if (element.contains(node)) {
+                        element.removeChild(node)
+                    }
                     nodes.splice(i, 1)
                     i--
                     continue
@@ -130,7 +121,9 @@ export function handleSignalChildren(element: DomElement, children: Children): v
                     else element.appendChild(newNode)
 
                     const indexInOld = nodes.indexOf(newNode)
-                    if (indexInOld !== -1) nodes.splice(indexInOld, 1)
+                    if (indexInOld !== -1) {
+                        nodes.splice(indexInOld, 1)
+                    }
                     nodes.splice(i, 0, newNode)
 
                     lastInsertedNode = newNode
@@ -140,7 +133,9 @@ export function handleSignalChildren(element: DomElement, children: Children): v
 
                 if (!newNode && node) {
                     for (let j = i; j < nodes.length; j++) {
-                        if (element.contains(nodes[j])) element.removeChild(nodes[j])
+                        if (element.contains(nodes[j])) {
+                            element.removeChild(nodes[j])
+                        }
                     }
 
                     nodes.splice(i)
@@ -160,11 +155,15 @@ export function reactiveChildrenToNodes(reactiveChild: ReactiveChild): Node[] {
     if (Array.isArray(value)) {
         value.forEach((v) => {
             const node = childToNode(v)
-            if (node) nodes.push(node)
+            if (node) {
+                nodes.push(node)
+            }
         })
     } else {
         const node = childToNode(value)
-        if (node) nodes.push(node)
+        if (node) {
+            nodes.push(node)
+        }
     }
 
     return nodes

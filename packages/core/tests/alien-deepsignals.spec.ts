@@ -204,17 +204,29 @@ test.concurrent('support children property / attribute with reactive array', () 
     const doTestReactiveArray = (factory: (children: Children[]) => HTMLElement) => {
         const node = el('span', { children: 'first node' })
         const node2 = el('span', { children: 'Other node' })
+        const node3 = el('span', { children: 'Third node' })
     
-        const signalArray = signal([node, 'regular string', node2])
+        const signalArray = signal([node, 'regular string', node2, node3])
     
         const element = factory(['before', signalArray, 'after'])
     
-        expect(element.childNodes.length).toBe(5)
+        expect(element.childNodes.length).toBe(6)
         expect(element.childNodes[0].textContent).toBe('before')
         expect(element.childNodes[1]).toBe(node)
         expect(element.childNodes[2].textContent).toBe('regular string')
         expect(element.childNodes[3]).toBe(node2)
-        expect(element.childNodes[4].textContent).toBe('after')
+        expect(element.childNodes[4]).toBe(node3)
+        expect(element.childNodes[5].textContent).toBe('after')
+
+        signalArray.set([node, 'regular string', node3, node2])
+    
+        expect(element.childNodes.length).toBe(6)
+        expect(element.childNodes[0].textContent).toBe('before')
+        expect(element.childNodes[1]).toBe(node)
+        expect(element.childNodes[2].textContent).toBe('regular string')
+        expect(element.childNodes[3]).toBe(node3)
+        expect(element.childNodes[4]).toBe(node2)
+        expect(element.childNodes[5].textContent).toBe('after')
     
         signalArray.set([node2, 'updated string'])
     

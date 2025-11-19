@@ -1,5 +1,5 @@
 import type { Children, ElementAttributesTagNameMap, ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from "./types"
-import { handleAttribute, handleChildren } from "./utils"
+import { handleAnyAttribute, handleChildren, handleClassAttribute, handleDataAttribute, handleStyleAttribute } from "./utils"
 
 export function el<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
     let element: ElementPrefixedTagNameMap[T]
@@ -13,13 +13,29 @@ export function el<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<E
     }
 
     if (attributes) {
-        for (let key of Reflect.ownKeys(attributes)) {
-            if(key === 'children') {
+        for (let name of Reflect.ownKeys(attributes)) {
+            if(name === 'children') {
                 if (Array.isArray(attributes.children)) attributes.children.forEach((subChildren) => handleChildren(element, subChildren))
                 else handleChildren(element, attributes.children)
-            } else {
-                handleAttribute(element, key, attributes[key])
+                continue
+            } 
+
+            if(name === 'class' && attributes['class']) {
+                handleClassAttribute(element, attributes['class'])
+                continue
             }
+
+            if(name === 'style' && attributes['style']) {
+                handleStyleAttribute(element, attributes['style'])
+                continue
+            }
+
+            if(name === 'data' && attributes['data']) {
+                handleDataAttribute(element, attributes['data'])
+                continue    
+            }
+
+            handleAnyAttribute(element, name, attributes[name])
         }
     }
 

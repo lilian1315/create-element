@@ -1,5 +1,5 @@
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from "../types"
-import { handleSignalAttribute, handleSignalChildren } from "./utils";
+import { handleClassSignalAttribute, handleAnySignalAttribute, handleSignalChildren, handleStyleSignalAttribute, handleDataSignalAttribute } from "./utils";
 import type { Children, ElementAttributesTagNameMap } from "./types";
 
 export function el<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
@@ -14,16 +14,32 @@ export function el<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<E
     }
 
     if(attributes) {
-        for (let key of Reflect.ownKeys(attributes)) {
-            if (key === 'children') {
+        for (let name of Reflect.ownKeys(attributes)) {
+            if (name === 'children') {
                 if (Array.isArray(attributes.children)) {
                     attributes.children.forEach((child) => handleSignalChildren(element, child))
                 } else {
                     handleSignalChildren(element, attributes.children)
                 }
-            } else {
-                handleSignalAttribute(element, key, attributes[key])
+                continue
             }
+
+            if (name === 'class' && attributes['class']) {
+                handleClassSignalAttribute(element, attributes['class'])
+                continue
+            }
+
+            if (name === 'style' && attributes['style']) {
+                handleStyleSignalAttribute(element, attributes['style'])
+                continue
+            }
+
+            if (name === 'data' && attributes['data']) {
+                handleDataSignalAttribute(element, attributes['data'])
+                continue    
+            }
+
+            handleAnySignalAttribute(element, name, attributes[name])
         }
     }
 

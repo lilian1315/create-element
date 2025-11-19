@@ -1,67 +1,57 @@
-import type { DomElement, Child, Children } from "./types";
+import type { DomElement, Child, Children, SpecialAttributes } from "./types";
 
-export function handleAttribute(element: DomElement, key: string | symbol, value: any): void {
-    if(typeof key === 'string') {
-        if (handleClassAttribute(element, key, value)) return
-        if (handleStyleAttribute(element, key, value)) return
-        if (handleEventHandlerAttribute(element, key, value)) return
-        if (handleDataAttribute(element, key, value)) return
+export function handleAnyAttribute(element: DomElement, name: string | symbol, value: unknown): void {
+    if(typeof name === 'string' && name.startsWith('on')) {
+        if(typeof value === 'function') {
+            handleEventHandlerAttribute(element, name, value)
+        }
     }
 
-    if(key in element || typeof key === 'symbol') {
+    if(name in element || typeof name === 'symbol') {
         try {
             // try to set the value directly
             // @ts-expect-error
-            element[key] = value;
+            element[name] = value;
             return
         } catch {}
     } else {
-        element.setAttribute(key, String(value))
+        element.setAttribute(name, String(value))
     }
 }
 
-export function handleClassAttribute(element: DomElement, name: string, value: any): boolean {
-    if (name !== 'class') return false
-    if (typeof value === 'string') {
+export function handleClassAttribute(element: DomElement, value: SpecialAttributes['class']): void {
+   if (typeof value === 'string') {
         element.classList = ''
         element.classList.add(...value.split(' ').filter(Boolean))
-    } else if (Array.isArray(value)) {
+        return
+    }
+    if (Array.isArray(value)) {
         // Add each class from array (filter out falsy values)
         value.filter(Boolean).forEach((className) => element.classList.add(className))
-    } else if (typeof value === 'object' && value !== null) {
-        // Handle object format: { 'class1': true, 'class2': false, 'class3': true }
-        Object.entries(value).forEach(([className, shouldInclude]) => {
-            element.classList.toggle(className, !!shouldInclude)
-        })
+        return
     }
 
-    return true
+    // Handle object format: { 'class1': true, 'class2': false, 'class3': true }
+    Object.entries(value).forEach(([className, shouldInclude]) => {
+        element.classList.toggle(className, !!shouldInclude)
+    })
 }
 
-export function handleEventHandlerAttribute(element: DomElement, name: string, value: any): boolean {
-    if (!name.startsWith('on') || typeof value !== 'function') return false
-
-    const eventName = name.slice(2).toLowerCase()
-    element.addEventListener(eventName, value)
-    return true
+export function handleEventHandlerAttribute(element: DomElement, name: string, value: Function): void {
+    element.addEventListener(name.slice(2).toLowerCase(), value as EventListener)
 }
 
-export function handleStyleAttribute(element: DomElement, name: string, value: any): boolean {
-    if (name !== 'style') return false
-
+export function handleStyleAttribute(element: DomElement, value: SpecialAttributes['style']): void {
     if (typeof value === 'string') {
         element.setAttribute('style', value)
-    } else if (typeof value === 'object' && value !== null) {
-        Object.assign(element.style, value)
+        return
     }
 
-    return true
+    Object.assign(element.style, value)
 }
 
-export function handleDataAttribute(element: DomElement, key: string, value: any): boolean {
-    if (key !== 'data' || typeof value !== 'object' || value === null) return false
+export function handleDataAttribute(element: DomElement, value: SpecialAttributes['data']): void {
     Object.assign(element.dataset, value)
-    return true
 }
 
 export function handleChildren(element: DomElement, children: Children) {

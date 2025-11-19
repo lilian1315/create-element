@@ -28,7 +28,7 @@ type DataSignalAttribute =
     | DOMStringMap
     | MayBeReactiveObject<DOMStringMap>
 
-type SpecialAttributesSignal = SpecialAttributes<ClassSignalAttribute, StyleSignalAttribute, DataSignalAttribute, Children>
+export type SpecialAttributesSignal = SpecialAttributes<ClassSignalAttribute, StyleSignalAttribute, DataSignalAttribute, Children>
 
 export type ElementAttributesTagNameMap = {
     [T in PrefixedElementTag]: Partial<MayBeReactiveObjectExceptEventHandlers<BaseElementAttributesTagNameMap[T]> & SpecialAttributesSignal & Readonly<Record<string | symbol, unknown>>>
