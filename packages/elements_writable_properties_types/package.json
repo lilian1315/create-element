@@ -1,13 +1,26 @@
 {
   "name": "@lilian1315/elements-writable-properties-types",
-  "version": "0.0.3",
   "type": "module",
-  "main": "",
-  "types": "generated/index.d.ts",
+  "version": "0.0.3",
   "author": "lilian1315",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lilian1315/create-element.git"
+  },
+  "exports": {
+    ".": "./generated/index.d.ts",
+    "./package.json": "./package.json"
+  },
+  "main": "",
+  "types": "generated/index.d.ts",
+  "files": [
+    "README.md",
+    "generated/index.d.ts"
+  ],
   "scripts": {
-    "build": "node src/generate.ts"
+    "build": "node scripts/generate.ts",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
@@ -15,17 +28,5 @@
     "@types/web": "^0.0.294",
     "cli-progress": "^3.12.0",
     "ts-morph": "^27.0.2"
-  },
-  "exports": {
-    ".": "./generated/index.d.ts",
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "generated/index.d.ts",
-    "README.md"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lilian1315/create-element.git"
   }
 }

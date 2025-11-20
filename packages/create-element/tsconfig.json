@@ -12,7 +12,7 @@
     "emitDeclarationOnly": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests"]
 }

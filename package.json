@@ -1,10 +1,14 @@
 {
-	"scripts": {
-		"build": "pnpm run build:types && pnpm run build:core",
-		"build:types": "pnpm --filter @lilian1315/elements-writable-properties-types run build",
-		"build:core": "pnpm --filter @lilian1315/create-element run build"
-	},
-	"devDependencies": {
-		"bumpp": "^10.3.1"
-	}
+  "scripts": {
+    "build": "pnpm run build:types && pnpm run build:core",
+    "build:types": "pnpm --filter @lilian1315/elements-writable-properties-types run build",
+    "build:core": "pnpm --filter @lilian1315/create-element run build",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^6.2.0",
+    "eslint": "^9.39.1",
+    "typescript": "~5.9.3"
+  }
 }

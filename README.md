@@ -50,9 +50,9 @@ const app = h('div', null, [
 // Classes
 h('div', { class: 'btn primary' })
 h('div', { class: ['btn', 'primary'] })
-h('div', { class: {btn: true, primary: true, active: false} })
+h('div', { class: { btn: true, primary: true, active: false } })
 
-// Styles  
+// Styles
 h('div', { style: 'color: red' })
 h('div', { style: { color: 'red', fontSize: '16px' } })
 
@@ -70,7 +70,7 @@ h('div', { data: { testId: 'my-component' } })
 const svg = h('svg', { width: '100', height: '100' })
 const circle = h('svg:circle', { cx: '50', cy: '50', r: '20' })
 
-// MathML elements  
+// MathML elements
 const math = h('math')
 const variable = h('math:mi', null, 'x')
 ```
@@ -79,7 +79,7 @@ const variable = h('math:mi', null, 'x')
 
 Use JSX syntax with TypeScript configuration:
 
-```typescript
+```json
 // tsconfig.json
 {
   "compilerOptions": {
@@ -103,8 +103,6 @@ function App() {
 }
 
 // With reactive support
-import type { JSX } from '@lilian1315/create-element/alien-deepsignals/jsx-runtime'
-
 function Counter({ initialCount = 0 }) {
   const count = signal(initialCount)
   return (

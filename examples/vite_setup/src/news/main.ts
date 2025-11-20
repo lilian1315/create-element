@@ -1,7 +1,7 @@
-import '../style.css'
+import { h } from '@lilian1315/create-element/alien-deepsignals'
 import { News } from './news'
-import { h } from '@lilian1315/create-element/alien-deepsignals';
+import '../style.css'
 
 const root = document.querySelector<HTMLDivElement>('#app')!
 
-root.appendChild(h('div', {children: News()}))
+root.appendChild(h('div', { children: News() }))

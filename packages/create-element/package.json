@@ -1,60 +1,61 @@
 {
-	"name": "@lilian1315/create-element",
-	"version": "0.2.1",
-	"description": "Type-safe createElement function",
-	"type": "module",
-	"source": "src/index.ts",
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"keywords": [
-		"createElement"
-	],
-	"author": "lilian1315",
-	"license": "MIT",
-	"scripts": {
-		"build": "tsdown",
-		"dev": "tsdown -w",
-		"test": "vitest",
-		"coverage": "vitest run --coverage"
-	},
-	"dependencies": {
-		"@lilian1315/elements-writable-properties-types": "workspace:*"
-	},
-	"devDependencies": {
-		"@vitest/browser-playwright": "^4.0.8",
-		"@vitest/coverage-v8": "4.0.8",
-		"alien-deepsignals": "^0.3.1",
-		"tsdown": "^0.16.3",
-		"vitest": "^4.0.8"
-	},
-	"peerDependencies": {
-		"alien-deepsignals": "^0.3.1"
-	},
-	"peerDependenciesMeta": {
-		"alien-deepsignals": {
-			"optional": true
-		},
-		"alien-signals": {
-			"optional": true
-		}
-	},
-	"exports": {
-		".": "./dist/index.js",
-		"./alien-deepsignals": "./dist/alien-deepsignals/index.js",
-		"./alien-deepsignals/jsx-dev-runtime": "./dist/alien-deepsignals/jsx-dev-runtime.js",
-		"./alien-deepsignals/jsx-runtime": "./dist/alien-deepsignals/jsx-runtime.js",
-		"./jsx-dev-runtime": "./dist/jsx-dev-runtime.js",
-		"./jsx-runtime": "./dist/jsx-runtime.js",
-		"./package.json": "./package.json"
-	},
-	"files": [
-		"dist/**/*.js",
-		"dist/**/*.d.ts",
-		"README.md"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/lilian1315/create-element.git"
-	}
+  "name": "@lilian1315/create-element",
+  "type": "module",
+  "version": "0.2.1",
+  "description": "Type-safe createElement function",
+  "source": "src/index.ts",
+  "author": "lilian1315",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lilian1315/create-element.git"
+  },
+  "keywords": [
+    "createElement"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./alien-deepsignals": "./dist/alien-deepsignals/index.js",
+    "./alien-deepsignals/jsx-dev-runtime": "./dist/alien-deepsignals/jsx-dev-runtime.js",
+    "./alien-deepsignals/jsx-runtime": "./dist/alien-deepsignals/jsx-runtime.js",
+    "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js",
+    "./jsx-runtime": "./dist/jsx-runtime.js",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist/**/*.d.ts",
+    "dist/**/*.js"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown -w",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "alien-deepsignals": "^0.3.1"
+  },
+  "peerDependenciesMeta": {
+    "alien-deepsignals": {
+      "optional": true
+    },
+    "alien-signals": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@lilian1315/elements-writable-properties-types": "workspace:*"
+  },
+  "devDependencies": {
+    "@vitest/browser-playwright": "^4.0.8",
+    "@vitest/coverage-v8": "4.0.8",
+    "alien-deepsignals": "^0.3.1",
+    "tsdown": "^0.16.3",
+    "vitest": "^4.0.8"
+  }
 }

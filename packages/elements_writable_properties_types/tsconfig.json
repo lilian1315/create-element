@@ -1,12 +1,12 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "lib": ["ESNext"],
-        "module": "esnext",
-        "moduleResolution": "node",
-        "allowImportingTsExtensions": true,
-        "noEmit": true,
-        "strict": true,
-    },
-    "include": ["src/**/*.ts"],
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["ESNext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "noEmit": true
+  },
+  "include": ["scripts/**/*.ts"]
 }

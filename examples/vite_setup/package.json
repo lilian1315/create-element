@@ -1,7 +1,7 @@
 {
   "name": "vite-setup",
-  "version": "0.0.1",
   "type": "module",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite -c vite.config.ts",
     "build": "tsc && vite -c vite.config.ts build",
