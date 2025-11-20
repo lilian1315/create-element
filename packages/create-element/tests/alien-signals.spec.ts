@@ -1,0 +1,249 @@
+import type { Children } from '../src/alien-signals/types'
+import { computed, signal } from 'alien-signals'
+import { expect, it } from 'vitest'
+import { h } from '../src/alien-signals/index'
+
+it.concurrent('support signal / computed attributes', () => {
+  const title = signal('initial title')
+  const cols = signal(20)
+  const hidden = signal(true)
+  const computedTitle = computed(() => `computed: ${title()}`)
+
+  const textarea = h('textarea', { title, cols, hidden })
+  const p = h('p', { title: computedTitle })
+
+  expect(textarea.title).toBe('initial title')
+  expect(textarea.cols).toBe(20)
+  expect(textarea.hidden).toBe(true)
+  expect(p.title).toBe('computed: initial title')
+
+  title('new title')
+  cols(30)
+  hidden(false)
+
+  expect(textarea.title).toBe('new title')
+  expect(textarea.cols).toBe(30)
+  expect(textarea.hidden).toBe(false)
+  expect(p.title).toBe('computed: new title')
+})
+
+it.concurrent('support class attribute ((Signal|Computed)<string>)', () => {
+  const className = signal('class1 class2')
+  const element = h('span', { class: className })
+  const element2 = h('span', { class: computed(() => className()) })
+
+  expect(element.classList.contains('class1')).toBe(true)
+  expect(element.classList.contains('class2')).toBe(true)
+
+  expect(element2.classList.contains('class1')).toBe(true)
+  expect(element2.classList.contains('class2')).toBe(true)
+
+  className('class3 class4')
+
+  expect(element.classList.contains('class1')).toBe(false)
+  expect(element.classList.contains('class2')).toBe(false)
+  expect(element.classList.contains('class3')).toBe(true)
+  expect(element.classList.contains('class4')).toBe(true)
+
+  expect(element2.classList.contains('class1')).toBe(false)
+  expect(element2.classList.contains('class2')).toBe(false)
+  expect(element2.classList.contains('class3')).toBe(true)
+  expect(element2.classList.contains('class4')).toBe(true)
+})
+
+it.concurrent('support class attribute ((Signal|Computed)<string[]>)', () => {
+  const classArray = signal(['class1', 'class2'])
+  const element = h('span', { class: classArray })
+  const element2 = h('span', { class: computed(() => classArray()) })
+
+  expect(element.classList.contains('class1')).toBe(true)
+  expect(element.classList.contains('class2')).toBe(true)
+
+  expect(element2.classList.contains('class1')).toBe(true)
+  expect(element2.classList.contains('class2')).toBe(true)
+
+  classArray(['class3', 'class4'])
+
+  expect(element.classList.contains('class1')).toBe(false)
+  expect(element.classList.contains('class2')).toBe(false)
+  expect(element.classList.contains('class3')).toBe(true)
+  expect(element.classList.contains('class4')).toBe(true)
+
+  expect(element2.classList.contains('class1')).toBe(false)
+  expect(element2.classList.contains('class2')).toBe(false)
+  expect(element2.classList.contains('class3')).toBe(true)
+  expect(element2.classList.contains('class4')).toBe(true)
+})
+
+it.concurrent('support class attribute ({ [className: string]: (Signal|Computed)<boolean> })', () => {
+  const isSelected = signal(true)
+  const isNotSelected = computed(() => !isSelected())
+  const element = h('span', {
+    class: {
+      isSelected,
+      isNotSelected,
+      class1: true,
+      class2: false,
+    },
+  })
+
+  expect(element.classList.contains('isSelected')).toBe(true)
+  expect(element.classList.contains('isNotSelected')).toBe(false)
+  expect(element.classList.contains('class1')).toBe(true)
+  expect(element.classList.contains('class2')).toBe(false)
+
+  isSelected(false)
+
+  expect(element.classList.contains('isSelected')).toBe(false)
+  expect(element.classList.contains('isNotSelected')).toBe(true)
+  expect(element.classList.contains('class1')).toBe(true)
+  expect(element.classList.contains('class2')).toBe(false)
+})
+
+it.concurrent('support style attribute ((Signal|Computed)<string>)', () => {
+  const style = signal('color: red; font-size: 19px')
+  const computedTitle = computed(() => `${style()}; font-weight: bold`)
+  const element = h('h2', { style })
+  const element2 = h('h2', { style: computedTitle })
+
+  expect(element.style.color).toBe('red')
+  expect(element.style.fontSize).toBe('19px')
+  expect(element2.style.color).toBe('red')
+  expect(element2.style.fontSize).toBe('19px')
+  expect(element2.style.fontWeight).toBe('bold')
+
+  style('color: blue; font-size: 25px')
+
+  expect(element.style.color).toBe('blue')
+  expect(element.style.fontSize).toBe('25px')
+  expect(element2.style.color).toBe('blue')
+  expect(element2.style.fontSize).toBe('25px')
+  expect(element2.style.fontWeight).toBe('bold')
+})
+
+it.concurrent('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>)', () => {
+  const fontSize = signal('19px')
+  const lineHeightRaw = signal(1.5)
+  const lineHeight = computed(() => `${lineHeightRaw()}em`)
+
+  const element = h('h2', {
+    style: {
+      fontSize,
+      lineHeight,
+    },
+  })
+
+  expect(element.style.fontSize).toBe('19px')
+  expect(element.style.lineHeight).toBe('1.5em')
+
+  fontSize('25px')
+  lineHeightRaw(2)
+
+  expect(element.style.fontSize).toBe('25px')
+  expect(element.style.lineHeight).toBe('2em')
+})
+
+it.concurrent('support signal / computed data attribute', () => {
+  const name = signal('test')
+  const other = computed(() => `other ${name()}`)
+  const element = h('main', {
+    data: {
+      name,
+      other,
+    },
+  })
+
+  expect(element.dataset.name).toBe('test')
+  expect(element.dataset.other).toBe('other test')
+
+  name('TEST')
+
+  expect(element.dataset.name).toBe('TEST')
+  expect(element.dataset.other).toBe('other TEST')
+})
+
+it.concurrent('support children property / attribute with signals / computed child', () => {
+  const doTestChild = (factory: (children: Children[]) => HTMLElement) => {
+    const numberSignal = signal(1)
+    const computedChild = computed(() => `Computed number: ${numberSignal()}`)
+    const stringSignal = signal('Initial string')
+    const node = h('span', { children: 'Initial node' })
+    const node2 = h('span', { children: 'Other node' })
+    const nodeSignal = signal(node)
+
+    const element = factory([
+      numberSignal,
+      computedChild,
+      'regular string',
+      stringSignal,
+      nodeSignal,
+    ])
+
+    expect(element.childNodes[0].textContent).toBe('1')
+    expect(element.childNodes[1].textContent).toBe('Computed number: 1')
+    expect(element.childNodes[2].textContent).toBe('regular string')
+    expect(element.childNodes[3].textContent).toBe('Initial string')
+    expect(element.childNodes[4]).toBe(node)
+
+    numberSignal(42)
+    stringSignal('Updated string')
+    nodeSignal(node2)
+
+    expect(element.childNodes[0].textContent).toBe('42')
+    expect(element.childNodes[1].textContent).toBe('Computed number: 42')
+    expect(element.childNodes[2].textContent).toBe('regular string')
+    expect(element.childNodes[3].textContent).toBe('Updated string')
+    expect(element.childNodes[4]).toBe(node2)
+  }
+
+  doTestChild((children) => h('div', { children }))
+  doTestChild((children) => h('div', null, ...children))
+})
+
+it.concurrent('support children property / attribute with reactive array', () => {
+  const doTestReactiveArray = (factory: (children: Children[]) => HTMLElement) => {
+    const node = h('span', { children: 'first node' })
+    const node2 = h('span', { children: 'Other node' })
+    const node3 = h('span', { children: 'Third node' })
+
+    const signalArray = signal([node, 'regular string', node2, node3])
+
+    const element = factory(['before', signalArray, 'after'])
+
+    expect(element.childNodes.length).toBe(6)
+    expect(element.childNodes[0].textContent).toBe('before')
+    expect(element.childNodes[1]).toBe(node)
+    expect(element.childNodes[2].textContent).toBe('regular string')
+    expect(element.childNodes[3]).toBe(node2)
+    expect(element.childNodes[4]).toBe(node3)
+    expect(element.childNodes[5].textContent).toBe('after')
+
+    signalArray([node, 'regular string', node3, node2])
+
+    expect(element.childNodes.length).toBe(6)
+    expect(element.childNodes[0].textContent).toBe('before')
+    expect(element.childNodes[1]).toBe(node)
+    expect(element.childNodes[2].textContent).toBe('regular string')
+    expect(element.childNodes[3]).toBe(node3)
+    expect(element.childNodes[4]).toBe(node2)
+    expect(element.childNodes[5].textContent).toBe('after')
+
+    signalArray([node2, 'updated string'])
+
+    expect(element.childNodes.length).toBe(4)
+    expect(element.childNodes[0].textContent).toBe('before')
+    expect(element.childNodes[1]).toBe(node2)
+    expect(element.childNodes[2].textContent).toBe('updated string')
+    expect(element.childNodes[3].textContent).toBe('after')
+
+    signalArray([])
+
+    expect(element.childNodes.length).toBe(3)
+    expect(element.childNodes[0].textContent).toBe('before')
+    expect(element.childNodes[1]).toBeInstanceOf(Comment)
+    expect(element.childNodes[2].textContent).toBe('after')
+  }
+
+  doTestReactiveArray((children) => h('div', { children }))
+  doTestReactiveArray((children) => h('div', null, ...children))
+})
