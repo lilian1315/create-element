@@ -1,4 +1,4 @@
-import type { DOMTypes } from "@lmoulanier/elements-writable-properties-types";
+import type { DOMTypes } from "@lilian1315/elements-writable-properties-types";
 
 export type Child = Node | string | number | null | undefined
 

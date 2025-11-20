@@ -1,5 +1,5 @@
 {
-	"name": "@lmoulanier/el",
+	"name": "@lilian1315/create-element",
 	"version": "0.2.1",
 	"description": "Type-safe createElement function",
 	"type": "module",
@@ -10,7 +10,7 @@
 	"keywords": [
 		"createElement"
 	],
-	"author": "lmoulanier",
+	"author": "lilian1315",
 	"license": "MIT",
 	"scripts": {
 		"build": "tsdown",
@@ -19,7 +19,7 @@
 		"coverage": "vitest run --coverage"
 	},
 	"dependencies": {
-		"@lmoulanier/elements-writable-properties-types": "workspace:*"
+		"@lilian1315/elements-writable-properties-types": "workspace:*"
 	},
 	"devDependencies": {
 		"@vitest/browser-playwright": "^4.0.8",
@@ -55,6 +55,6 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/lmoulanier/el.git"
+		"url": "git+https://github.com/lilian1315/create-element.git"
 	}
 }

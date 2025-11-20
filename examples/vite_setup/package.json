@@ -8,7 +8,7 @@
     "preview": "vite -c vite.config.ts preview"
   },
   "devDependencies": {
-    "@lmoulanier/el": "workspace:*",
+    "@lilian1315/create-element": "workspace:*",
     "alien-deepsignals": "^0.3.1",
     "typescript": "~5.9.3",
     "vite": "npm:rolldown-vite@7.2.5"

@@ -1,6 +1,6 @@
 import { computed, signal } from "alien-deepsignals";
 import { expect, test } from "vitest";
-import { el } from "../src/alien-deepsignals/index";
+import { h } from "../src/alien-deepsignals/index";
 import type { Children } from "../src/alien-deepsignals/types";
 
 test.concurrent('support signal / computed attributes', () => {
@@ -9,8 +9,8 @@ test.concurrent('support signal / computed attributes', () => {
     const hidden = signal(true)
     const computedTitle = computed(() => `computed: ${title.get()}`)
 
-    const textarea =  el('textarea', { title, cols, hidden })
-    const p = el('p', { title: computedTitle })
+    const textarea =  h('textarea', { title, cols, hidden })
+    const p = h('p', { title: computedTitle })
 
     expect(textarea.title).toBe('initial title')
     expect(textarea.cols).toBe(20)
@@ -29,8 +29,8 @@ test.concurrent('support signal / computed attributes', () => {
 
 test.concurrent('support class attribute ((Signal|Computed)<string>)', () => {
     const className = signal('class1 class2')
-    const element = el('span', { class: className })
-    const element2 = el('span', { class: computed(() => className.get()) })
+    const element = h('span', { class: className })
+    const element2 = h('span', { class: computed(() => className.get()) })
 
     expect(element.classList.contains('class1')).toBe(true)
     expect(element.classList.contains('class2')).toBe(true)
@@ -53,8 +53,8 @@ test.concurrent('support class attribute ((Signal|Computed)<string>)', () => {
 
 test.concurrent('support class attribute ((Signal|Computed)<string[]>)', () => {
     const classArray = signal(['class1', 'class2'])
-    const element = el('span', { class: classArray })
-    const element2 = el('span', { class: computed(() => classArray.get()) })
+    const element = h('span', { class: classArray })
+    const element2 = h('span', { class: computed(() => classArray.get()) })
 
     expect(element.classList.contains('class1')).toBe(true)
     expect(element.classList.contains('class2')).toBe(true)
@@ -78,7 +78,7 @@ test.concurrent('support class attribute ((Signal|Computed)<string[]>)', () => {
 test.concurrent('support class attribute ({ [className: string]: (Signal|Computed)<boolean> })', () => {
     const isSelected = signal(true)
     const isNotSelected = computed(() => !isSelected.get())
-    const element = el('span', {
+    const element = h('span', {
         class: {
             isSelected,
             isNotSelected,
@@ -103,8 +103,8 @@ test.concurrent('support class attribute ({ [className: string]: (Signal|Compute
 test.concurrent('support style attribute ((Signal|Computed)<string>)', () => {
     const style = signal('color: red; font-size: 19px')
     const computedTitle = computed(() => `${style.get()}; font-weight: bold`)
-    const element = el('h2', { style })
-    const element2 = el('h2', { style: computedTitle })
+    const element = h('h2', { style })
+    const element2 = h('h2', { style: computedTitle })
 
     expect(element.style.color).toBe('red')
     expect(element.style.fontSize).toBe('19px')
@@ -126,7 +126,7 @@ test.concurrent('support style attribute (MayBeReactiveObject<CSSStyleDeclaratio
     const lineHeightRaw = signal(1.5)
     const lineHeight = computed(() => lineHeightRaw.get().toString() + 'em')
 
-    const element = el('h2', {
+    const element = h('h2', {
         style: {
             fontSize,
             lineHeight,
@@ -146,7 +146,7 @@ test.concurrent('support style attribute (MayBeReactiveObject<CSSStyleDeclaratio
 test.concurrent('support signal / computed data attribute', () => {
     const name = signal('test')
     const other = computed(() => `other ${name.get()}`)
-    const element = el('main', {
+    const element = h('main', {
         data: {
             name,
             other,
@@ -167,8 +167,8 @@ test.concurrent('support children property / attribute with signals / computed c
         const numberSignal = signal(1)
         const computedChild = computed(() => `Computed number: ${numberSignal.get()}`)
         const stringSignal = signal('Initial string')
-        const node = el('span', { children: 'Initial node' })
-        const node2 = el('span', { children: 'Other node' })
+        const node = h('span', { children: 'Initial node' })
+        const node2 = h('span', { children: 'Other node' })
         const nodeSignal = signal(node)
     
         const element = factory([
@@ -196,15 +196,15 @@ test.concurrent('support children property / attribute with signals / computed c
         expect(element.childNodes[4]).toBe(node2)
     }
 
-    doTestChild((children) => el('div', { children }))
-    doTestChild((children) => el('div', null, ...children))
+    doTestChild((children) => h('div', { children }))
+    doTestChild((children) => h('div', null, ...children))
 })
 
 test.concurrent('support children property / attribute with reactive array', () => {
     const doTestReactiveArray = (factory: (children: Children[]) => HTMLElement) => {
-        const node = el('span', { children: 'first node' })
-        const node2 = el('span', { children: 'Other node' })
-        const node3 = el('span', { children: 'Third node' })
+        const node = h('span', { children: 'first node' })
+        const node2 = h('span', { children: 'Other node' })
+        const node3 = h('span', { children: 'Third node' })
     
         const signalArray = signal([node, 'regular string', node2, node3])
     
@@ -244,6 +244,6 @@ test.concurrent('support children property / attribute with reactive array', () 
         expect(element.childNodes[2].textContent).toBe('after')
     }
 
-    doTestReactiveArray((children) => el('div', { children }))
-    doTestReactiveArray((children) => el('div', null, ...children))
+    doTestReactiveArray((children) => h('div', { children }))
+    doTestReactiveArray((children) => h('div', null, ...children))
 })

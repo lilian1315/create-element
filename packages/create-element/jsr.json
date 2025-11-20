@@ -1,6 +1,6 @@
 {
     "$schema": "https://jsr.io/schema/config-file.v1.json",
-    "name": "@lmoulanier/el",
+    "name": "@lilian1315/create-element",
     "version": "0.2.1",
     "license": "MIT",
     "exports": {

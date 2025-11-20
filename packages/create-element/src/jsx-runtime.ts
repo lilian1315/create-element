@@ -1,7 +1,7 @@
 
 
 /**
- * @fileoverview JSX runtime for @lmoulanier/el - provides JSX support for type-safe DOM element creation.
+ * JSX runtime for @lilian1315/create-element - provides JSX support for type-safe DOM element creation.
  * 
  * This module implements the JSX runtime interface allowing you to use JSX syntax with TypeScript.
  * Configure your tsconfig.json with:
@@ -9,7 +9,7 @@
  * {
  *   "compilerOptions": {
  *     "jsx": "react-jsx",
- *     "jsxImportSource": "@lmoulanier/el"
+ *     "jsxImportSource": "@lilian1315/create-element"
  *   }
  * }
  * ```
@@ -31,7 +31,7 @@
  * @module
  */
 
-import { el } from "./index"
+import { h } from "./index"
 import type { DomElement, PrefixedElementTag, Prettify, Children, ElementAttributesTagNameMap } from "./types"
 import { childrenToNodes } from "./utils"
 
@@ -45,7 +45,7 @@ export function jsx<T extends PrefixedElementTag | JSX.ElementClass | typeof Fra
 ): JSX.Element {
     if (typeof type === 'function') return type(props)
     if (type === Fragment) return childrenToNodes(Array.isArray(props.children) ? props.children.flat() : props.children)
-    return el<PrefixedElementTag>(type, props)
+    return h<PrefixedElementTag>(type, props)
 }
 
 export const jsxs = jsx

@@ -1,10 +1,10 @@
 {
-  "name": "@lmoulanier/elements-writable-properties-types",
+  "name": "@lilian1315/elements-writable-properties-types",
   "version": "0.0.3",
   "type": "module",
   "main": "",
   "types": "generated/index.d.ts",
-  "author": "lmoulanier",
+  "author": "lilian1315",
   "license": "MIT",
   "scripts": {
     "build": "node src/generate.ts"
@@ -26,6 +26,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lmoulanier/el.git"
+    "url": "git+https://github.com/lilian1315/create-element.git"
   }
 }

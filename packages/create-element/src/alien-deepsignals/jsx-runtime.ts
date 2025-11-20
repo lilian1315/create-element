@@ -1,5 +1,5 @@
 /**
- * @fileoverview Reactive JSX runtime for @lmoulanier/el with alien-deepsignals integration.
+ * Reactive JSX runtime for @lilian1315/create-element with alien-deepsignals integration.
  * 
  * This module provides JSX support with reactive programming capabilities using alien-deepsignals.
  * It enables automatic reactivity for signals and computed values in JSX expressions.
@@ -9,7 +9,7 @@
  * {
  *   "compilerOptions": {
  *     "jsx": "react-jsx",
- *     "jsxImportSource": "@lmoulanier/el/alien-deepsignals"
+ *     "jsxImportSource": "@lilian1315/create-element/alien-deepsignals"
  *   }
  * }
  * ```
@@ -36,7 +36,7 @@
  */
 
 import { Computed, computed, isComputed, isSignal } from "alien-deepsignals"
-import { el } from "./index"
+import { h } from "./index"
 import type { DomElement, PrefixedElementTag, Prettify } from "../types"
 import type { Children, ElementAttributesTagNameMap } from "./types"
 import { childrenToNodes } from "../utils"
@@ -61,7 +61,7 @@ export function jsx<T extends PrefixedElementTag | JSX.ElementClass | typeof Fra
             })
         })
     }
-    return el<PrefixedElementTag>(type, props)
+    return h<PrefixedElementTag>(type, props)
 }
 
 export const jsxs = jsx

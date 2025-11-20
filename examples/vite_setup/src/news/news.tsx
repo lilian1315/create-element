@@ -1,7 +1,7 @@
 import { computed, isComputed, signal } from "alien-deepsignals"
 import { Post, type Category, type PostProps } from "./post"
-import type { JSX } from "@lmoulanier/el/alien-deepsignals/jsx-runtime"
-import { el } from "@lmoulanier/el"
+import type { JSX } from "@lilian1315/create-element/alien-deepsignals/jsx-runtime"
+import { h } from "@lilian1315/create-element"
 
 const postElementMap = new WeakMap<object, JSX.Element>()
 
@@ -115,7 +115,7 @@ const filteredNews = computed(() => {
         })
 })
 
-el('select', {name: "categories", onchange: onchange})
+h('select', {name: "categories", onchange: onchange})
 
 export function News() {
     return (<>

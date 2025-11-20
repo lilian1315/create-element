@@ -1,8 +1,8 @@
 {
 	"scripts": {
 		"build": "pnpm run build:types && pnpm run build:core",
-		"build:types": "pnpm --filter @lmoulanier/elements-writable-properties-types run build",
-		"build:core": "pnpm --filter @lmoulanier/el run build"
+		"build:types": "pnpm --filter @lilian1315/elements-writable-properties-types run build",
+		"build:core": "pnpm --filter @lilian1315/create-element run build"
 	},
 	"devDependencies": {
 		"bumpp": "^10.3.1"

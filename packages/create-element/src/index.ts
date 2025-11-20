@@ -1,7 +1,7 @@
 import type { Children, ElementAttributesTagNameMap, ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from "./types"
 import { handleAnyAttribute, handleChildren, handleClassAttribute, handleDataAttribute, handleStyleAttribute } from "./utils"
 
-export function el<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
+export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
     let element: ElementPrefixedTagNameMap[T]
 
     if (tag === 'svg' || tag.startsWith('svg:')) {
@@ -43,3 +43,5 @@ export function el<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<E
 
     return element
 }
+
+export const h = createElement

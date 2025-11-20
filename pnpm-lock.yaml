@@ -17,9 +17,9 @@ importers:
 
   examples/vite_setup:
     devDependencies:
-      '@lmoulanier/el':
+      '@lilian1315/create-element':
         specifier: workspace:*
-        version: link:../../packages/core
+        version: link:../../packages/create-element
       alien-deepsignals:
         specifier: ^0.3.1
         version: 0.3.1(alien-signals@3.1.0)
@@ -30,9 +30,9 @@ importers:
         specifier: npm:rolldown-vite@7.1.14
         version: rolldown-vite@7.1.14(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
 
-  packages/core:
+  packages/create-element:
     dependencies:
-      '@lmoulanier/elements-writable-properties-types':
+      '@lilian1315/elements-writable-properties-types':
         specifier: workspace:*
         version: link:../elements_writable_properties_types
     devDependencies:

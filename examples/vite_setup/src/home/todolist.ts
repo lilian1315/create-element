@@ -1,4 +1,4 @@
-import { el } from "@lmoulanier/el/alien-deepsignals";
+import { h } from "@lilian1315/create-element/alien-deepsignals";
 import { batch, computed, deepSignal, watch, type DeepSignal } from "alien-deepsignals";
 import { debounce } from "../debounce";
 
@@ -17,11 +17,11 @@ export function createTodolist(id?: string) {
 
     const todolistNodes = computed(() => todolist.map(getTodoNode))
 
-    const addInput = el('input', { class: 'todolist-add-input', type: 'text', placeholder: 'New todo' })
+    const addInput = h('input', { class: 'todolist-add-input', type: 'text', placeholder: 'New todo' })
 
-    const container = el('div', { class: 'todolist' },
-        el('div', { class: 'count-dones' }, 'Done: ', countDones),
-        el('form',
+    const container = h('div', { class: 'todolist' },
+        h('div', { class: 'count-dones' }, 'Done: ', countDones),
+        h('form',
             {
                 class: 'todolist-add-form',
                 onsubmit(e) {
@@ -34,7 +34,7 @@ export function createTodolist(id?: string) {
                 }
             },
             addInput,
-            el('button', { class: 'todolist-add-button', onclick() { addInput.focus() } }, 'add!')
+            h('button', { class: 'todolist-add-button', onclick() { addInput.focus() } }, 'add!')
         ),
         todolistNodes
     )
@@ -46,7 +46,7 @@ export function createTodolist(id?: string) {
 
         if(node) return node
 
-        const editInput = el('input', {
+        const editInput = h('input', {
             class: 'todo-edit-input',
             placeholder: '[Insert something cool here...]',
             type: 'text',
@@ -56,16 +56,16 @@ export function createTodolist(id?: string) {
 
         todoInputMap.set(todo, editInput)
 
-        node = el('div', { class: { todo: true, done: todo.$isDone } }, [
-            el('input', {
+        node = h('div', { class: { todo: true, done: todo.$isDone } }, [
+            h('input', {
                 class: 'todo-checkbox',
                 type: 'checkbox',
                 checked: todo.isDone,
                 onchange(e) { todo.isDone = (e.target as HTMLInputElement).checked }
             }),
             editInput,
-            el('button', { class: 'todo-delete', type: 'button', onclick: () => del(todo) }, 'X'),
-            el('button', {
+            h('button', { class: 'todo-delete', type: 'button', onclick: () => del(todo) }, 'X'),
+            h('button', {
                 class: 'todo-add-after',
                 type: 'button',
                 onclick: () => {
@@ -73,7 +73,7 @@ export function createTodolist(id?: string) {
                     if(newTodo) focusTodoInput(newTodo)
                 }
             }, '+'),
-            el('button', {
+            h('button', {
                 class: 'todo-add-before',
                 type: 'button',
                 onclick: () => {

@@ -1,9 +1,9 @@
 import { computed, signal } from "alien-deepsignals"
-import { el } from "@lmoulanier/el/alien-deepsignals"
+import { h } from "@lilian1315/create-element/alien-deepsignals"
 
 export function createCounter() {
   const count = signal(0)
-  return el('button', {
+  return h('button', {
       id: 'counter',
       type: 'button',
       onclick: () => count.set(count.get() + 1)

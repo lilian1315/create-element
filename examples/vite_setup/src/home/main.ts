@@ -2,18 +2,18 @@ import '../style.css'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
 import { createCounter } from './counter.ts'
-import { el } from '@lmoulanier/el'
+import { h } from '@lilian1315/create-element'
 import { createTodolist } from './todolist.ts'
 
-document.querySelector<HTMLDivElement>('#app')!.appendChild(el('div', {}, [
-  el('a', { href: 'https://vite.dev', target: '_blank' },
-    el('img', { src: viteLogo, class: 'logo', alt: 'Vite logo' }),
+document.querySelector<HTMLDivElement>('#app')!.appendChild(h('div', {}, [
+  h('a', { href: 'https://vite.dev', target: '_blank' },
+    h('img', { src: viteLogo, class: 'logo', alt: 'Vite logo' }),
   ),
-  el('a', { href: 'https://www.typescriptlang.org/', target: '_blank' },
-    el('img', { src: typescriptLogo, class: 'logo vanilla', alt: 'TypeScript logo' }),
+  h('a', { href: 'https://www.typescriptlang.org/', target: '_blank' },
+    h('img', { src: typescriptLogo, class: 'logo vanilla', alt: 'TypeScript logo' }),
   ),
-  el('h1', {}, 'Vite + TypeScript'),
-  el('div', { class: 'card' }, createCounter()),
-  el('p', { class: 'read-the-docs' }, 'Click on the Vite and TypeScript logos to learn more'),
+  h('h1', {}, 'Vite + TypeScript'),
+  h('div', { class: 'card' }, createCounter()),
+  h('p', { class: 'read-the-docs' }, 'Click on the Vite and TypeScript logos to learn more'),
   createTodolist('MyTodolist')
 ]))

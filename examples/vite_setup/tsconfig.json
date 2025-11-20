@@ -24,7 +24,7 @@
 
     /* JSX */
     "jsx": "react-jsx",
-    "jsxImportSource": "@lmoulanier/el/alien-deepsignals",
+    "jsxImportSource": "@lilian1315/create-element/alien-deepsignals",
   },
   "include": ["src"]
 }

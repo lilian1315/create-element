@@ -1,6 +1,6 @@
 {
     "$schema": "https://jsr.io/schema/config-file.v1.json",
-    "name": "@lmoulanier/elements-writable-properties-types",
+    "name": "@lilian1315/elements-writable-properties-types",
     "version": "0.0.3",
     "license": "MIT",
     "exports": {
