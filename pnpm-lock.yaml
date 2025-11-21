@@ -42,6 +42,9 @@ importers:
         specifier: workspace:*
         version: link:../elements_writable_properties_types
     devDependencies:
+      '@preact/signals-core':
+        specifier: ^1.12.1
+        version: 1.12.1
       '@vitest/browser-playwright':
         specifier: ^4.0.8
         version: 4.0.8(playwright@1.56.1)(rolldown-vite@7.1.14(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.8)
@@ -320,6 +323,9 @@ packages:
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
+
+  '@preact/signals-core@1.12.1':
+    resolution: {integrity: sha512-BwbTXpj+9QutoZLQvbttRg5x3l5468qaV2kufh+51yha1c53ep5dY4kTuZR35+3pAZxpfQerGJiQqg34ZNZ6uA==}
 
   '@quansync/fs@0.1.5':
     resolution: {integrity: sha512-lNS9hL2aS2NZgNW7BBj+6EBl4rOf8l+tQ0eRY6JWCI8jI2kc53gSoqbjojU0OnAWhzoXiOjFyGsHcDGePB3lhA==}
@@ -2411,6 +2417,8 @@ snapshots:
   '@pkgr/core@0.2.9': {}
 
   '@polka/url@1.0.0-next.29': {}
+
+  '@preact/signals-core@1.12.1': {}
 
   '@quansync/fs@0.1.5':
     dependencies:

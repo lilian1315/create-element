@@ -18,8 +18,14 @@
     "./alien-deepsignals": "./dist/alien-deepsignals/index.js",
     "./alien-deepsignals/jsx-dev-runtime": "./dist/alien-deepsignals/jsx-dev-runtime.js",
     "./alien-deepsignals/jsx-runtime": "./dist/alien-deepsignals/jsx-runtime.js",
+    "./alien-signals": "./dist/alien-signals/index.js",
+    "./alien-signals/jsx-dev-runtime": "./dist/alien-signals/jsx-dev-runtime.js",
+    "./alien-signals/jsx-runtime": "./dist/alien-signals/jsx-runtime.js",
     "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js",
     "./jsx-runtime": "./dist/jsx-runtime.js",
+    "./preact-signals": "./dist/preact-signals/index.js",
+    "./preact-signals/jsx-dev-runtime": "./dist/preact-signals/jsx-dev-runtime.js",
+    "./preact-signals/jsx-runtime": "./dist/preact-signals/jsx-runtime.js",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.js",
@@ -38,6 +44,7 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
+    "@preact/signals-core": "^1.12.1",
     "alien-deepsignals": "^0.3.1",
     "alien-signals": "^3.1.0"
   },
@@ -53,6 +60,7 @@
     "@lilian1315/elements-writable-properties-types": "workspace:*"
   },
   "devDependencies": {
+    "@preact/signals-core": "^1.12.1",
     "@vitest/browser-playwright": "^4.0.8",
     "@vitest/coverage-v8": "4.0.8",
     "alien-deepsignals": "^0.3.1",
