@@ -1,14 +1,14 @@
 # @lilian1315/create-element
 
-A type-safe `document.createElement` wrapper with JSX support and optional integrations ([alien-signals](https://github.com/stackblitz/alien-signals), [@preact/signals-core](https://github.com/preactjs/signals), etc.) for building DOM elements.
+Type-safe `document.createElement` wrapper with JSX support and optional reactive lib integrations for building DOM elements.
 
 ## Features
 
-- Type-safe element creation with TypeScript
+- Type-safe element creation with TypeScript ([Usage](#usage))
 - Support for HTML, SVG, and MathML elements
-- Simple attribute and event handling
-- JSX support
-- Optional reactive programming with [alien-signals](https://github.com/stackblitz/alien-signals), [@preact/signals-core](https://github.com/preactjs/signals) and more
+- Simple attribute and event handling ([Attributes](#attributes))
+- JSX support ([JSX Support](#jsx-support))
+- Optional reactive programming with [alien-signals](https://github.com/stackblitz/alien-signals), [alien-deepsignals](https://www.npmjs.com/package/alien-deepsignals), [faisceau](https://github.com/lilian1315/faisceau), and [@preact/signals-core](https://github.com/preactjs/signals) ([Reactive Support](#reactive-support-optional))
 
 ## Installation
 
@@ -103,23 +103,79 @@ function App() {
 }
 ```
 
-For reactive JSX, use `jsxImportSource: "@lilian1315/create-element/alien-signals"`
+For reactive JSX, set `jsxImportSource` to the adapter you use (e.g. `@lilian1315/create-element/alien-signals`, `@lilian1315/create-element/alien-deepsignals`, `@lilian1315/create-element/faisceau`, `@lilian1315/create-element/preact-signals`).
 
 ## Reactive Support (Optional)
 
+`@lilian1315/create-element` ships multiple reactive adapters. Import `h` from the adapter that matches your signal library and install the corresponding dependency. Attributes, styles, datasets, and children will stay in sync automatically.
+
+### alien-signals
+
 ```typescript
 import { h } from '@lilian1315/create-element/alien-signals'
-import { signal } from 'alien-signals'
+import { computed, signal } from 'alien-signals'
 
 const count = signal(0)
+const label = computed(() => `Count: ${count()}`)
 
-const counter = h('div', null, [
-  h('p', null, 'Count: ', count),
-  h('button', { onClick: () => count(count() + 1) }, 'Increment')
+const counter = h('section', { class: 'counter' }, [
+  h('p', null, label),
+  h('button', { onclick: () => count(count() + 1) }, 'Increment'),
 ])
 ```
 
 Requires: `pnpm add alien-signals`
+
+### alien-deepsignals
+
+```typescript
+import { h } from '@lilian1315/create-element/alien-deepsignals'
+import { computed, signal } from 'alien-deepsignals'
+
+const count = signal(0)
+const label = computed(() => `Count: ${count.get()}`)
+
+const counter = h('section', null, [
+  h('p', null, label),
+  h('button', { onclick: () => count.set(count.get() + 1) }, 'Increment'),
+])
+```
+
+Requires: `pnpm add alien-deepsignals`
+
+### faisceau
+
+```typescript
+import { h } from '@lilian1315/create-element/faisceau'
+import { computed, signal } from 'faisceau'
+
+const count = signal(0)
+const label = computed(() => `Count: ${count.get()}`)
+
+const counter = h('section', null, [
+  h('p', null, label),
+  h('button', { onclick: () => count.set(count.get() + 1) }, 'Increment'),
+])
+```
+
+Requires: `pnpm add faisceau`
+
+### @preact/signals-core
+
+```typescript
+import { h } from '@lilian1315/create-element/preact-signals'
+import { computed, signal } from '@preact/signals-core'
+
+const count = signal(0)
+const label = computed(() => `Count: ${count.value}`)
+
+const counter = h('section', null, [
+  h('p', null, label),
+  h('button', { onclick: () => (count.value = count.value + 1) }, 'Increment'),
+])
+```
+
+Requires: `pnpm add @preact/signals-core`
 
 ## License
 

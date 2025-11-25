@@ -1,6 +1,12 @@
 import type { Children, ElementAttributesTagNameMap, ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from './types'
 import { handleAnyAttribute, handleChildren, handleClassAttribute, handleDataAttribute, handleStyleAttribute } from './utils'
 
+/**
+ * Creates a DOM element (HTML, SVG, or MathML) with type-safe attributes and children handling.
+ * @param tag Element tag name, optionally prefixed with `svg:` or `math:` for namespace aware nodes.
+ * @param attributes Optional attribute bag including `class`, `style`, `data`, and `children` helpers.
+ * @param children Additional child nodes appended after `attributes.children`.
+ */
 export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
   let element: ElementPrefixedTagNameMap[T]
 
@@ -44,4 +50,7 @@ export function createElement<T extends PrefixedElementTag>(tag: T, attributes?:
   return element
 }
 
+/**
+ * Shorthand alias for {@link createElement} to align with JSX/hyperscript expectations.
+ */
 export const h = createElement

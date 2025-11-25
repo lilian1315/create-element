@@ -2,7 +2,7 @@
   "name": "@lilian1315/create-element",
   "type": "module",
   "version": "0.4.0",
-  "description": "Type-safe createElement function",
+  "description": "Type-safe `document.createElement` wrapper with JSX support and optional reactive lib integrations for building DOM elements.",
   "source": "src/index.ts",
   "author": "lilian1315",
   "license": "MIT",

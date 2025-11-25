@@ -2,6 +2,12 @@ import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '..
 import type { Children, ElementAttributesTagNameMap } from './types'
 import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'
 
+/**
+ * Creates a DOM element with [alien-signals](https://github.com/stackblitz/alien-signals) aware attributes, styles, datasets, and children.
+ * @param tag Element tag name including SVG/MathML prefixes.
+ * @param attributes Optional attribute bag that can contain reactive `class`, `style`, `data`, and `children` props.
+ * @param children Additional children appended after `attributes.children`.
+ */
 export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
   let element: ElementPrefixedTagNameMap[T]
 
@@ -48,4 +54,7 @@ export function createElement<T extends PrefixedElementTag>(tag: T, attributes?:
   return element
 }
 
+/**
+ * Shorthand alias for {@link createElement} to align with JSX/hyperscript expectations.
+ */
 export const h = createElement

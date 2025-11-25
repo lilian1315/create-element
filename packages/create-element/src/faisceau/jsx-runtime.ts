@@ -42,8 +42,14 @@ import { childrenToNodes } from '../utils'
 import { h } from './index'
 import { reactiveChildrenToNodes } from './utils'
 
+/**
+ * Symbol used to group children without introducing an extra DOM node when using JSX.
+ */
 export const Fragment = Symbol('Fragment')
 
+/**
+ * JSX factory compatible with [faisceau](https://github.com/lilian1315/faisceau).
+ */
 export function jsx<T extends PrefixedElementTag | JSX.ElementClass | typeof Fragment = PrefixedElementTag>(
   type: T,
   props: JSX.IntrinsicAttributes,
@@ -66,7 +72,14 @@ export function jsx<T extends PrefixedElementTag | JSX.ElementClass | typeof Fra
   return h<PrefixedElementTag>(type, props)
 }
 
+/**
+ * Alias of {@link jsx} used when JSX compilers emit batched static children helpers.
+ */
 export const jsxs = jsx
+
+/**
+ * Development-time alias of {@link jsx} used by tooling that differentiates prod/dev JSX runtimes.
+ */
 export const jsxDEV = jsx
 
 // eslint-disable-next-line ts/no-namespace
