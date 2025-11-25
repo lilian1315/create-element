@@ -5,5 +5,5 @@ export default defineConfig({
   target: 'es6',
   platform: 'browser',
   exports: true,
-  external: ['alien-deepsignals', 'alien-signals', '@preact/signals-core'],
+  external: ['alien-deepsignals', 'alien-signals', '@preact/signals-core', 'faisceau'],
 })

@@ -41,9 +41,6 @@ importers:
       '@lilian1315/elements-writable-properties-types':
         specifier: workspace:*
         version: link:../elements_writable_properties_types
-      faisceau:
-        specifier: ^0.0.5
-        version: 0.0.5
     devDependencies:
       '@preact/signals-core':
         specifier: ^1.12.1
@@ -60,6 +57,9 @@ importers:
       alien-signals:
         specifier: ^3.1.0
         version: 3.1.0
+      faisceau:
+        specifier: ^0.0.5
+        version: 0.0.5
       tsdown:
         specifier: ^0.16.6
         version: 0.16.6(synckit@0.11.11)(typescript@5.9.3)
