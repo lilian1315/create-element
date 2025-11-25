@@ -1,6 +1,6 @@
 # @lilian1315/create-element
 
-A simple `document.createElement` alternative with TypeScript support for creating DOM elements.
+A type-safe `document.createElement` wrapper with JSX support and optional integrations ([alien-signals](https://github.com/stackblitz/alien-signals), [@preact/signals-core](https://github.com/preactjs/signals), etc.) for building DOM elements.
 
 ## Features
 
@@ -8,7 +8,7 @@ A simple `document.createElement` alternative with TypeScript support for creati
 - Support for HTML, SVG, and MathML elements
 - Simple attribute and event handling
 - JSX support
-- Optional reactive programming with `alien-deepsignals`
+- Optional reactive programming with [alien-signals](https://github.com/stackblitz/alien-signals), [@preact/signals-core](https://github.com/preactjs/signals) and more
 
 ## Installation
 
@@ -101,38 +101,25 @@ function App() {
     </div>
   )
 }
-
-// With reactive support
-function Counter({ initialCount = 0 }) {
-  const count = signal(initialCount)
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onclick={() => count.set(count.get() + 1)}>
-        Increment
-      </button>
-    </div>
-  )
-}
 ```
 
-For reactive JSX, use `jsxImportSource: "@lilian1315/create-element/alien-deepsignals"`
+For reactive JSX, use `jsxImportSource: "@lilian1315/create-element/alien-signals"`
 
 ## Reactive Support (Optional)
 
 ```typescript
-import { h } from '@lilian1315/create-element/alien-deepsignals'
-import { signal } from 'alien-deepsignals'
+import { h } from '@lilian1315/create-element/alien-signals'
+import { signal } from 'alien-signals'
 
 const count = signal(0)
 
 const counter = h('div', null, [
   h('p', null, 'Count: ', count),
-  h('button', { onClick: () => count.set(count.get() + 1) }, 'Increment')
+  h('button', { onClick: () => count(count() + 1) }, 'Increment')
 ])
 ```
 
-Requires: `pnpm add alien-deepsignals alien-signals`
+Requires: `pnpm add alien-signals`
 
 ## License
 
