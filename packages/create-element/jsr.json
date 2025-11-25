@@ -8,8 +8,14 @@
     "./alien-deepsignals": "./src/alien-deepsignals/index.ts",
     "./alien-deepsignals/jsx-dev-runtime": "./src/alien-deepsignals/jsx-dev-runtime.ts",
     "./alien-deepsignals/jsx-runtime": "./src/alien-deepsignals/jsx-runtime.ts",
+    "./alien-signals": "./src/alien-signals/index.ts",
+    "./alien-signals/jsx-dev-runtime": "./src/alien-signals/jsx-dev-runtime.ts",
+    "./alien-signals/jsx-runtime": "./src/alien-signals/jsx-runtime.ts",
     "./jsx-dev-runtime": "./src/jsx-dev-runtime.ts",
     "./jsx-runtime": "./src/jsx-runtime.ts",
+    "./preact-signals": "./src/preact-signals/index.ts",
+    "./preact-signals/jsx-dev-runtime": "./src/preact-signals/jsx-dev-runtime.ts",
+    "./preact-signals/jsx-runtime": "./src/preact-signals/jsx-runtime.ts",
     "./package.json": "./package.json"
   },
   "publish": {
