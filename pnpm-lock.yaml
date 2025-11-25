@@ -33,14 +33,17 @@ importers:
         specifier: ~5.9.3
         version: 5.9.3
       vite:
-        specifier: npm:rolldown-vite@7.2.7
-        version: rolldown-vite@7.2.7(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+        specifier: npm:rolldown-vite@7.1.14
+        version: rolldown-vite@7.1.14(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
 
   packages/create-element:
     dependencies:
       '@lilian1315/elements-writable-properties-types':
         specifier: workspace:*
         version: link:../elements_writable_properties_types
+      faisceau:
+        specifier: ^0.0.5
+        version: 0.0.5
     devDependencies:
       '@preact/signals-core':
         specifier: ^1.12.1
@@ -297,10 +300,6 @@ packages:
 
   '@oxc-project/runtime@0.96.0':
     resolution: {integrity: sha512-34lh4o9CcSw09Hx6fKihPu85+m+4pmDlkXwJrLvN5nMq5JrcGhhihVM415zDqT8j8IixO1PYYdQZRN4SwQCncg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-
-  '@oxc-project/runtime@0.98.0':
-    resolution: {integrity: sha512-F0ldlBv2orG2YqNL0w77deq9yCaO4zEHbanGnW/jaJxGBR8ImekvZb8x42zAHvdzr8J76psibijvHtXfSjbEIQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   '@oxc-project/types@0.93.0':
@@ -1133,6 +1132,9 @@ packages:
   exsolve@1.0.8:
     resolution: {integrity: sha512-LmDxfWXwcTArk8fUEnOfSZpHOJ6zOMUJKOtFLFqJLoKJetuQG874Uc7/Kki7zFLzYybmZhp1M7+98pfMqeX8yA==}
 
+  faisceau@0.0.5:
+    resolution: {integrity: sha512-j9XbtgYg4ubkuW5bnVqn4sOi3ffOlEbWXrYyJfXe9n6KYS8xuuNdJwSlT6Ebf8bOdhoS5Sd9yTHe/e+P2cvepg==}
+
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
 
@@ -1796,46 +1798,6 @@ packages:
       yaml:
         optional: true
 
-  rolldown-vite@7.2.7:
-    resolution: {integrity: sha512-N6a9KgNZ0xgCJ6/Ej2FQ7W8D3fOzDwFw7CLWZ2ubZknVrs9NdNkx25AFEuNbSwQO76VEHp4N7YatsZwp/ST1Gg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^20.19.0 || >=22.12.0
-      esbuild: ^0.25.0
-      jiti: '>=1.21.0'
-      less: ^4.0.0
-      sass: ^1.70.0
-      sass-embedded: ^1.70.0
-      stylus: '>=0.54.8'
-      sugarss: ^5.0.0
-      terser: ^5.16.0
-      tsx: ^4.8.1
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      esbuild:
-        optional: true
-      jiti:
-        optional: true
-      less:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-      tsx:
-        optional: true
-      yaml:
-        optional: true
-
   rolldown@1.0.0-beta.41:
     resolution: {integrity: sha512-U+NPR0Bkg3wm61dteD2L4nAM1U9dtaqVrpDXwC36IKRHpEO/Ubpid4Nijpa2imPchcVNHfxVFwSSMJdwdGFUbg==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -2378,8 +2340,6 @@ snapshots:
   '@oxc-project/runtime@0.92.0': {}
 
   '@oxc-project/runtime@0.96.0': {}
-
-  '@oxc-project/runtime@0.98.0': {}
 
   '@oxc-project/types@0.93.0': {}
 
@@ -3244,6 +3204,10 @@ snapshots:
 
   exsolve@1.0.8: {}
 
+  faisceau@0.0.5:
+    dependencies:
+      alien-signals: 3.1.0
+
   fast-deep-equal@3.1.3: {}
 
   fast-json-stable-stringify@2.1.0: {}
@@ -3979,21 +3943,6 @@ snapshots:
       picomatch: 4.0.3
       postcss: 8.5.6
       rolldown: 1.0.0-beta.41
-      tinyglobby: 0.2.15
-    optionalDependencies:
-      '@types/node': 24.10.1
-      fsevents: 2.3.3
-      jiti: 2.6.1
-      yaml: 2.8.1
-
-  rolldown-vite@7.2.7(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1):
-    dependencies:
-      '@oxc-project/runtime': 0.98.0
-      fdir: 6.5.0(picomatch@4.0.3)
-      lightningcss: 1.30.2
-      picomatch: 4.0.3
-      postcss: 8.5.6
-      rolldown: 1.0.0-beta.51
       tinyglobby: 0.2.15
     optionalDependencies:
       '@types/node': 24.10.1

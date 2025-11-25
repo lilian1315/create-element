@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { h as hAlienDeepsignals } from '../src/alien-deepsignals/index'
 import { h as hAlienSignals } from '../src/alien-signals/index'
+import { h as hFaisceau } from '../src/faisceau/index'
 import { h as hCore } from '../src/index'
 import { h as hPreactSignals } from '../src/preact-signals/index'
 
@@ -9,6 +10,7 @@ const factories: [string, typeof hCore][] = [
   ['alien-deepsignals', hAlienDeepsignals],
   ['alien-signals', hAlienSignals],
   ['preact-signals', hPreactSignals],
+  ['faisceau', hFaisceau],
 ]
 
 for (const [factoryName, h] of factories) {

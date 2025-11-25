@@ -21,6 +21,9 @@
     "./alien-signals": "./dist/alien-signals/index.js",
     "./alien-signals/jsx-dev-runtime": "./dist/alien-signals/jsx-dev-runtime.js",
     "./alien-signals/jsx-runtime": "./dist/alien-signals/jsx-runtime.js",
+    "./faisceau": "./dist/faisceau/index.js",
+    "./faisceau/jsx-dev-runtime": "./dist/faisceau/jsx-dev-runtime.js",
+    "./faisceau/jsx-runtime": "./dist/faisceau/jsx-runtime.js",
     "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js",
     "./jsx-runtime": "./dist/jsx-runtime.js",
     "./preact-signals": "./dist/preact-signals/index.js",
@@ -49,10 +52,16 @@
     "alien-signals": "^3.1.0"
   },
   "peerDependenciesMeta": {
+    "@preact/signals-core": {
+      "optional": true
+    },
     "alien-deepsignals": {
       "optional": true
     },
     "alien-signals": {
+      "optional": true
+    },
+    "faisceau": {
       "optional": true
     }
   },
@@ -65,6 +74,7 @@
     "@vitest/coverage-v8": "4.0.13",
     "alien-deepsignals": "^0.3.1",
     "alien-signals": "^3.1.0",
+    "faisceau": "^0.0.5",
     "tsdown": "^0.16.6",
     "vitest": "^4.0.13"
   }
