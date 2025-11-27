@@ -1,10 +1,9 @@
 import type { Child, Children, DomElement, SpecialAttributes } from './types'
 
 export function handleAnyAttribute(element: DomElement, name: string | symbol, value: unknown): void {
-  if (typeof name === 'string' && name.startsWith('on')) {
-    if (typeof value === 'function') {
-      handleEventHandlerAttribute(element, name, value)
-    }
+  if (typeof name === 'string' && name.startsWith('on') && typeof value === 'function') {
+    handleEventHandlerAttribute(element, name, value)
+    return
   }
 
   if (name in element || typeof name === 'symbol') {

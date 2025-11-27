@@ -99,14 +99,14 @@ for (const [factoryName, h] of factories) {
       const element = h('p', { onclick })
 
       element.click()
-      expect(onclick).toHaveBeenCalled()
+      expect(onclick).toHaveBeenCalledOnce()
 
       const onchange = vi.fn(() => null)
 
       const element2 = h('input', { onchange })
 
       element2.dispatchEvent(new Event('change'))
-      expect(onchange).toHaveBeenCalled()
+      expect(onchange).toHaveBeenCalledOnce()
     })
 
     it.concurrent('support data attribute', () => {
