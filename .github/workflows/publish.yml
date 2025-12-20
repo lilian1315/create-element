@@ -1,0 +1,36 @@
+name: Publish Package to npmjs and jsr
+on:
+  push:
+    tags:
+      - '@lilian1315/create-element@*.*.*'
+      - '@lilian1315/elements-writable-properties-types@*.*.*'
+  workflow_dispatch: # Allows manual triggering of the workflow.
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: read
+      id-token: write # Required for OIDC
+    strategy:
+      matrix:
+        node-version: [24]
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+          cache: pnpm
+      - run: pnpm install
+      - run: pnpm run typecheck
+      - run: pnpm run lint
+      - run: pnpm run build
+      - run: pnpx jsr publish
+      - run: pnpm publish --no-git-checks

@@ -3,11 +3,15 @@
     "build": "pnpm run build:types && pnpm run build:core",
     "build:types": "pnpm --filter @lilian1315/elements-writable-properties-types run build",
     "build:core": "pnpm --filter @lilian1315/create-element run build",
+    "typecheck": "pnpm -r run typecheck",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "release:core": "pnpm typecheck && pnpm lint && pnpm --filter @lilian1315/create-element bumpp -c 'release @lilian1315/create-element@X.X.X' -t '@lilian1315/create-element@X.X.X'",
+    "release:types": "pnpm typecheck && pnpm lint && pnpm --filter @lilian1315/elements-writable-properties-types bumpp -c 'release @lilian1315/elements-writable-properties-types@X.X.X' -t '@lilian1315/elements-writable-properties-types@X.X.X'"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",
+    "bumpp": "^10.3.2",
     "eslint": "^9.39.1",
     "typescript": "~5.9.3"
   }
