@@ -7,7 +7,7 @@ Type-safe `document.createElement` wrapper with JSX support and optional reactiv
 - Type-safe element creation with TypeScript ([Usage](#usage))
 - Support for HTML, SVG, and MathML elements
 - Simple attribute and event handling ([Attributes](#attributes))
-- JSX support ([JSX Support](#jsx-support))
+- [JSX Support](#jsx-support)
 - Optional reactive programming with [alien-signals](https://github.com/stackblitz/alien-signals), [alien-deepsignals](https://www.npmjs.com/package/alien-deepsignals), [faisceau](https://github.com/lilian1315/faisceau), and [@preact/signals-core](https://github.com/preactjs/signals) ([Reactive Support](#reactive-support-optional))
 
 ## Installation
@@ -79,7 +79,7 @@ const variable = h('math:mi', null, 'x')
 
 Use JSX syntax with TypeScript configuration:
 
-```json
+```jsonc
 // tsconfig.json
 {
   "compilerOptions": {
