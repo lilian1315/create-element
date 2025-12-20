@@ -9,8 +9,7 @@
   "publish": {
     "include": [
       "generated/index.d.ts",
-      "README.md",
-      "package.json"
+      "README.md"
     ]
   }
 }

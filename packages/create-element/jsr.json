@@ -18,14 +18,12 @@
     "./jsx-runtime": "./src/jsx-runtime.ts",
     "./preact-signals": "./src/preact-signals/index.ts",
     "./preact-signals/jsx-dev-runtime": "./src/preact-signals/jsx-dev-runtime.ts",
-    "./preact-signals/jsx-runtime": "./src/preact-signals/jsx-runtime.ts",
-    "./package.json": "./package.json"
+    "./preact-signals/jsx-runtime": "./src/preact-signals/jsx-runtime.ts"
   },
   "publish": {
     "include": [
       "src/**/*.ts",
-      "README.md",
-      "package.json"
+      "README.md"
     ]
   }
 }
