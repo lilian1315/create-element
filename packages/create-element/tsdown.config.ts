@@ -6,5 +6,6 @@ export default defineConfig({
   platform: 'browser',
   exports: true,
   external: ['alien-deepsignals', 'alien-signals', '@preact/signals-core', 'faisceau'],
+  dts: true,
   unbundle: true,
 })
