@@ -1,3 +1,22 @@
+/**
+ * @module @lilian1315/create-element/alien-signals
+ * @description Reactive DOM element creation with [alien-signals](https://github.com/stackblitz/alien-signals) integration.
+ *
+ * @example
+ * ```typescript
+ * import { h } from '@lilian1315/create-element/alien-signals'
+ * import { computed, signal } from 'alien-signals'
+ *
+ * const count = signal(0)
+ * const label = computed(() => `Count: ${count()}`)
+ *
+ * const counter = h('section', { class: 'counter' }, [
+ *   h('p', null, label),
+ *   h('button', { onclick: () => count(count() + 1) }, 'Increment'),
+ * ])
+ * ```
+ */
+
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
 import type { Children, ElementAttributesTagNameMap } from './types'
 import { setActiveSub } from 'alien-signals'

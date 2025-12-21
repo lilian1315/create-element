@@ -1,3 +1,22 @@
+/**
+ * @module @lilian1315/create-element/faisceau
+ * @description Reactive DOM element creation with [faisceau](https://github.com/lilian1315/faisceau) integration.
+ *
+ * @example
+ * ```typescript
+ * import { h } from '@lilian1315/create-element/faisceau'
+ * import { computed, signal } from 'faisceau'
+ *
+ * const count = signal(0)
+ * const label = computed(() => `Count: ${count.get()}`)
+ *
+ * const counter = h('section', null, [
+ *   h('p', null, label),
+ *   h('button', { onclick: () => count.set(count.get() + 1) }, 'Increment'),
+ * ])
+ * ```
+ */
+
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
 import type { Children, ElementAttributesTagNameMap } from './types'
 import { untracked } from 'faisceau'

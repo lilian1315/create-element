@@ -1,3 +1,22 @@
+/**
+ * @module @lilian1315/create-element/alien-deepsignals
+ * @description Reactive DOM element creation with [alien-deepsignals](https://github.com/CCherry07/alien-deepsignals) integration.
+ *
+ * @example
+ * ```typescript
+ * import { h } from '@lilian1315/create-element/alien-deepsignals'
+ * import { computed, signal } from 'alien-deepsignals'
+ *
+ * const count = signal(0)
+ * const label = computed(() => `Count: ${count.get()}`)
+ *
+ * const counter = h('section', null, [
+ *   h('p', null, label),
+ *   h('button', { onclick: () => count.set(count.get() + 1) }, 'Increment'),
+ * ])
+ * ```
+ */
+
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
 import type { Children, ElementAttributesTagNameMap } from './types'
 import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'

@@ -1,3 +1,22 @@
+/**
+ * @module @lilian1315/create-element/vue-reactivity
+ * @description Reactive DOM element creation with [@vue/reactivity](https://github.com/vuejs/core/tree/main/packages/reactivity) integration.
+ *
+ * @example
+ * ```typescript
+ * import { h } from '@lilian1315/create-element/vue-reactivity'
+ * import { computed, ref } from '@vue/reactivity'
+ *
+ * const count = ref(0)
+ * const label = computed(() => `Count: ${count.value}`)
+ *
+ * const counter = h('section', null, [
+ *   h('p', null, label),
+ *   h('button', { onclick: () => count.value++ }, 'Increment'),
+ * ])
+ * ```
+ */
+
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
 import type { Children, ElementAttributesTagNameMap } from './types'
 import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'
