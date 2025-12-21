@@ -6,7 +6,7 @@
     "typecheck": "pnpm -r run typecheck",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "release:core": "pnpm typecheck && pnpm lint && pnpm --filter @lilian1315/create-element test && pnpm --filter @lilian1315/create-element exec bumpp -c 'release @lilian1315/create-element@' -t '@lilian1315/create-element@'",
+    "release:core": "pnpm typecheck && pnpm lint && pnpm --filter @lilian1315/create-element test run && pnpm --filter @lilian1315/create-element exec bumpp -c 'release @lilian1315/create-element@' -t '@lilian1315/create-element@'",
     "release:types": "pnpm typecheck && pnpm lint && pnpm --filter @lilian1315/elements-writable-properties-types exec bumpp -c 'release @lilian1315/elements-writable-properties-types@' -t '@lilian1315/elements-writable-properties-types@'"
   },
   "devDependencies": {
