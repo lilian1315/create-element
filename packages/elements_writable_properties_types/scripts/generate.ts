@@ -12,6 +12,9 @@ const progressBar = new SingleBar({
 })
 const tempProject = new Project({
   useInMemoryFileSystem: true,
+  compilerOptions: {
+    lib: ['ESNext'],
+  },
 })
 
 const webTypesFile = tempProject.createSourceFile('index.d.ts', readFileSync('./node_modules/@types/web/index.d.ts').toString())

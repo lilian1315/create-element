@@ -67,7 +67,7 @@ export namespace DOMTypes {
     }
 
     /**
-     * The **`HTMLElement`** interface represents any HTML element.
+     * The **`HTMLElement`** interface represents any HTML element. Some elements directly implement this interface, while others implement it via an interface that inherits it.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement)
      */
@@ -79,7 +79,7 @@ export namespace DOMTypes {
          */
         accessKey: string;
         /**
-         * The **`autocapitalize`** property of the HTMLElement interface represents the element's capitalization behavior for user input.
+         * The **`autocapitalize`** property of the HTMLElement interface represents the element's capitalization behavior for user input. It is available on all HTML elements, though it doesn't affect all of them, including:
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/autocapitalize)
          */
@@ -91,7 +91,7 @@ export namespace DOMTypes {
          */
         autocorrect: boolean;
         /**
-         * The **`HTMLElement.dir`** property indicates the text writing directionality of the content of the current element.
+         * The **`HTMLElement.dir`** property indicates the text writing directionality of the content of the current element. It reflects the element's dir attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/dir)
          */
@@ -103,31 +103,31 @@ export namespace DOMTypes {
          */
         draggable: boolean;
         /**
-         * The HTMLElement property **`hidden`** reflects the value of the element's `hidden` attribute.
+         * The HTMLElement property **`hidden`** reflects the value of the element's hidden attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/hidden)
          */
-        hidden: boolean;
+        hidden: boolean | "until-found";
         /**
-         * The HTMLElement property **`inert`** reflects the value of the element's `inert` attribute.
+         * The HTMLElement property **`inert`** reflects the value of the element's inert attribute. It is a boolean value that, when present, makes the browser "ignore" user input events for the element, including focus events and events from assistive technologies. The browser may also ignore page search and text selection in the element. This can be useful when building UIs such as modals where you would want to "trap" the focus inside the modal when it's visible.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/inert)
          */
         inert: boolean;
         /**
-         * The **`lang`** property of the HTMLElement interface indicates the base language of an element's attribute values and text content, in the form of a MISSING: RFC(5646, 'BCP 47 language identifier tag')].
+         * The **`lang`** property of the HTMLElement interface indicates the base language of an element's attribute values and text content, in the form of a BCP 47 language tag. It reflects the element's lang attribute; the xml:lang attribute does not affect this property.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/lang)
          */
         lang: string;
         /**
-         * The **`popover`** property of the HTMLElement interface gets and sets an element's popover state via JavaScript (`'auto'`, `'hint'`, or `'manual'`), and can be used for feature detection.
+         * The **`popover`** property of the HTMLElement interface gets and sets an element's popover state via JavaScript ("auto", "hint", or "manual"), and can be used for feature detection.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/popover)
          */
         popover: string | null;
         /**
-         * The **`spellcheck`** property of the HTMLElement interface represents a boolean value that controls the spell-checking hint.
+         * The **`spellcheck`** property of the HTMLElement interface represents a boolean value that controls the spell-checking hint. It is available on all HTML elements, though it doesn't affect all of them.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/spellcheck)
          */
@@ -153,7 +153,7 @@ export namespace DOMTypes {
     }
 
     /**
-     * **`Element`** is the most general base class from which all element objects (i.e., objects that represent elements) in a Document inherit.
+     * **`Element`** is the most general base class from which all element objects (i.e., objects that represent elements) in a Document inherit. It only has methods and properties common to all kinds of elements. More specific classes inherit from Element.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element)
      */
@@ -161,13 +161,13 @@ export namespace DOMTypes {
         part: string;
         textContent: string;
         /**
-         * The **`id`** property of the Element interface represents the element's identifier, reflecting the **`id`** global attribute.
+         * The **`id`** property of the Element interface represents the element's identifier, reflecting the id global attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/id)
          */
         id: string;
         /**
-         * The **`innerHTML`** property of the Element interface gets or sets the HTML or XML markup contained within the element.
+         * The **`innerHTML`** property of the Element interface gets or sets the HTML or XML markup contained within the element, omitting any shadow roots in both cases.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/innerHTML)
          */
@@ -177,13 +177,13 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/fullscreenerror_event) */
         onfullscreenerror: ((this: Element, ev: Event) => any) | null;
         /**
-         * The **`scrollLeft`** property of the Element interface gets or sets the number of pixels by which an element's content is scrolled from its left edge.
+         * The **`scrollLeft`** property of the Element interface gets or sets the number of pixels by which an element's content is scrolled from its left edge. This value is subpixel precise in modern browsers, meaning that it isn't necessarily a whole number.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/scrollLeft)
          */
         scrollLeft: number;
         /**
-         * The **`scrollTop`** property of the Element interface gets or sets the number of pixels by which an element's content is scrolled from its top edge.
+         * The **`scrollTop`** property of the Element interface gets or sets the number of pixels by which an element's content is scrolled from its top edge. This value is subpixel precise in modern browsers, meaning that it isn't necessarily a whole number.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/scrollTop)
          */
@@ -197,7 +197,7 @@ export namespace DOMTypes {
     }
 
     /**
-     * The DOM **`Node`** interface is an abstract base class upon which many other DOM API objects are based, thus letting those object types to be used similarly and often interchangeably.
+     * The DOM **`Node`** interface is an abstract base class upon which many other DOM API objects are based, thus letting those object types be used similarly and often interchangeably. As an abstract class, there is no such thing as a plain Node object. All objects that implement Node functionality are based on one of its subclasses. Most notable are Document, Element, and DocumentFragment.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Node)
      */
@@ -205,7 +205,7 @@ export namespace DOMTypes {
     }
 
     /**
-     * The **`EventTarget`** interface is implemented by objects that can receive events and may have listeners for them.
+     * The **`EventTarget`** interface is implemented by objects that can receive events and may have listeners for them. In other words, any target of events implements the three methods associated with this interface.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/EventTarget)
      */
@@ -213,57 +213,109 @@ export namespace DOMTypes {
     }
 
     interface ARIAMixin {
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaActiveDescendantElement) */
         ariaActiveDescendantElement: Element | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaAtomic) */
         ariaAtomic: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaAutoComplete) */
         ariaAutoComplete: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaBrailleLabel) */
         ariaBrailleLabel: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaBrailleRoleDescription) */
         ariaBrailleRoleDescription: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaBusy) */
         ariaBusy: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaChecked) */
         ariaChecked: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaColCount) */
         ariaColCount: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaColIndex) */
         ariaColIndex: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaColIndexText) */
         ariaColIndexText: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaColSpan) */
         ariaColSpan: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaControlsElements) */
         ariaControlsElements: ReadonlyArray<Element> | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaCurrent) */
         ariaCurrent: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaDescribedByElements) */
         ariaDescribedByElements: ReadonlyArray<Element> | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaDescription) */
         ariaDescription: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaDetailsElements) */
         ariaDetailsElements: ReadonlyArray<Element> | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaDisabled) */
         ariaDisabled: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaErrorMessageElements) */
         ariaErrorMessageElements: ReadonlyArray<Element> | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaExpanded) */
         ariaExpanded: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaFlowToElements) */
         ariaFlowToElements: ReadonlyArray<Element> | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaHasPopup) */
         ariaHasPopup: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaHidden) */
         ariaHidden: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaInvalid) */
         ariaInvalid: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaKeyShortcuts) */
         ariaKeyShortcuts: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaLabel) */
         ariaLabel: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaLabelledByElements) */
         ariaLabelledByElements: ReadonlyArray<Element> | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaLevel) */
         ariaLevel: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaLive) */
         ariaLive: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaModal) */
         ariaModal: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaMultiLine) */
         ariaMultiLine: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaMultiSelectable) */
         ariaMultiSelectable: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaOrientation) */
         ariaOrientation: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaOwnsElements) */
         ariaOwnsElements: ReadonlyArray<Element> | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaPlaceholder) */
         ariaPlaceholder: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaPosInSet) */
         ariaPosInSet: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaPressed) */
         ariaPressed: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaReadOnly) */
         ariaReadOnly: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaRelevant) */
         ariaRelevant: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaRequired) */
         ariaRequired: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaRoleDescription) */
         ariaRoleDescription: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaRowCount) */
         ariaRowCount: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaRowIndex) */
         ariaRowIndex: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaRowIndexText) */
         ariaRowIndexText: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaRowSpan) */
         ariaRowSpan: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaSelected) */
         ariaSelected: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaSetSize) */
         ariaSetSize: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaSort) */
         ariaSort: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaValueMax) */
         ariaValueMax: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaValueMin) */
         ariaValueMin: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaValueNow) */
         ariaValueNow: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaValueText) */
         ariaValueText: string | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/role) */
         role: string | null;
     }
 
@@ -327,6 +379,8 @@ export namespace DOMTypes {
         onclick: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLDialogElement/close_event) */
         onclose: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/command_event) */
+        oncommand: ((this: GlobalEventHandlers, ev: Event) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/contextlost_event) */
         oncontextlost: ((this: GlobalEventHandlers, ev: Event) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/contextmenu_event) */
@@ -370,7 +424,7 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/gotpointercapture_event) */
         ongotpointercapture: ((this: GlobalEventHandlers, ev: PointerEvent) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/input_event) */
-        oninput: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+        oninput: ((this: GlobalEventHandlers, ev: InputEvent) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLInputElement/invalid_event) */
         oninvalid: ((this: GlobalEventHandlers, ev: Event) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/keydown_event) */
@@ -525,7 +579,7 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/autofocus) */
         autofocus: boolean;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/nonce) */
-        nonce?: string;
+        nonce: string;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/tabIndex) */
         tabIndex: number;
     }
@@ -687,19 +741,19 @@ export namespace DOMTypes {
      */
     export interface HTMLMediaElement extends HTMLElement {
         /**
-         * The **`HTMLMediaElement.autoplay`** property reflects the `autoplay` HTML attribute, indicating whether playback should automatically begin as soon as enough media is available to do so without interruption.
+         * The **`HTMLMediaElement.autoplay`** property reflects the autoplay HTML attribute, indicating whether playback should automatically begin as soon as enough media is available to do so without interruption.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/autoplay)
          */
         autoplay: boolean;
         /**
-         * The **`HTMLMediaElement.controls`** property reflects the `controls` HTML attribute, which controls whether user interface controls for playing the media item will be displayed.
+         * The **`HTMLMediaElement.controls`** property reflects the controls HTML attribute, which controls whether user interface controls for playing the media item will be displayed.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/controls)
          */
         controls: boolean;
         /**
-         * The **`HTMLMediaElement.crossOrigin`** property is the CORS setting for this media element.
+         * The **`HTMLMediaElement.crossOrigin`** property is the CORS setting for this media element. See CORS settings attributes for details.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/crossOrigin)
          */
@@ -711,7 +765,7 @@ export namespace DOMTypes {
          */
         currentTime: number;
         /**
-         * The **`HTMLMediaElement.defaultMuted`** property reflects the `muted` HTML attribute, which indicates whether the media element's audio output should be muted by default.
+         * The **`HTMLMediaElement.defaultMuted`** property reflects the muted HTML attribute, which indicates whether the media element's audio output should be muted by default. This property has no dynamic effect. To mute and unmute the audio output, use the muted property.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/defaultMuted)
          */
@@ -729,7 +783,7 @@ export namespace DOMTypes {
          */
         disableRemotePlayback: boolean;
         /**
-         * The **`HTMLMediaElement.loop`** property reflects the `loop` HTML attribute, which controls whether the media element should start over when it reaches the end.
+         * The **`HTMLMediaElement.loop`** property reflects the loop HTML attribute, which controls whether the media element should start over when it reaches the end.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/loop)
          */
@@ -745,7 +799,7 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/waitingforkey_event) */
         onwaitingforkey: ((this: HTMLMediaElement, ev: Event) => any) | null;
         /**
-         * The **`HTMLMediaElement.playbackRate`** property sets the rate at which the media is being played back.
+         * The **`HTMLMediaElement.playbackRate`** property sets the rate at which the media is being played back. This is used to implement user controls for fast forward, slow motion, and so forth. The normal playback rate is multiplied by this value to obtain the current rate, so a value of 1.0 indicates normal speed.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/playbackRate)
          */
@@ -763,13 +817,13 @@ export namespace DOMTypes {
          */
         preservesPitch: boolean;
         /**
-         * The **`HTMLMediaElement.src`** property reflects the value of the HTML media element's `src` attribute, which indicates the URL of a media resource to use in the element.
+         * The **`HTMLMediaElement.src`** property reflects the value of the HTML media element's src attribute, which indicates the URL of a media resource to use in the element.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/src)
          */
         src: string;
         /**
-         * The **`srcObject`** property of the the source of the media associated with the HTMLMediaElement, or `null` if not assigned.
+         * The **`srcObject`** property of the HTMLMediaElement interface sets or returns the object which serves as the source of the media associated with the HTMLMediaElement, or null if not assigned.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/srcObject)
          */
@@ -872,7 +926,7 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/unhandledrejection_event) */
         onunhandledrejection: ((this: WindowEventHandlers, ev: PromiseRejectionEvent) => any) | null;
         /**
-         * @deprecated
+         * @deprecated The unload event is not reliable, consider visibilitychange or pagehide events.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/unload_event)
          */
@@ -1077,92 +1131,6 @@ export namespace DOMTypes {
     export interface HTMLDivElement extends HTMLElement {
         /** @deprecated */
         align: string;
-    }
-
-    /**
-     * The **`HTMLElement`** interface represents any HTML element. Some elements directly implement this interface, while others implement it via an interface that inherits it.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement)
-     */
-    export interface HTMLElement extends Element, ElementCSSInlineStyle, ElementContentEditable, GlobalEventHandlers, HTMLOrSVGElement {
-        /**
-         * The **`HTMLElement.accessKey`** property sets the keystroke which a user can press to jump to a given element.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/accessKey)
-         */
-        accessKey: string;
-        /**
-         * The **`autocapitalize`** property of the HTMLElement interface represents the element's capitalization behavior for user input. It is available on all HTML elements, though it doesn't affect all of them, including:
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/autocapitalize)
-         */
-        autocapitalize: string;
-        /**
-         * The **`autocorrect`** property of the HTMLElement interface controls whether or not autocorrection of editable text is enabled for spelling and/or punctuation errors.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/autocorrect)
-         */
-        autocorrect: boolean;
-        /**
-         * The **`HTMLElement.dir`** property indicates the text writing directionality of the content of the current element. It reflects the element's dir attribute.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/dir)
-         */
-        dir: string;
-        /**
-         * The **`draggable`** property of the HTMLElement interface gets and sets a Boolean primitive indicating if the element is draggable.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/draggable)
-         */
-        draggable: boolean;
-        /**
-         * The HTMLElement property **`hidden`** reflects the value of the element's hidden attribute.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/hidden)
-         */
-        hidden: boolean;
-        /**
-         * The HTMLElement property **`inert`** reflects the value of the element's inert attribute. It is a boolean value that, when present, makes the browser "ignore" user input events for the element, including focus events and events from assistive technologies. The browser may also ignore page search and text selection in the element. This can be useful when building UIs such as modals where you would want to "trap" the focus inside the modal when it's visible.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/inert)
-         */
-        inert: boolean;
-        /**
-         * The **`lang`** property of the HTMLElement interface indicates the base language of an element's attribute values and text content, in the form of a BCP 47 language tag. It reflects the element's lang attribute; the xml:lang attribute does not affect this property.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/lang)
-         */
-        lang: string;
-        /**
-         * The **`popover`** property of the HTMLElement interface gets and sets an element's popover state via JavaScript ("auto", "hint", or "manual"), and can be used for feature detection.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/popover)
-         */
-        popover: string | null;
-        /**
-         * The **`spellcheck`** property of the HTMLElement interface represents a boolean value that controls the spell-checking hint. It is available on all HTML elements, though it doesn't affect all of them.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/spellcheck)
-         */
-        spellcheck: boolean;
-        /**
-         * The **`HTMLElement.title`** property represents the title of the element: the text usually displayed in a 'tooltip' popup when the mouse is over the node.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/title)
-         */
-        title: string;
-        /**
-         * The **`translate`** property of the HTMLElement interface indicates whether an element's attribute values and the values of its Text node children are to be translated when the page is localized, or whether to leave them unchanged.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/translate)
-         */
-        translate: boolean;
-        /**
-         * The **`writingSuggestions`** property of the HTMLElement interface is a string indicating if browser-provided writing suggestions should be enabled under the scope of the element or not.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/writingSuggestions)
-         */
-        writingSuggestions: string;
     }
 
     /**
@@ -1488,70 +1456,70 @@ export namespace DOMTypes {
      */
     export interface HTMLImageElement extends HTMLElement {
         /**
-         * The obsolete **`align`** property of the HTMLImageElement interface is a string which indicates how to position the image relative to its container.
+         * The deprecated **`align`** property of the HTMLImageElement interface is a string which indicates how to position the image relative to its container. It reflects the <img> element's align content attribute.
          * @deprecated
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/align)
          */
         align: string;
         /**
-         * The HTMLImageElement property **`alt`** provides fallback (alternate) text to display when the image specified by the <img> element is not loaded.
+         * The **`alt`** property of the HTMLImageElement interface provides fallback (alternate) text to display when the image specified by the <img> element is not displayed, whether because of an error, because the user has disabled the loading of images, or because the image hasn't finished loading yet. It reflects the <img> element's alt content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/alt)
          */
         alt: string;
         /**
-         * The obsolete HTMLImageElement property **`border`** specifies the number of pixels thick the border surrounding the image should be. A value of 0, the default, indicates that no border should be drawn.
+         * The deprecated **`border`** property of the HTMLImageElement interface specifies the number of pixels thick the border surrounding the image should be. A value of 0, the default, indicates that no border should be drawn. It reflects the <img> element's border content attribute.
          * @deprecated
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/border)
          */
         border: string;
         /**
-         * The HTMLImageElement interface's **`crossOrigin`** attribute is a string which specifies the Cross-Origin Resource Sharing (CORS) setting to use when retrieving the image.
+         * The **`crossOrigin`** property of the HTMLImageElement interface is a string which specifies the Cross-Origin Resource Sharing (CORS) setting to use when retrieving the image. It reflects the <img> element's crossorigin content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/crossOrigin)
          */
         crossOrigin: string | null;
         /**
-         * The **`decoding`** property of the HTMLImageElement interface provides a hint to the browser as to how it should decode the image. More specifically, whether it should wait for the image to be decoded before presenting other content updates or not.
+         * The **`decoding`** property of the HTMLImageElement interface provides a hint to the browser as to how it should decode the image. More specifically, whether it should wait for the image to be decoded before presenting other content updates or not. It reflects the <img> element's decoding content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/decoding)
          */
         decoding: "async" | "sync" | "auto";
         /**
-         * The **`fetchPriority`** property of the HTMLImageElement interface represents a hint to the browser indicating how it should prioritize fetching a particular image relative to other images. It reflects the fetchpriority attribute of the corresponding <img> element.
+         * The **`fetchPriority`** property of the HTMLImageElement interface represents a hint to the browser indicating how it should prioritize fetching a particular image relative to other images. It reflects the <img> element's fetchpriority content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/fetchPriority)
          */
         fetchPriority: "high" | "low" | "auto";
         /**
-         * The **`height`** property of the HTMLImageElement interface indicates the height at which the image is drawn, in CSS pixels if the image is being drawn or rendered to any visual medium such as the screen or a printer; otherwise, it's the natural, pixel density corrected height of the image.
+         * The **`height`** property of the HTMLImageElement interface indicates the height at which the image is drawn, in CSS pixels, if the image is being drawn or rendered to any visual medium such as a screen or printer. Otherwise, it's the natural, pixel density-corrected height of the image.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/height)
          */
         height: number;
         /**
-         * The obsolete **`hspace`** property of the HTMLImageElement interface specifies the number of pixels of empty space to leave empty on the left and right sides of the <img> element when laying out the page.
+         * The deprecated **`hspace`** property of the HTMLImageElement interface specifies the number of pixels of empty space to leave empty on the left and right sides of the <img> element when laying out the page. It reflects the <img> element's hspace content attribute.
          * @deprecated
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/hspace)
          */
         hspace: number;
         /**
-         * The HTMLImageElement property **`isMap`** is a Boolean value which indicates that the image is to be used by a server-side image map. This may only be used on images located within an <a> element.
+         * The **`isMap`** property of the HTMLImageElement interface indicates that the image is part of a server-side map. If so, the coordinates where the user clicked on the image are sent to the server. It reflects the <img> element's ismap content attribute. This attribute is allowed only if the <img> element is a descendant of an <a> element with a valid href attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/isMap)
          */
         isMap: boolean;
         /**
-         * The HTMLImageElement property **`loading`** is a string whose value provides a hint to the user agent on how to handle the loading of the image which is currently outside the window's visual viewport.
+         * The **`loading`** property of the HTMLImageElement interface provides a hint to the user agent on how to handle the loading of the image which is currently outside the window's visual viewport. This helps to optimize the loading of the document's contents by postponing loading the image until it's expected to be needed, rather than immediately during the initial page load. It reflects the <img> element's loading content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/loading)
          */
         loading: "eager" | "lazy";
         /**
-         * The deprecated property **`longDesc`** on the HTMLImageElement interface specifies the URL of a text or HTML file which contains a long-form description of the image. This can be used to provide optional added details beyond the short description provided in the title attribute.
+         * The deprecated **`longDesc`** property of the HTMLImageElement interface specifies the URL of a text or HTML file which contains a long-form description of the image. This can be used to provide optional added details beyond the short description provided in the title attribute. It reflects the <img> element's longdesc content attribute.
          * @deprecated
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/longDesc)
@@ -1560,51 +1528,51 @@ export namespace DOMTypes {
         /** @deprecated */
         lowsrc: string;
         /**
-         * The HTMLImageElement interface's deprecated **`name`** property specifies a name for the element. This has been replaced by the id property available on all elements.
+         * The deprecated **`name`** property of the HTMLImageElement interface specifies a name for the element. It reflects the <img> element's name content attribute. It has been replaced by the id property available on all elements, and is kept only for compatibility reasons.
          * @deprecated
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/name)
          */
         name: string;
         /**
-         * The **`HTMLImageElement.referrerPolicy`** property reflects the HTML referrerpolicy attribute of the <img> element defining which referrer is sent when fetching the resource.
+         * The **`referrerPolicy`** property of the HTMLImageElement interface defining which referrer is sent when fetching the resource. It reflects the <img> element's referrerpolicy content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/referrerPolicy)
          */
         referrerPolicy: string;
         /**
-         * The HTMLImageElement property **`sizes`** allows you to specify the layout width of the image for each of a list of media conditions. This provides the ability to automatically select among different images—even images of different orientations or aspect ratios—as the document state changes to match different media conditions.
+         * The **`sizes`** property of the HTMLImageElement interface allows you to specify the layout width of the image for each of a list of media queries. This provides the ability to automatically select among different images—even images of different orientations or aspect ratios—as the document state changes to match different media conditions. It reflects the <img> element's sizes content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes)
          */
         sizes: string;
         /**
-         * The HTMLImageElement property **`src`**, which reflects the HTML src attribute, specifies the image to display in the <img> element.
+         * The **`src`** property of the HTMLImageElement interface specifies the image to display in the <img> element. It reflects the <img> element's src content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/src)
          */
         src: string;
         /**
-         * The HTMLImageElement property **`srcset`** is a string which identifies one or more image candidate strings, separated using commas (,) each specifying image resources to use under given circumstances.
+         * The **`srcset`** property of the HTMLImageElement interface identifies one or more image candidate strings, separated using commas (,), each specifying image resources to use under given circumstances. Each image candidate string contains an image URL and an optional width or pixel density descriptor that indicates the conditions under which that candidate should be used instead of the image specified by the src property. It reflects the <img> element's srcset content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/srcset)
          */
         srcset: string;
         /**
-         * The **`useMap`** property on the HTMLImageElement interface reflects the value of the HTML usemap attribute, which is a string providing the name of the client-side image map to apply to the image.
+         * The **`useMap`** property of the HTMLImageElement interface providing the name of the client-side image map to apply to the image. It reflects the <img> element's usemap content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/useMap)
          */
         useMap: string;
         /**
-         * The obsolete **`vspace`** property of the HTMLImageElement interface specifies the number of pixels of empty space to leave empty on the top and bottom of the <img> element when laying out the page.
+         * The deprecated **`vspace`** property of the HTMLImageElement interface specifies the number of pixels of empty space to leave empty on the top and bottom sides of the <img> element when laying out the page. It reflects the <img> element's vspace content attribute.
          * @deprecated
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/vspace)
          */
         vspace: number;
         /**
-         * The **`width`** property of the HTMLImageElement interface indicates the width at which an image is drawn in CSS pixels if it's being drawn or rendered to any visual medium such as a screen or printer. Otherwise, it's the natural, pixel density-corrected width of the image.
+         * The **`width`** property of the HTMLImageElement interface indicates the width at which the image is drawn, in CSS pixels, if the image is being drawn or rendered to any visual medium such as a screen or printer. Otherwise, it's the natural, pixel density-corrected width of the image.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/width)
          */
@@ -1927,7 +1895,7 @@ export namespace DOMTypes {
          */
         disabled: boolean;
         /**
-         * The **`fetchPriority`** property of the HTMLLinkElement interface represents a hint to the browser indicating how it should prioritize fetching a particular resource relative to other resources of the same type. It reflects the fetchpriority attribute of the corresponding <link> element.
+         * The **`fetchPriority`** property of the HTMLLinkElement interface represents a hint to the browser indicating how it should prioritize fetching a particular resource relative to other resources of the same type. It reflects the <link> element's fetchpriority content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLLinkElement/fetchPriority)
          */
@@ -2038,108 +2006,6 @@ export namespace DOMTypes {
         vspace: number;
         /** @deprecated */
         width: string;
-    }
-
-    /**
-     * The **`HTMLMediaElement`** interface adds to HTMLElement the properties and methods needed to support basic media-related capabilities that are common to audio and video.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement)
-     */
-    export interface HTMLMediaElement extends HTMLElement {
-        /**
-         * The **`HTMLMediaElement.autoplay`** property reflects the autoplay HTML attribute, indicating whether playback should automatically begin as soon as enough media is available to do so without interruption.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/autoplay)
-         */
-        autoplay: boolean;
-        /**
-         * The **`HTMLMediaElement.controls`** property reflects the controls HTML attribute, which controls whether user interface controls for playing the media item will be displayed.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/controls)
-         */
-        controls: boolean;
-        /**
-         * The **`HTMLMediaElement.crossOrigin`** property is the CORS setting for this media element. See CORS settings attributes for details.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/crossOrigin)
-         */
-        crossOrigin: string | null;
-        /**
-         * The HTMLMediaElement interface's **`currentTime`** property specifies the current playback time in seconds.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/currentTime)
-         */
-        currentTime: number;
-        /**
-         * The **`HTMLMediaElement.defaultMuted`** property reflects the muted HTML attribute, which indicates whether the media element's audio output should be muted by default. This property has no dynamic effect. To mute and unmute the audio output, use the muted property.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/defaultMuted)
-         */
-        defaultMuted: boolean;
-        /**
-         * The **`HTMLMediaElement.defaultPlaybackRate`** property indicates the default playback rate for the media.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/defaultPlaybackRate)
-         */
-        defaultPlaybackRate: number;
-        /**
-         * The **`disableRemotePlayback`** property of the HTMLMediaElement interface determines whether the media element is allowed to have a remote playback UI.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/disableRemotePlayback)
-         */
-        disableRemotePlayback: boolean;
-        /**
-         * The **`HTMLMediaElement.loop`** property reflects the loop HTML attribute, which controls whether the media element should start over when it reaches the end.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/loop)
-         */
-        loop: boolean;
-        /**
-         * The **`HTMLMediaElement.muted`** property indicates whether the media element is muted.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/muted)
-         */
-        muted: boolean;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/encrypted_event) */
-        onencrypted: ((this: HTMLMediaElement, ev: MediaEncryptedEvent) => any) | null;
-        /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/waitingforkey_event) */
-        onwaitingforkey: ((this: HTMLMediaElement, ev: Event) => any) | null;
-        /**
-         * The **`HTMLMediaElement.playbackRate`** property sets the rate at which the media is being played back. This is used to implement user controls for fast forward, slow motion, and so forth. The normal playback rate is multiplied by this value to obtain the current rate, so a value of 1.0 indicates normal speed.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/playbackRate)
-         */
-        playbackRate: number;
-        /**
-         * The **`preload`** property of the HTMLMediaElement interface is a string that provides a hint to the browser about what the author thinks will lead to the best user experience.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/preload)
-         */
-        preload: "none" | "metadata" | "auto" | "";
-        /**
-         * The **`HTMLMediaElement.preservesPitch`** property determines whether or not the browser should adjust the pitch of the audio to compensate for changes to the playback rate made by setting HTMLMediaElement.playbackRate.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/preservesPitch)
-         */
-        preservesPitch: boolean;
-        /**
-         * The **`HTMLMediaElement.src`** property reflects the value of the HTML media element's src attribute, which indicates the URL of a media resource to use in the element.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/src)
-         */
-        src: string;
-        /**
-         * The **`srcObject`** property of the HTMLMediaElement interface sets or returns the object which serves as the source of the media associated with the HTMLMediaElement, or null if not assigned.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/srcObject)
-         */
-        srcObject: MediaProvider | null;
-        /**
-         * The **`HTMLMediaElement.volume`** property sets the volume at which the media will be played.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/volume)
-         */
-        volume: number;
     }
 
     /**
@@ -2558,7 +2424,7 @@ export namespace DOMTypes {
         /** @deprecated */
         event: string;
         /**
-         * The **`fetchPriority`** property of the HTMLScriptElement interface represents a hint to the browser indicating how it should prioritize fetching an external script relative to other external scripts. It reflects the fetchpriority attribute of the <script> element.
+         * The **`fetchPriority`** property of the HTMLScriptElement interface represents a hint to the browser indicating how it should prioritize fetching an external script relative to other external scripts. It reflects the <script> element's fetchpriority content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLScriptElement/fetchPriority)
          */
@@ -2913,92 +2779,6 @@ export namespace DOMTypes {
 
     /** @deprecated prefer HTMLTableCellElement */
     export interface HTMLTableDataCellElement extends HTMLTableCellElement {
-    }
-
-    /**
-     * The **`HTMLTableCellElement`** interface provides special properties and methods (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of table cells, either header cells (th) or data cells (td), in an HTML document.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement)
-     */
-    export interface HTMLTableCellElement extends HTMLElement {
-        /**
-         * The **`abbr`** property of the HTMLTableCellElement interface indicates an abbreviation associated with the cell.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/abbr)
-         */
-        abbr: string;
-        /**
-         * The **`align`** property of the HTMLTableCellElement interface is a string indicating how to horizontally align text in the th or td table cell.
-         * @deprecated
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/align)
-         */
-        align: string;
-        /** @deprecated */
-        axis: string;
-        /**
-         * The **`HTMLTableCellElement.bgColor`** property is used to set the background color of a cell or get the value of the obsolete `bgColor` attribute, if present.
-         * @deprecated
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/bgColor)
-         */
-        bgColor: string;
-        /**
-         * The **`ch`** property of the HTMLTableCellElement interface does nothing.
-         * @deprecated
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/ch)
-         */
-        ch: string;
-        /**
-         * The **`chOff`** property of the HTMLTableCellElement interface does nothing.
-         * @deprecated
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/chOff)
-         */
-        chOff: string;
-        /**
-         * The **`colSpan`** read-only property of the HTMLTableCellElement interface represents the number of columns this cell must span; this lets the cell occupy space across multiple columns of the table.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/colSpan)
-         */
-        colSpan: number;
-        /**
-         * The **`headers`** property of the HTMLTableCellElement interface contains a list of IDs of th elements that are _headers_ for this specific cell.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/headers)
-         */
-        headers: string;
-        /** @deprecated */
-        height: string;
-        /**
-         * The **`noWrap`** property of the HTMLTableCellElement interface returns a Boolean value indicating if the text of the cell may be wrapped on several lines or not.
-         * @deprecated
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/noWrap)
-         */
-        noWrap: boolean;
-        /**
-         * The **`rowSpan`** read-only property of the HTMLTableCellElement interface represents the number of rows this cell must span; this lets the cell occupy space across multiple rows of the table.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/rowSpan)
-         */
-        rowSpan: number;
-        /**
-         * The **`scope`** property of the HTMLTableCellElement interface indicates the scope of a th cell.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/scope)
-         */
-        scope: string;
-        /**
-         * The **`vAlign`** property of the HTMLTableCellElement interface is a string indicating how to vertically align text in a th or td table cell.
-         * @deprecated
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTableCellElement/vAlign)
-         */
-        vAlign: string;
-        /** @deprecated */
-        width: string;
     }
 
     /**
@@ -3453,11 +3233,30 @@ export namespace DOMTypes {
          */
         download: string;
         /**
+         * The **`hreflang`** property of the SVGAElement interface returns a string indicating the language of the linked resource.
+         *
+         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGAElement/hreflang)
+         */
+        hreflang: string;
+        /**
+         * The **`ping`** property of the SVGAElement interface returns a string that reflects the ping attribute, containing a space-separated list of URLs to which, when the hyperlink is followed, POST requests with the body PING will be sent by the browser (in the background). Typically used for tracking.
+         *
+         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGAElement/ping)
+         */
+        ping: string;
+        referrerPolicy: string;
+        /**
          * The **`rel`** property of the SVGAElement returns a string reflecting the value of the rel attribute of the SVG <a> element.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGAElement/rel)
          */
         rel: string;
+        /**
+         * The **`type`** property of the SVGAElement interface returns a string indicating the MIME type of the linked resource.
+         *
+         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGAElement/type)
+         */
+        type: string;
     }
 
     /**
@@ -3469,7 +3268,7 @@ export namespace DOMTypes {
     }
 
     /**
-     * All of the SVG DOM interfaces that correspond directly to elements in the SVG language derive from the `SVGElement` interface.
+     * All of the SVG DOM interfaces that correspond directly to elements in the SVG language derive from the **`SVGElement`** interface.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGElement)
      */
@@ -3515,14 +3314,6 @@ export namespace DOMTypes {
     }
 
     /**
-     * The **`SVGAnimationElement`** interface is the base interface for all of the animation element interfaces: SVGAnimateElement, SVGSetElement, SVGAnimateColorElement, SVGAnimateMotionElement and SVGAnimateTransformElement.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGAnimationElement)
-     */
-    export interface SVGAnimationElement extends SVGElement, SVGTests {
-    }
-
-    /**
      * The **`SVGCircleElement`** interface is an interface for the <circle> element.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGCircleElement)
@@ -3531,7 +3322,7 @@ export namespace DOMTypes {
     }
 
     /**
-     * The `SVGGeometryElement` interface represents SVG elements whose rendering is defined by geometry with an equivalent path, and which can be filled and stroked.
+     * The **`SVGGeometryElement`** interface represents SVG elements whose rendering is defined by geometry with an equivalent path, and which can be filled and stroked. This includes paths and the basic shapes.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGGeometryElement)
      */
@@ -3568,14 +3359,6 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGDescElement)
      */
     export interface SVGDescElement extends SVGElement {
-    }
-
-    /**
-     * All of the SVG DOM interfaces that correspond directly to elements in the SVG language derive from the **`SVGElement`** interface.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGElement)
-     */
-    export interface SVGElement extends Element, ElementCSSInlineStyle, GlobalEventHandlers, HTMLOrSVGElement {
     }
 
     /**
@@ -3675,14 +3458,6 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEFuncAElement)
      */
     export interface SVGFEFuncAElement extends SVGComponentTransferFunctionElement {
-    }
-
-    /**
-     * The **`SVGComponentTransferFunctionElement`** interface represents a base interface used by the component transfer function interfaces.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGComponentTransferFunctionElement)
-     */
-    export interface SVGComponentTransferFunctionElement extends SVGElement {
     }
 
     /**
@@ -3822,27 +3597,11 @@ export namespace DOMTypes {
     }
 
     /**
-     * The **`SVGGeometryElement`** interface represents SVG elements whose rendering is defined by geometry with an equivalent path, and which can be filled and stroked. This includes paths and the basic shapes.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGGeometryElement)
-     */
-    export interface SVGGeometryElement extends SVGGraphicsElement {
-    }
-
-    /**
      * The SVGGradient interface is a base interface used by SVGLinearGradientElement and SVGRadialGradientElement.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGGradientElement)
      */
     export interface SVGGradientElement extends SVGElement, SVGURIReference {
-    }
-
-    /**
-     * The **`SVGGraphicsElement`** interface represents SVG elements whose primary purpose is to directly render graphics into a group.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGGraphicsElement)
-     */
-    export interface SVGGraphicsElement extends SVGElement, SVGTests {
     }
 
     /**
@@ -3873,14 +3632,6 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGLinearGradientElement)
      */
     export interface SVGLinearGradientElement extends SVGGradientElement {
-    }
-
-    /**
-     * The **`SVGGradient`** interface is a base interface used by SVGLinearGradientElement and SVGRadialGradientElement.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGGradientElement)
-     */
-    export interface SVGGradientElement extends SVGElement, SVGURIReference {
     }
 
     /**
@@ -4071,19 +3822,11 @@ export namespace DOMTypes {
     }
 
     /**
-     * The **`SVGTextPositioningElement`** interface is implemented by elements that support attributes that position individual text glyphs.
+     * The **`SVGTextPositioningElement`** interface is implemented by elements that support attributes that position individual text glyphs. It is inherited by SVGTextElement and SVGTSpanElement.
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGTextPositioningElement)
      */
     export interface SVGTextPositioningElement extends SVGTextContentElement {
-    }
-
-    /**
-     * The **`SVGTextContentElement`** interface is implemented by elements that support rendering child text content.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGTextContentElement)
-     */
-    export interface SVGTextContentElement extends SVGGraphicsElement {
     }
 
     /**
@@ -4108,14 +3851,6 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGTextPathElement)
      */
     export interface SVGTextPathElement extends SVGTextContentElement, SVGURIReference {
-    }
-
-    /**
-     * The **`SVGTextPositioningElement`** interface is implemented by elements that support attributes that position individual text glyphs. It is inherited by SVGTextElement and SVGTSpanElement.
-     *
-     * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGTextPositioningElement)
-     */
-    export interface SVGTextPositioningElement extends SVGTextContentElement {
     }
 
     /**
