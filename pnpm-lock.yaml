@@ -61,8 +61,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       faisceau:
-        specifier: ^0.0.5
-        version: 0.0.5
+        specifier: ^0.1.4
+        version: 0.1.4
       tsdown:
         specifier: ^0.16.6
         version: 0.16.6(synckit@0.11.11)(typescript@5.9.3)
@@ -1175,8 +1175,8 @@ packages:
   exsolve@1.0.8:
     resolution: {integrity: sha512-LmDxfWXwcTArk8fUEnOfSZpHOJ6zOMUJKOtFLFqJLoKJetuQG874Uc7/Kki7zFLzYybmZhp1M7+98pfMqeX8yA==}
 
-  faisceau@0.0.5:
-    resolution: {integrity: sha512-j9XbtgYg4ubkuW5bnVqn4sOi3ffOlEbWXrYyJfXe9n6KYS8xuuNdJwSlT6Ebf8bOdhoS5Sd9yTHe/e+P2cvepg==}
+  faisceau@0.1.4:
+    resolution: {integrity: sha512-VsOIAhzrsiK9FGn+flVmoszqQVHFM5/IVS3FATvLSjbkqYbJNjYu5K8znXByUeV324/xSY5qVLtfv1cudGITSQ==}
 
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
@@ -3331,7 +3331,7 @@ snapshots:
 
   exsolve@1.0.8: {}
 
-  faisceau@0.0.5:
+  faisceau@0.1.4:
     dependencies:
       alien-signals: 3.1.0
 

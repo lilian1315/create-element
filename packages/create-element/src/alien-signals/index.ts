@@ -1,5 +1,6 @@
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
 import type { Children, ElementAttributesTagNameMap } from './types'
+import { setActiveSub } from 'alien-signals'
 import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'
 
 /**
@@ -18,6 +19,8 @@ export function createElement<T extends PrefixedElementTag>(tag: T, attributes?:
   } else {
     element = document.createElement(tag) as ElementPrefixedTagNameMap[T]
   }
+
+  const prevSub = setActiveSub()
 
   if (attributes) {
     for (const name of Reflect.ownKeys(attributes)) {
@@ -50,6 +53,8 @@ export function createElement<T extends PrefixedElementTag>(tag: T, attributes?:
   }
 
   children.forEach((child) => handleSignalChildren(element, child))
+
+  setActiveSub(prevSub)
 
   return element
 }

@@ -1,5 +1,6 @@
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
 import type { Children, ElementAttributesTagNameMap } from './types'
+import { untracked } from 'faisceau'
 import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'
 
 /**
@@ -19,37 +20,39 @@ export function createElement<T extends PrefixedElementTag>(tag: T, attributes?:
     element = document.createElement(tag) as ElementPrefixedTagNameMap[T]
   }
 
-  if (attributes) {
-    for (const name of Reflect.ownKeys(attributes)) {
-      if (name === 'children') {
-        if (Array.isArray(attributes.children)) {
-          attributes.children.forEach((child) => handleSignalChildren(element, child))
-        } else {
-          handleSignalChildren(element, attributes.children)
+  untracked(() => {
+    if (attributes) {
+      for (const name of Reflect.ownKeys(attributes)) {
+        if (name === 'children') {
+          if (Array.isArray(attributes.children)) {
+            attributes.children.forEach((child) => handleSignalChildren(element, child))
+          } else {
+            handleSignalChildren(element, attributes.children)
+          }
+          continue
         }
-        continue
-      }
 
-      if (name === 'class' && attributes.class) {
-        handleClassSignalAttribute(element, attributes.class)
-        continue
-      }
+        if (name === 'class' && attributes.class) {
+          handleClassSignalAttribute(element, attributes.class)
+          continue
+        }
 
-      if (name === 'style' && attributes.style) {
-        handleStyleSignalAttribute(element, attributes.style)
-        continue
-      }
+        if (name === 'style' && attributes.style) {
+          handleStyleSignalAttribute(element, attributes.style)
+          continue
+        }
 
-      if (name === 'data' && attributes.data) {
-        handleDataSignalAttribute(element, attributes.data)
-        continue
-      }
+        if (name === 'data' && attributes.data) {
+          handleDataSignalAttribute(element, attributes.data)
+          continue
+        }
 
-      handleAnySignalAttribute(element, name, attributes[name])
+        handleAnySignalAttribute(element, name, attributes[name])
+      }
     }
-  }
 
-  children.forEach((child) => handleSignalChildren(element, child))
+    children.forEach((child) => handleSignalChildren(element, child))
+  })
 
   return element
 }
