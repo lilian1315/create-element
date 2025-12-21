@@ -33,4 +33,4 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run build
       - run: pnpx jsr publish
-      - run: pnpm publish --filter @lilian1315/* --no-git-checks
+      - run: pnpm publish --filter @lilian1315/* --no-git-checks --public
