@@ -8,7 +8,7 @@ Type-safe `document.createElement` wrapper with JSX support and optional reactiv
 - Support for HTML, SVG, and MathML elements
 - Simple attribute and event handling ([Attributes](#attributes))
 - [JSX Support](#jsx-support)
-- Optional reactive programming with [alien-signals](https://github.com/stackblitz/alien-signals), [alien-deepsignals](https://www.npmjs.com/package/alien-deepsignals), [faisceau](https://github.com/lilian1315/faisceau), and [@preact/signals-core](https://github.com/preactjs/signals) ([Reactive Support](#reactive-support-optional))
+- Optional reactive programming with [alien-signals](https://github.com/stackblitz/alien-signals), [alien-deepsignals](https://github.com/CCherry07/alien-deepsignals), [faisceau](https://github.com/lilian1315/faisceau), [@preact/signals-core](https://github.com/preactjs/signals), and [@vue/reactivity](https://github.com/vuejs/core/tree/main/packages/reactivity) ([Reactive Support](#reactive-support-optional))
 
 ## Installation
 
@@ -103,7 +103,7 @@ function App() {
 }
 ```
 
-For reactive JSX, set `jsxImportSource` to the adapter you use (e.g. `@lilian1315/create-element/alien-signals`, `@lilian1315/create-element/alien-deepsignals`, `@lilian1315/create-element/faisceau`, `@lilian1315/create-element/preact-signals`).
+For reactive JSX, set `jsxImportSource` to the adapter you use (e.g. `@lilian1315/create-element/alien-signals`, `@lilian1315/create-element/alien-deepsignals`, `@lilian1315/create-element/faisceau`, `@lilian1315/create-element/preact-signals`, `@lilian1315/create-element/vue-reactivity`).
 
 ## Reactive Support (Optional)
 
@@ -176,6 +176,23 @@ const counter = h('section', null, [
 ```
 
 Requires: `pnpm add @preact/signals-core`
+
+### @vue/reactivity
+
+```typescript
+import { h } from '@lilian1315/create-element/vue-reactivity'
+import { computed, ref } from '@vue/reactivity'
+
+const count = ref(0)
+const label = computed(() => `Count: ${count.value}`)
+
+const counter = h('section', null, [
+  h('p', null, label),
+  h('button', { onclick: () => count.value++ }, 'Increment'),
+])
+```
+
+Requires: `pnpm add @vue/reactivity`
 
 ## License
 

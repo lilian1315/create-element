@@ -5,7 +5,7 @@
  * It's automatically used by TypeScript/bundlers when in development mode with reactive JSX.
  *
  * @module
- * @requires alien-deepsignals
+ * @requires @vue/reactivity
  */
 
 export * from './jsx-runtime'

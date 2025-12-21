@@ -3,7 +3,7 @@ import type { Children, ElementAttributesTagNameMap } from './types'
 import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'
 
 /**
- * Creates a DOM element with [alien-deepsignals](https://www.npmjs.com/package/alien-deepsignals) aware attributes, styles, datasets, and children.
+ * Creates a DOM element with [@vue/reactivity](https://github.com/vuejs/core/tree/main/packages/reactivity) aware attributes, styles, datasets, and children.
  * @param tag Element tag name including SVG/MathML prefixes.
  * @param attributes Optional attribute bag that can contain reactive `class`, `style`, `data`, and `children` props.
  * @param children Additional children appended after `attributes.children`.

@@ -2,7 +2,7 @@
  * Reactive JSX runtime for @lilian1315/create-element with @vue/reactivity integration.
  *
  * This module provides JSX support with reactive programming capabilities using @vue/reactivity.
- * It enables automatic reactivity for signals and computed values in JSX expressions.
+ * It enables automatic reactivity for refs and computed values in JSX expressions.
  *
  * Configure your tsconfig.json for reactive JSX:
  * ```json
@@ -16,14 +16,14 @@
  *
  * @example
  * ```tsx
- * import { signal } from '@vue/reactivity'
+ * import { ref } from '@vue/reactivity'
  *
  * function Counter({ initialCount = 0 }) {
- *   const count = signal(initialCount)
+ *   const count = ref(initialCount)
  *   return (
  *     <div>
  *       <p>Count: {count}</p>
- *       <button onclick={() => count.set(count.get() + 1)}>
+ *       <button onclick={() => count.value = count.value + 1}>
  *         Increment
  *       </button>
  *     </div>
