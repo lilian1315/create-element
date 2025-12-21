@@ -31,6 +31,6 @@ jobs:
       - run: pnpm install
       - run: pnpm run typecheck
       - run: pnpm run lint
-      - run: pnpm run build
+      - run: pnpm run build:core
       - run: pnpx jsr publish
       - run: pnpm publish --filter @lilian1315/* --no-git-checks --public
