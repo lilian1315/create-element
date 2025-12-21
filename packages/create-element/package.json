@@ -29,6 +29,9 @@
     "./preact-signals": "./dist/preact-signals/index.js",
     "./preact-signals/jsx-dev-runtime": "./dist/preact-signals/jsx-dev-runtime.js",
     "./preact-signals/jsx-runtime": "./dist/preact-signals/jsx-runtime.js",
+    "./vue-reactivity": "./dist/vue-reactivity/index.js",
+    "./vue-reactivity/jsx-dev-runtime": "./dist/vue-reactivity/jsx-dev-runtime.js",
+    "./vue-reactivity/jsx-runtime": "./dist/vue-reactivity/jsx-runtime.js",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.js",
@@ -48,12 +51,16 @@
   },
   "peerDependencies": {
     "@preact/signals-core": "^1.12.1",
+    "@vue/reactivity": "^3.5.26",
     "alien-deepsignals": "^0.3.1",
     "alien-signals": "^3.1.0",
     "faisceau": "^0.1.4"
   },
   "peerDependenciesMeta": {
     "@preact/signals-core": {
+      "optional": true
+    },
+    "@vue/reactivity": {
       "optional": true
     },
     "alien-deepsignals": {
@@ -73,6 +80,7 @@
     "@preact/signals-core": "^1.12.1",
     "@vitest/browser-playwright": "^4.0.13",
     "@vitest/coverage-v8": "4.0.13",
+    "@vue/reactivity": "^3.5.26",
     "alien-deepsignals": "^0.3.1",
     "alien-signals": "^3.1.0",
     "faisceau": "^0.1.4",

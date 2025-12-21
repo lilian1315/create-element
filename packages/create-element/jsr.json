@@ -18,7 +18,10 @@
     "./jsx-runtime": "./src/jsx-runtime.ts",
     "./preact-signals": "./src/preact-signals/index.ts",
     "./preact-signals/jsx-dev-runtime": "./src/preact-signals/jsx-dev-runtime.ts",
-    "./preact-signals/jsx-runtime": "./src/preact-signals/jsx-runtime.ts"
+    "./preact-signals/jsx-runtime": "./src/preact-signals/jsx-runtime.ts",
+    "./vue-reactivity": "./src/vue-reactivity/index.ts",
+    "./vue-reactivity/jsx-dev-runtime": "./src/vue-reactivity/jsx-dev-runtime.ts",
+    "./vue-reactivity/jsx-runtime": "./src/vue-reactivity/jsx-runtime.ts"
   },
   "publish": {
     "include": [

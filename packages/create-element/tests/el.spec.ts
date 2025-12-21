@@ -4,6 +4,7 @@ import { h as hAlienSignals } from '../src/alien-signals/index'
 import { h as hFaisceau } from '../src/faisceau/index'
 import { h as hCore } from '../src/index'
 import { h as hPreactSignals } from '../src/preact-signals/index'
+import { h as hVueReactivity } from '../src/vue-reactivity/index'
 
 const factories: [string, typeof hCore][] = [
   ['core', hCore],
@@ -11,6 +12,7 @@ const factories: [string, typeof hCore][] = [
   ['alien-signals', hAlienSignals],
   ['preact-signals', hPreactSignals],
   ['faisceau', hFaisceau],
+  ['vue-reactivity', hVueReactivity],
 ]
 
 for (const [factoryName, h] of factories) {
