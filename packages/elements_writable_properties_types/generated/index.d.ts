@@ -1754,7 +1754,7 @@ export namespace DOMTypes {
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLInputElement/selectionDirection)
          */
-        selectionDirection: "forward" | "backward" | "none" | null;
+        selectionDirection: SelectionDirection | null;
         /**
          * The **`selectionEnd`** property of the HTMLInputElement interface is a number that represents the end index of the selected text. That is, it represents the index of the character immediately following the selection. Likewise, when there is no selection, this returns the offset of the character immediately following the current text input cursor position.
          *
@@ -3056,7 +3056,7 @@ export namespace DOMTypes {
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement/selectionDirection)
          */
-        selectionDirection: "forward" | "backward" | "none";
+        selectionDirection: SelectionDirection;
         /**
          * The **`selectionEnd`** property of the HTMLTextAreaElement interface specifies the end position of the current text selection in a <textarea> element. It is a number representing the last index of the selected text. It can be used to both retrieve and set the index of the end of a <textarea>s selected text.
          *
@@ -4091,6 +4091,7 @@ export namespace DOMTypes {
     }
 
     export interface MathMLElementTagNameMap {
+        "a": MathMLElement;
         "annotation": MathMLElement;
         "annotation-xml": MathMLElement;
         "maction": MathMLElement;
