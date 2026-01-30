@@ -37,7 +37,7 @@ importers:
         version: 5.9.3
       vite:
         specifier: npm:rolldown-vite@7.1.14
-        version: rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1)
+        version: rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1)
 
   packages/create-element:
     dependencies:
@@ -50,10 +50,10 @@ importers:
         version: 1.12.1
       '@vitest/browser-playwright':
         specifier: ^4.0.13
-        version: 4.0.13(playwright@1.56.1)(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)
+        version: 4.0.13(playwright@1.56.1)(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)
       '@vitest/coverage-v8':
         specifier: 4.0.13
-        version: 4.0.13(@vitest/browser@4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13))(vitest@4.0.13)
+        version: 4.0.13(@vitest/browser@4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13))(vitest@4.0.13)
       '@vue/reactivity':
         specifier: ^3.5.26
         version: 3.5.26
@@ -71,7 +71,7 @@ importers:
         version: 0.16.6(synckit@0.11.11)(typescript@5.9.3)
       vitest:
         specifier: ^4.0.13
-        version: 4.0.13(@types/debug@4.1.12)(@types/node@25.0.3)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
+        version: 4.0.13(@types/debug@4.1.12)(@types/node@25.1.0)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
 
   packages/elements_writable_properties_types:
     devDependencies:
@@ -79,11 +79,11 @@ importers:
         specifier: ^3.11.6
         version: 3.11.6
       '@types/node':
-        specifier: ^24.10.1
-        version: 24.10.4
+        specifier: ^25.1.0
+        version: 25.1.0
       '@types/web':
-        specifier: ^0.0.304
-        version: 0.0.304
+        specifier: ^0.0.324
+        version: 0.0.324
       cli-progress:
         specifier: ^3.12.0
         version: 3.12.0
@@ -168,8 +168,17 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.28.6':
+    resolution: {integrity: sha512-TeR9zWR18BvbfPmGbLampPMW+uW1NZnJlRuuHso8i87QZNq2JRF9i6RgxRqtEq+wQGsS19NNTWr2duhnE49mfQ==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/types@7.28.5':
     resolution: {integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.28.6':
+    resolution: {integrity: sha512-0ZrskXVEHSWIqZM/sQZ4EV3jZJXRkio/WCxaqKZP1g//CEWEPSfeZFcms4XeKBCHU0ZKnIkdJeU/kF+eRp5lBg==}
     engines: {node: '>=6.9.0'}
 
   '@bcoe/v8-coverage@1.0.2':
@@ -392,48 +401,56 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.51':
     resolution: {integrity: sha512-xLd7da5jkfbVsBCm1buIRdWtuXY8+hU3+6ESXY/Tk5X5DPHaifrUblhYDgmA34dQt6WyNC2kfXGgrduPEvDI6Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-arm64-musl@1.0.0-beta.41':
     resolution: {integrity: sha512-MioXcCIX/wB1pBnBoJx8q4OGucUAfC1+/X1ilKFsjDK05VwbLZGRgOVD5OJJpUQPK86DhQciNBrfOKDiatxNmg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rolldown/binding-linux-arm64-musl@1.0.0-beta.51':
     resolution: {integrity: sha512-EQFXTgHxxTzv3t5EmjUP/DfxzFYx9sMndfLsYaAY4DWF6KsK1fXGYsiupif6qPTViPC9eVmRm78q0pZU/kuIPg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rolldown/binding-linux-x64-gnu@1.0.0-beta.41':
     resolution: {integrity: sha512-m66M61fizvRCwt5pOEiZQMiwBL9/y0bwU/+Kc4Ce/Pef6YfoEkR28y+DzN9rMdjo8Z28NXjsDPq9nH4mXnAP0g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-x64-gnu@1.0.0-beta.51':
     resolution: {integrity: sha512-p5P6Xpa68w3yFaAdSzIZJbj+AfuDnMDqNSeglBXM7UlJT14Q4zwK+rV+8Mhp9MiUb4XFISZtbI/seBprhkQbiQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-x64-musl@1.0.0-beta.41':
     resolution: {integrity: sha512-yRxlSfBvWnnfrdtJfvi9lg8xfG5mPuyoSHm0X01oiE8ArmLRvoJGHUTJydCYz+wbK2esbq5J4B4Tq9WAsOlP1Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rolldown/binding-linux-x64-musl@1.0.0-beta.51':
     resolution: {integrity: sha512-sNVVyLa8HB8wkFipdfz1s6i0YWinwpbMWk5hO5S+XAYH2UH67YzUT13gs6wZTKg2x/3gtgXzYnHyF5wMIqoDAw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rolldown/binding-openharmony-arm64@1.0.0-beta.41':
     resolution: {integrity: sha512-PHVxYhBpi8UViS3/hcvQQb9RFqCtvFmFU1PvUoTRiUdBtgHA6fONNHU4x796lgzNlVSD3DO/MZNk1s5/ozSMQg==}
@@ -542,20 +559,17 @@ packages:
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
-  '@types/node@20.19.27':
-    resolution: {integrity: sha512-N2clP5pJhB2YnZJ3PIHFk5RkygRX5WO/5f0WC08tp0wd+sv0rsJk3MqWn3CbNmT2J505a5336jaQj4ph1AdMug==}
+  '@types/node@20.19.30':
+    resolution: {integrity: sha512-WJtwWJu7UdlvzEAUm484QNg5eAoq5QR08KDNx7g45Usrs2NtOPiX8ugDqmKdXkyL03rBqU5dYNYVQetEpBHq2g==}
 
-  '@types/node@24.10.4':
-    resolution: {integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==}
-
-  '@types/node@25.0.3':
-    resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
+  '@types/node@25.1.0':
+    resolution: {integrity: sha512-t7frlewr6+cbx+9Ohpl0NOTKXZNV9xHRmNOvql47BFJKcEG1CxtxlPEEe+gR9uhVWM4DwhnvTF110mIL4yP9RA==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
 
-  '@types/web@0.0.304':
-    resolution: {integrity: sha512-1diXWmsazNWo6nUjbqxRWVK1rJ60z7G1Xy/iJaPfZ6P+l2ReIXixZlxTCRiojgRBobF1vURIEaJyb2rZO1qNqQ==}
+  '@types/web@0.0.324':
+    resolution: {integrity: sha512-/rELleEbupxoPt2puA2FqZ+S4DCjP5vDrd2Te1vQlfj0XlfqjlYJx3r+EK0Yhsjp+uJA/x8ZiC6rqJXqHsu6ig==}
 
   '@types/whatwg-mimetype@3.0.2':
     resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
@@ -1434,24 +1448,28 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.30.2:
     resolution: {integrity: sha512-5Vh9dGeblpTxWHpOx8iauV02popZDsCYMPIgiuw97OJ5uaDsL86cnqSFs5LZkG3ghHoX5isLgWzMs+eD1YzrnA==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.30.2:
     resolution: {integrity: sha512-Cfd46gdmj1vQ+lR6VRTTadNHu6ALuw2pKR9lYq4FnhvgBc4zWY1EtZcAc6EffShbb1MFrIPfLDXD6Xprbnni4w==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.30.2:
     resolution: {integrity: sha512-XJaLUUFXb6/QG2lGIW6aIk6jKdtjtcffUT0NKvIqhSBY3hh9Ch+1LCeH80dR9q9LBjG3ewbDjnumefsLsP6aiA==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.30.2:
     resolution: {integrity: sha512-FZn+vaj7zLv//D/192WFFVA0RgHawIcHqLX9xuWiQt7P0PtdFEVaxgF9rjM/IRYHQXNnk61/H/gb2Ei+kUQ4xQ==}
@@ -2255,7 +2273,16 @@ snapshots:
     dependencies:
       '@babel/types': 7.28.5
 
+  '@babel/parser@7.28.6':
+    dependencies:
+      '@babel/types': 7.28.6
+
   '@babel/types@7.28.5':
+    dependencies:
+      '@babel/helper-string-parser': 7.27.1
+      '@babel/helper-validator-identifier': 7.28.5
+
+  '@babel/types@7.28.6':
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
@@ -2559,7 +2586,7 @@ snapshots:
 
   '@types/cli-progress@3.11.6':
     dependencies:
-      '@types/node': 24.10.4
+      '@types/node': 25.1.0
 
   '@types/debug@4.1.12':
     dependencies:
@@ -2577,23 +2604,18 @@ snapshots:
 
   '@types/ms@2.1.0': {}
 
-  '@types/node@20.19.27':
+  '@types/node@20.19.30':
     dependencies:
       undici-types: 6.21.0
     optional: true
 
-  '@types/node@24.10.4':
+  '@types/node@25.1.0':
     dependencies:
       undici-types: 7.16.0
-
-  '@types/node@25.0.3':
-    dependencies:
-      undici-types: 7.16.0
-    optional: true
 
   '@types/unist@3.0.3': {}
 
-  '@types/web@0.0.304': {}
+  '@types/web@0.0.324': {}
 
   '@types/whatwg-mimetype@3.0.2':
     optional: true
@@ -2690,29 +2712,29 @@ snapshots:
       '@typescript-eslint/types': 8.48.0
       eslint-visitor-keys: 4.2.1
 
-  '@vitest/browser-playwright@4.0.13(playwright@1.56.1)(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)':
+  '@vitest/browser-playwright@4.0.13(playwright@1.56.1)(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)':
     dependencies:
-      '@vitest/browser': 4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)
-      '@vitest/mocker': 4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))
+      '@vitest/browser': 4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)
+      '@vitest/mocker': 4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))
       playwright: 1.56.1
       tinyrainbow: 3.0.3
-      vitest: 4.0.13(@types/debug@4.1.12)(@types/node@25.0.3)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
+      vitest: 4.0.13(@types/debug@4.1.12)(@types/node@25.1.0)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
     transitivePeerDependencies:
       - bufferutil
       - msw
       - utf-8-validate
       - vite
 
-  '@vitest/browser@4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)':
+  '@vitest/browser@4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)':
     dependencies:
-      '@vitest/mocker': 4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))
+      '@vitest/mocker': 4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))
       '@vitest/utils': 4.0.13
       magic-string: 0.30.21
       pixelmatch: 7.1.0
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.0.3
-      vitest: 4.0.13(@types/debug@4.1.12)(@types/node@25.0.3)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
+      vitest: 4.0.13(@types/debug@4.1.12)(@types/node@25.1.0)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
       ws: 8.18.3
     transitivePeerDependencies:
       - bufferutil
@@ -2720,7 +2742,7 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/coverage-v8@4.0.13(@vitest/browser@4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13))(vitest@4.0.13)':
+  '@vitest/coverage-v8@4.0.13(@vitest/browser@4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13))(vitest@4.0.13)':
     dependencies:
       '@bcoe/v8-coverage': 1.0.2
       '@vitest/utils': 4.0.13
@@ -2733,9 +2755,9 @@ snapshots:
       magicast: 0.5.1
       std-env: 3.10.0
       tinyrainbow: 3.0.3
-      vitest: 4.0.13(@types/debug@4.1.12)(@types/node@25.0.3)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
+      vitest: 4.0.13(@types/debug@4.1.12)(@types/node@25.1.0)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
     optionalDependencies:
-      '@vitest/browser': 4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)
+      '@vitest/browser': 4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)
     transitivePeerDependencies:
       - supports-color
 
@@ -2746,7 +2768,7 @@ snapshots:
       eslint: 9.39.1(jiti@2.6.1)
     optionalDependencies:
       typescript: 5.9.3
-      vitest: 4.0.13(@types/debug@4.1.12)(@types/node@25.0.3)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
+      vitest: 4.0.13(@types/debug@4.1.12)(@types/node@25.1.0)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -2759,13 +2781,13 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))':
+  '@vitest/mocker@4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))':
     dependencies:
       '@vitest/spy': 4.0.13
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1)
+      vite: rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1)
 
   '@vitest/pretty-format@4.0.13':
     dependencies:
@@ -2791,7 +2813,7 @@ snapshots:
 
   '@vue/compiler-core@3.5.24':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@vue/shared': 3.5.24
       entities: 4.5.0
       estree-walker: 2.0.2
@@ -2804,7 +2826,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.24':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@vue/compiler-core': 3.5.24
       '@vue/compiler-dom': 3.5.24
       '@vue/compiler-ssr': 3.5.24
@@ -3423,7 +3445,7 @@ snapshots:
 
   happy-dom@20.0.10:
     dependencies:
-      '@types/node': 20.19.27
+      '@types/node': 20.19.30
       '@types/whatwg-mimetype': 3.0.2
       whatwg-mimetype: 3.0.0
     optional: true
@@ -4108,7 +4130,7 @@ snapshots:
     transitivePeerDependencies:
       - oxc-resolver
 
-  rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1):
+  rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1):
     dependencies:
       '@oxc-project/runtime': 0.92.0
       fdir: 6.5.0(picomatch@4.0.3)
@@ -4118,7 +4140,7 @@ snapshots:
       rolldown: 1.0.0-beta.41
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 25.0.3
+      '@types/node': 25.1.0
       fsevents: 2.3.3
       jiti: 2.6.1
       yaml: 2.8.1
@@ -4352,10 +4374,10 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vitest@4.0.13(@types/debug@4.1.12)(@types/node@25.0.3)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1):
+  vitest@4.0.13(@types/debug@4.1.12)(@types/node@25.1.0)(@vitest/browser-playwright@4.0.13)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1):
     dependencies:
       '@vitest/expect': 4.0.13
-      '@vitest/mocker': 4.0.13(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))
+      '@vitest/mocker': 4.0.13(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))
       '@vitest/pretty-format': 4.0.13
       '@vitest/runner': 4.0.13
       '@vitest/snapshot': 4.0.13
@@ -4372,12 +4394,12 @@ snapshots:
       tinyexec: 0.3.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1)
+      vite: rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/debug': 4.1.12
-      '@types/node': 25.0.3
-      '@vitest/browser-playwright': 4.0.13(playwright@1.56.1)(rolldown-vite@7.1.14(@types/node@25.0.3)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)
+      '@types/node': 25.1.0
+      '@vitest/browser-playwright': 4.0.13(playwright@1.56.1)(rolldown-vite@7.1.14(@types/node@25.1.0)(jiti@2.6.1)(yaml@2.8.1))(vitest@4.0.13)
       happy-dom: 20.0.10
     transitivePeerDependencies:
       - esbuild

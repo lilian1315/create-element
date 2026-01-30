@@ -24,8 +24,8 @@
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
-    "@types/node": "^24.10.1",
-    "@types/web": "^0.0.304",
+    "@types/node": "^25.1.0",
+    "@types/web": "^0.0.324",
     "cli-progress": "^3.12.0",
     "ts-morph": "^27.0.2"
   }
