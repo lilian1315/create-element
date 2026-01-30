@@ -54,8 +54,8 @@ for (const iface of interfaces) {
 }
 progressBar.stop()
 
-console.log('Finding event handlers names...')
-progressBar.start(selectedInterfaces.size, 0, { info: '' })
+// console.log('Finding event handlers names...')
+// progressBar.start(selectedInterfaces.size, 0, { info: '' })
 
 // selectedInterfaces.forEach((i) => {
 //     progressBar.increment(1, { info: ' | Checking ' + i.getName() })
@@ -67,7 +67,7 @@ progressBar.start(selectedInterfaces.size, 0, { info: '' })
 //     });
 // })
 
-progressBar.stop()
+// progressBar.stop()
 
 const tempFile = tempProject.createSourceFile('temp.ts')
 tempFile.addInterfaces(Array.from(selectedInterfaces).map((i) => i.getStructure()))
