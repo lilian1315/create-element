@@ -159,19 +159,12 @@ export namespace DOMTypes {
      */
     interface Element extends Node, ARIAMixin, Animatable, ChildNode, NonDocumentTypeChildNode, ParentNode, Slottable {
         part: string;
-        textContent: string;
         /**
          * The **`id`** property of the Element interface represents the element's identifier, reflecting the id global attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/id)
          */
         id: string;
-        /**
-         * The **`innerHTML`** property of the Element interface gets or sets the HTML or XML markup contained within the element, omitting any shadow roots in both cases.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/innerHTML)
-         */
-        innerHTML: string;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/fullscreenchange_event) */
         onfullscreenchange: ((this: Element, ev: Event) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/fullscreenerror_event) */
