@@ -119,7 +119,7 @@ for (const [factoryName, h] of factories) {
           true: true,
           false: false,
           null: null,
-          undefined: undefined,
+          undefined,
         },
       })
 
