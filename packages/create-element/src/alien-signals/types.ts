@@ -27,9 +27,7 @@ type StyleSignalAttribute =
   | MaybeReactive<string>
   | Partial<MayBeReactiveObject<CSSStyleDeclaration>>
 
-type DataSignalAttribute =
-  | DOMStringMap
-  | MayBeReactiveObject<DOMStringMap>
+type DataSignalAttribute = MayBeReactiveObject<SpecialAttributes['data']>
 
 type InnerHTMLSignalAttribute = MaybeReactive<string>
 

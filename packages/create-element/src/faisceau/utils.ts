@@ -68,9 +68,10 @@ export function handleDataSignalAttribute(element: DomElement, value: SpecialAtt
     effect(() => {
       let v = value[k]
       if (isSignal(v) || isComputed(v)) v = v.get()
-      if (typeof v === 'string') {
-        element.dataset[k] = v
-      }
+        
+      if (v === true) element.dataset[k] = ''
+      else if (typeof v === 'string') element.dataset[k] = v
+      else delete element.dataset[k]
     })
   }
 }

@@ -116,11 +116,19 @@ for (const [factoryName, h] of factories) {
         data: {
           name: 'test',
           other: 'other test',
+          true: true,
+          false: false,
+          null: null,
+          undefined: undefined,
         },
       })
 
       expect(element.dataset.name).toBe('test')
       expect(element.dataset.other).toBe('other test')
+      expect(element.dataset.true).toBe('')
+      expect(element.dataset.false).toBeUndefined()
+      expect(element.dataset.null).toBeUndefined()
+      expect(element.dataset.undefined).toBeUndefined()
     })
 
     it('support children property / attribute', () => {

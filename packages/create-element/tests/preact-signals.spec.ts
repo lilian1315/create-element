@@ -146,10 +146,12 @@ it('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>)', () => {
 it('support signal / computed data attribute', () => {
   const name = signal('test')
   const other = computed(() => `other ${name.value}`)
+  const special = signal<string | boolean | null | undefined>('one')
   const element = h('main', {
     data: {
       name,
       other,
+      special,
     },
   })
 
@@ -160,6 +162,22 @@ it('support signal / computed data attribute', () => {
 
   expect(element.dataset.name).toBe('TEST')
   expect(element.dataset.other).toBe('other TEST')
+
+  expect(element.dataset.special).toBe('one')
+  special.value = true
+  expect(element.dataset.special).toBe('')
+  special.value = 'two'
+  expect(element.dataset.special).toBe('two')
+  special.value = null
+  expect(element.dataset.special).toBeUndefined()
+  special.value = 'three'
+  expect(element.dataset.special).toBe('three')
+  special.value = undefined
+  expect(element.dataset.special).toBeUndefined()
+  special.value = 'four'
+  expect(element.dataset.special).toBe('four')
+  special.value = false
+  expect(element.dataset.special).toBeUndefined()
 })
 
 it('support children property / attribute with signals / computed child', () => {

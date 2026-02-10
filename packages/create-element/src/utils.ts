@@ -49,7 +49,11 @@ export function handleStyleAttribute(element: DomElement, value: SpecialAttribut
 }
 
 export function handleDataAttribute(element: DomElement, value: SpecialAttributes['data']): void {
-  Object.assign(element.dataset, value)
+  for (const [k, v] of Object.entries(value)) {
+    if (v === true) element.dataset[k] = ''
+    else if (typeof v === 'string') element.dataset[k] = v
+    else delete element.dataset[k]
+  }
 }
 
 export function handleChildren(element: DomElement, children: Children) {

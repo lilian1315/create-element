@@ -9,7 +9,7 @@ export type DomElement = HTMLElement | SVGElement | MathMLElement
 export interface SpecialAttributes<
   ClassAttribute = string | string[] | { [className: string]: boolean },
   StyleAttribute = string | Partial<CSSStyleDeclaration>,
-  DataAttribute = DOMStringMap,
+  DataAttribute = { [name: string]: string | boolean | undefined | null },
   ChildrenAttribute = Children,
   InnerHTMLAttribute = string,
 > {
