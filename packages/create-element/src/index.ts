@@ -1,12 +1,19 @@
-import type { Children, ElementAttributesTagNameMap, ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from './types'
+import type { Children, ElementAttributesTagNameMap, ElementPrefixedTagNameMap, PrefixedElementTag, Prettify, WithChildren, WithInnerHTML } from './types'
 import { handleAnyAttribute, handleChildren, handleClassAttribute, handleDataAttribute, handleStyleAttribute } from './utils'
 
+/**
+ * Creates a DOM element (HTML, SVG, or MathML) with type-safe attributes and children handling.
+ * @param tag Element tag name, optionally prefixed with `svg:` or `math:` for namespace aware nodes.
+ * @param attributes Optional attribute bag including `class`, `style`, `data` and `innerHTML` helpers. Cannot have children when innerHTML is set.
+ */
+export function createElement<T extends PrefixedElementTag>(tag: T, attributes: Prettify<WithInnerHTML<ElementAttributesTagNameMap[T]>>): ElementPrefixedTagNameMap[T]
 /**
  * Creates a DOM element (HTML, SVG, or MathML) with type-safe attributes and children handling.
  * @param tag Element tag name, optionally prefixed with `svg:` or `math:` for namespace aware nodes.
  * @param attributes Optional attribute bag including `class`, `style`, `data`, and `children` helpers.
  * @param children Additional child nodes appended after `attributes.children`.
  */
+export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<WithChildren<ElementAttributesTagNameMap[T]>> | null, ...children: Children[]): ElementPrefixedTagNameMap[T]
 export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
   let element: ElementPrefixedTagNameMap[T]
 

@@ -18,15 +18,22 @@
  */
 
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
-import type { Children, ElementAttributesTagNameMap } from './types'
+import type { Children, ElementAttributesTagNameMap, WithChildren, WithInnerHTML } from './types'
 import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'
 
+/**
+ * Creates a DOM element with [alien-deepsignals](https://github.com/CCherry07/alien-deepsignals) aware attributes, styles, datasets, and innerHTML.
+ * @param tag Element tag name including SVG/MathML prefixes.
+ * @param attributes Optional attribute bag that can contain reactive `class`, `style`, `data`, and `innerHTML` props. Cannot have children when innerHTML is set.
+ */
+export function createElement<T extends PrefixedElementTag>(tag: T, attributes: Prettify<WithInnerHTML<ElementAttributesTagNameMap[T]>>): ElementPrefixedTagNameMap[T]
 /**
  * Creates a DOM element with [alien-deepsignals](https://github.com/CCherry07/alien-deepsignals) aware attributes, styles, datasets, and children.
  * @param tag Element tag name including SVG/MathML prefixes.
  * @param attributes Optional attribute bag that can contain reactive `class`, `style`, `data`, and `children` props.
  * @param children Additional children appended after `attributes.children`.
  */
+export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<WithChildren<ElementAttributesTagNameMap[T]>> | null, ...children: Children[]): ElementPrefixedTagNameMap[T]
 export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
   let element: ElementPrefixedTagNameMap[T]
 

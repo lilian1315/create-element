@@ -16,7 +16,7 @@ const factories: [string, typeof hCore][] = [
 ]
 
 for (const [factoryName, h] of factories) {
-  describe(`h (${factoryName})`, () => {
+  describe(`create-element (${factoryName})`, () => {
     it.concurrent('create whith just tag', () => {
       expect(h('a')).toBeInstanceOf(HTMLAnchorElement)
       expect(h('div')).toBeInstanceOf(HTMLDivElement)
@@ -166,6 +166,15 @@ for (const [factoryName, h] of factories) {
 
       doTest(h('aside', { children }))
       doTest(h('aside', null, ...children))
+    })
+
+    it.concurrent('support innerHTML attribute', () => {
+      const element = h('div', {
+        innerHTML: '<p>Test innerHTML</p><span>With a span</span>',
+      })
+
+      expect(element.childNodes[0]).toBeInstanceOf(HTMLParagraphElement)
+      expect(element.childNodes[1]).toBeInstanceOf(HTMLSpanElement)
     })
   })
 }

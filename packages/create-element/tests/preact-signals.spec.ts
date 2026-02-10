@@ -247,3 +247,20 @@ it.concurrent('support children property / attribute with reactive array', () =>
   doTestReactiveArray((children) => h('div', { children }))
   doTestReactiveArray((children) => h('div', null, ...children))
 })
+
+it.concurrent('support reactive innerHTML attribute', () => {
+  const innerHTML = signal('<p>Test innerHTML</p><span>With a span</span>')
+  const element = h('div', { innerHTML })
+
+  expect(element.childNodes[0]).toBeInstanceOf(HTMLParagraphElement)
+  expect(element.childNodes[1]).toBeInstanceOf(HTMLSpanElement)
+
+  innerHTML.value = '<h3>New innerHTML</h3><a href="#">With a link</a>'
+
+  expect(element.childNodes[0]).toBeInstanceOf(HTMLHeadingElement)
+  expect(element.childNodes[1]).toBeInstanceOf(HTMLAnchorElement)
+
+  innerHTML.value = ''
+
+  expect(element.childNodes.length).toBe(0)
+})

@@ -11,6 +11,7 @@ export interface SpecialAttributes<
   StyleAttribute = string | Partial<CSSStyleDeclaration>,
   DataAttribute = DOMStringMap,
   ChildrenAttribute = Children,
+  InnerHTMLAttribute = string,
 > {
   /**
    * Add class to the element. Can be provided in multiple formats:
@@ -22,6 +23,7 @@ export interface SpecialAttributes<
   style: StyleAttribute
   data: DataAttribute
   children: ChildrenAttribute | ChildrenAttribute[]
+  innerHTML: InnerHTMLAttribute
 }
 
 export type SVGElementPrefixedTagTagMap = { svg: 'svg' } & {
@@ -58,6 +60,23 @@ export type ElementPrefixedTagNameMap = {
   T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] :
   T extends keyof HTMLElementDeprecatedTagNameMap ? HTMLElementDeprecatedTagNameMap[T] :
   never
+}
+
+export type WithChildren<T> = T & {
+  /**
+   * Adds child nodes to the element. When this attribute is used, `innerHTML` must not be provided.
+   */
+  children?: SpecialAttributes['children']
+  innerHTML?: never
+}
+
+export type WithInnerHTML<T> = T & {
+  /**
+   * Sets the innerHTML of the element. When this attribute is used, `children` must not be provided.
+   * Attention: Using `innerHTML` can expose your application to security risks like Cross-Site Scripting (XSS) attacks if the content is not properly sanitized.
+   */
+  innerHTML?: string
+  children?: never
 }
 
 export type Prettify<T> = {
