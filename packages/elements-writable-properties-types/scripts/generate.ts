@@ -75,7 +75,7 @@ tempFile.addInterfaces(Array.from(selectedInterfaces).map((i) => i.getStructure(
 const tempFileInterfaces = tempFile.getInterfaces()
 const generatedTypesFile = tempProject.createSourceFile('generated_types.ts')
 
-console.log('Removing unwanted interface members, transforming getters/setters to properties and adding camelcase version for event handlers...')
+console.log('Removing unwanted interface members and transforming getters/setters to properties...')
 progressBar.start(tempFileInterfaces.map((i) => i.getMembers().length).reduce((a, b) => a + b, 0), 0, { info: '' })
 
 await Promise.all(tempFileInterfaces.map(async (i) => {
