@@ -34,8 +34,6 @@
     "./vue-reactivity/jsx-runtime": "./dist/vue-reactivity/jsx-runtime.js",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "README.md",
