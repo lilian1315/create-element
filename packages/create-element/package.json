@@ -1,7 +1,7 @@
 {
   "name": "@lilian1315/create-element",
   "type": "module",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Type-safe `document.createElement` wrapper with JSX support and optional reactive lib integrations for building DOM elements.",
   "source": "src/index.ts",
   "author": "lilian1315",
