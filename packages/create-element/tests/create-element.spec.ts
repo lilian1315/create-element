@@ -17,7 +17,7 @@ const factories: [string, typeof hCore][] = [
 
 for (const [factoryName, h] of factories) {
   describe(`create-element (${factoryName})`, () => {
-    it.concurrent('create whith just tag', () => {
+    it('create whith just tag', () => {
       expect(h('a')).toBeInstanceOf(HTMLAnchorElement)
       expect(h('div')).toBeInstanceOf(HTMLDivElement)
       expect(h('svg')).toBeInstanceOf(SVGSVGElement)
@@ -26,7 +26,7 @@ for (const [factoryName, h] of factories) {
       expect(h('math:mi')).toBeInstanceOf(Element) // MathMLElement not supported by Happy Dom
     })
 
-    it.concurrent('create whith tag and attributes', () => {
+    it('create whith tag and attributes', () => {
       const element = h('img', {
         src: 'http://test/img.png',
         alt: 'image test',
@@ -38,7 +38,7 @@ for (const [factoryName, h] of factories) {
       expect(element.hidden).toBe(true)
     })
 
-    it.concurrent('create whith tag and unknown attributes', () => {
+    it('create whith tag and unknown attributes', () => {
       const symbol = Symbol('test symbol')
       const element = h('picture', {
         [symbol]: 'Test symbol',
@@ -49,21 +49,21 @@ for (const [factoryName, h] of factories) {
       expect(element.getAttribute('unknown')).toBe('Test unknown')
     })
 
-    it.concurrent('support class attribute (string)', () => {
+    it('support class attribute (string)', () => {
       const element = h('span', { class: 'class1 class2' })
 
       expect(element.classList.contains('class1')).toBe(true)
       expect(element.classList.contains('class2')).toBe(true)
     })
 
-    it.concurrent('support class attribute (array)', () => {
+    it('support class attribute (array)', () => {
       const element = h('span', { class: ['class1', 'class2'] })
 
       expect(element.classList.contains('class1')).toBe(true)
       expect(element.classList.contains('class2')).toBe(true)
     })
 
-    it.concurrent('support class attribute (object)', () => {
+    it('support class attribute (object)', () => {
       const element = h('span', {
         class: {
           class1: true,
@@ -77,14 +77,14 @@ for (const [factoryName, h] of factories) {
       expect(element.classList.contains('class3')).toBe(false)
     })
 
-    it.concurrent('support style attribute (string)', () => {
+    it('support style attribute (string)', () => {
       const element = h('h2', { style: 'color: red; font-size: 19px' })
 
       expect(element.style.color).toBe('red')
       expect(element.style.fontSize).toBe('19px')
     })
 
-    it.concurrent('support style attribute (object)', () => {
+    it('support style attribute (object)', () => {
       const element = h('h2', {
         style: {
           color: 'red',
@@ -96,7 +96,7 @@ for (const [factoryName, h] of factories) {
       expect(element.style.fontSize).toBe('19px')
     })
 
-    it.concurrent('support event listener attribute', () => {
+    it('support event listener attribute', () => {
       const onclick = vi.fn(() => null)
       const element = h('p', { onclick })
 
@@ -111,7 +111,7 @@ for (const [factoryName, h] of factories) {
       expect(onchange).toHaveBeenCalledOnce()
     })
 
-    it.concurrent('support data attribute', () => {
+    it('support data attribute', () => {
       const element = h('main', {
         data: {
           name: 'test',
@@ -123,7 +123,7 @@ for (const [factoryName, h] of factories) {
       expect(element.dataset.other).toBe('other test')
     })
 
-    it.concurrent('support children property / attribute', () => {
+    it('support children property / attribute', () => {
       const span = h('span', { children: 'span element' })
       const span2 = h('span', null, ' span2 element')
       const span3 = h('span', null, ' span3 element')
@@ -168,7 +168,7 @@ for (const [factoryName, h] of factories) {
       doTest(h('aside', null, ...children))
     })
 
-    it.concurrent('support innerHTML attribute', () => {
+    it('support innerHTML attribute', () => {
       const element = h('div', {
         innerHTML: '<p>Test innerHTML</p><span>With a span</span>',
       })

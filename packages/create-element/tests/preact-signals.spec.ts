@@ -3,7 +3,7 @@ import { computed, signal } from '@preact/signals-core'
 import { expect, it } from 'vitest'
 import { h } from '../src/preact-signals/index'
 
-it.concurrent('support signal / computed attributes', () => {
+it('support signal / computed attributes', () => {
   const title = signal('initial title')
   const cols = signal(20)
   const hidden = signal(true)
@@ -27,7 +27,7 @@ it.concurrent('support signal / computed attributes', () => {
   expect(p.title).toBe('computed: new title')
 })
 
-it.concurrent('support class attribute ((Signal|Computed)<string>)', () => {
+it('support class attribute ((Signal|Computed)<string>)', () => {
   const className = signal('class1 class2')
   const element = h('span', { class: className })
   const element2 = h('span', { class: computed(() => className.value) })
@@ -51,7 +51,7 @@ it.concurrent('support class attribute ((Signal|Computed)<string>)', () => {
   expect(element2.classList.contains('class4')).toBe(true)
 })
 
-it.concurrent('support class attribute ((Signal|Computed)<string[]>)', () => {
+it('support class attribute ((Signal|Computed)<string[]>)', () => {
   const classArray = signal(['class1', 'class2'])
   const element = h('span', { class: classArray })
   const element2 = h('span', { class: computed(() => classArray.value) })
@@ -75,7 +75,7 @@ it.concurrent('support class attribute ((Signal|Computed)<string[]>)', () => {
   expect(element2.classList.contains('class4')).toBe(true)
 })
 
-it.concurrent('support class attribute ({ [className: string]: (Signal|Computed)<boolean> })', () => {
+it('support class attribute ({ [className: string]: (Signal|Computed)<boolean> })', () => {
   const isSelected = signal(true)
   const isNotSelected = computed(() => !isSelected.value)
   const element = h('span', {
@@ -100,7 +100,7 @@ it.concurrent('support class attribute ({ [className: string]: (Signal|Computed)
   expect(element.classList.contains('class2')).toBe(false)
 })
 
-it.concurrent('support style attribute ((Signal|Computed)<string>)', () => {
+it('support style attribute ((Signal|Computed)<string>)', () => {
   const style = signal('color: red; font-size: 19px')
   const computedTitle = computed(() => `${style.value}; font-weight: bold`)
   const element = h('h2', { style })
@@ -121,7 +121,7 @@ it.concurrent('support style attribute ((Signal|Computed)<string>)', () => {
   expect(element2.style.fontWeight).toBe('bold')
 })
 
-it.concurrent('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>)', () => {
+it('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>)', () => {
   const fontSize = signal('19px')
   const lineHeightRaw = signal(1.5)
   const lineHeight = computed(() => `${lineHeightRaw.value}em`)
@@ -143,7 +143,7 @@ it.concurrent('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>
   expect(element.style.lineHeight).toBe('2em')
 })
 
-it.concurrent('support signal / computed data attribute', () => {
+it('support signal / computed data attribute', () => {
   const name = signal('test')
   const other = computed(() => `other ${name.value}`)
   const element = h('main', {
@@ -162,7 +162,7 @@ it.concurrent('support signal / computed data attribute', () => {
   expect(element.dataset.other).toBe('other TEST')
 })
 
-it.concurrent('support children property / attribute with signals / computed child', () => {
+it('support children property / attribute with signals / computed child', () => {
   const doTestChild = (factory: (children: Children[]) => HTMLElement) => {
     const numberSignal = signal(1)
     const computedChild = computed(() => `Computed number: ${numberSignal.value}`)
@@ -200,7 +200,7 @@ it.concurrent('support children property / attribute with signals / computed chi
   doTestChild((children) => h('div', null, ...children))
 })
 
-it.concurrent('support children property / attribute with reactive array', () => {
+it('support children property / attribute with reactive array', () => {
   const doTestReactiveArray = (factory: (children: Children[]) => HTMLElement) => {
     const node = h('span', { children: 'first node' })
     const node2 = h('span', { children: 'Other node' })
@@ -248,7 +248,7 @@ it.concurrent('support children property / attribute with reactive array', () =>
   doTestReactiveArray((children) => h('div', null, ...children))
 })
 
-it.concurrent('support reactive innerHTML attribute', () => {
+it('support reactive innerHTML attribute', () => {
   const innerHTML = signal('<p>Test innerHTML</p><span>With a span</span>')
   const element = h('div', { innerHTML })
 

@@ -3,7 +3,7 @@ import { computed, ref } from '@vue/reactivity'
 import { expect, it } from 'vitest'
 import { h } from '../src/vue-reactivity/index'
 
-it.concurrent('support ref / computed attributes', () => {
+it('support ref / computed attributes', () => {
   const title = ref('initial title')
   const cols = ref(20)
   const hidden = ref(true)
@@ -27,7 +27,7 @@ it.concurrent('support ref / computed attributes', () => {
   expect(p.title).toBe('computed: new title')
 })
 
-it.concurrent('support class attribute ((Ref|ComputedRef)<string>)', () => {
+it('support class attribute ((Ref|ComputedRef)<string>)', () => {
   const className = ref('class1 class2')
   const element = h('span', { class: className })
   const element2 = h('span', { class: computed(() => className.value) })
@@ -51,7 +51,7 @@ it.concurrent('support class attribute ((Ref|ComputedRef)<string>)', () => {
   expect(element2.classList.contains('class4')).toBe(true)
 })
 
-it.concurrent('support class attribute ((Ref|ComputedRef)<string[]>)', () => {
+it('support class attribute ((Ref|ComputedRef)<string[]>)', () => {
   const classArray = ref(['class1', 'class2'])
   const element = h('span', { class: classArray })
   const element2 = h('span', { class: computed(() => classArray.value) })
@@ -75,7 +75,7 @@ it.concurrent('support class attribute ((Ref|ComputedRef)<string[]>)', () => {
   expect(element2.classList.contains('class4')).toBe(true)
 })
 
-it.concurrent('support class attribute ({ [className: string]: (Ref|ComputedRef)<boolean> })', () => {
+it('support class attribute ({ [className: string]: (Ref|ComputedRef)<boolean> })', () => {
   const isSelected = ref(true)
   const isNotSelected = computed(() => !isSelected.value)
   const element = h('span', {
@@ -100,7 +100,7 @@ it.concurrent('support class attribute ({ [className: string]: (Ref|ComputedRef)
   expect(element.classList.contains('class2')).toBe(false)
 })
 
-it.concurrent('support style attribute ((Ref|ComputedRef)<string>)', () => {
+it('support style attribute ((Ref|ComputedRef)<string>)', () => {
   const style = ref('color: red; font-size: 19px')
   const computedTitle = computed(() => `${style.value}; font-weight: bold`)
   const element = h('h2', { style })
@@ -121,7 +121,7 @@ it.concurrent('support style attribute ((Ref|ComputedRef)<string>)', () => {
   expect(element2.style.fontWeight).toBe('bold')
 })
 
-it.concurrent('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>)', () => {
+it('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>)', () => {
   const fontSize = ref('19px')
   const lineHeightRaw = ref(1.5)
   const lineHeight = computed(() => `${lineHeightRaw.value}em`)
@@ -143,7 +143,7 @@ it.concurrent('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>
   expect(element.style.lineHeight).toBe('2em')
 })
 
-it.concurrent('support ref / computed data attribute', () => {
+it('support ref / computed data attribute', () => {
   const name = ref('test')
   const other = computed(() => `other ${name.value}`)
   const element = h('main', {
@@ -162,7 +162,7 @@ it.concurrent('support ref / computed data attribute', () => {
   expect(element.dataset.other).toBe('other TEST')
 })
 
-it.concurrent('support children property / attribute with refs / computed child', () => {
+it('support children property / attribute with refs / computed child', () => {
   const doTestChild = (factory: (children: Children[]) => HTMLElement) => {
     const numberSignal = ref(1)
     const computedChild = computed(() => `ComputedRef number: ${numberSignal.value}`)
@@ -200,7 +200,7 @@ it.concurrent('support children property / attribute with refs / computed child'
   doTestChild((children) => h('div', null, ...children))
 })
 
-it.concurrent('support children property / attribute with reactive array', () => {
+it('support children property / attribute with reactive array', () => {
   const doTestReactiveArray = (factory: (children: Children[]) => HTMLElement) => {
     const node = h('span', { children: 'first node' })
     const node2 = h('span', { children: 'Other node' })
@@ -248,7 +248,7 @@ it.concurrent('support children property / attribute with reactive array', () =>
   doTestReactiveArray((children) => h('div', null, ...children))
 })
 
-it.concurrent('support reactive innerHTML attribute', () => {
+it('support reactive innerHTML attribute', () => {
   const innerHTML = ref('<p>Test innerHTML</p><span>With a span</span>')
   const element = h('div', { innerHTML })
 
