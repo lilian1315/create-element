@@ -60,7 +60,18 @@ h('div', { style: { color: 'red', fontSize: '16px' } })
 h('button', { onclick: () => console.log('clicked') })
 
 // Data attributes
-h('div', { data: { testId: 'my-component' } })
+h('div', {
+  data: {
+    testId: 'my-component',
+    active: true, // data-active=""
+    hidden: false, // removed
+    count: null, // removed
+    empty: undefined // removed
+  }
+})
+
+// InnerHTML (cannot be used with children attribute or property)
+h('div', { innerHTML: '<span>content</span>' })
 ```
 
 ### SVG and MathML
