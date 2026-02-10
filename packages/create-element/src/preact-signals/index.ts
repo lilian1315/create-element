@@ -19,6 +19,7 @@
 
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
 import type { Children, ElementAttributesTagNameMap, WithChildren, WithInnerHTML } from './types'
+import { createBaseElement } from '../utils'
 import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'
 
 /**
@@ -35,15 +36,7 @@ export function createElement<T extends PrefixedElementTag>(tag: T, attributes: 
  */
 export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<WithChildren<ElementAttributesTagNameMap[T]>> | null, ...children: Children[]): ElementPrefixedTagNameMap[T]
 export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
-  let element: ElementPrefixedTagNameMap[T]
-
-  if (tag === 'svg' || tag.startsWith('svg:')) {
-    element = document.createElementNS('http://www.w3.org/2000/svg', tag === 'svg' ? 'svg' : tag.substring(4)) as ElementPrefixedTagNameMap[T]
-  } else if (tag === 'math' || tag.startsWith('math:')) {
-    element = document.createElementNS('http://www.w3.org/1998/Math/MathML', tag === 'math' ? 'math' : tag.substring(5)) as ElementPrefixedTagNameMap[T]
-  } else {
-    element = document.createElement(tag) as ElementPrefixedTagNameMap[T]
-  }
+  const element = createBaseElement(tag)
 
   if (attributes) {
     for (const name of Reflect.ownKeys(attributes)) {
