@@ -1,5 +1,6 @@
 import type { PropertySignature, SourceFile, ts, Type, TypeElementTypes } from 'ts-morph'
 import { SyntaxKind } from 'ts-morph'
+
 import { flattenUnion } from './flatten_union.ts'
 
 export function isEventHandler(

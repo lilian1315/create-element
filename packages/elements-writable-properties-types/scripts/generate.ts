@@ -1,7 +1,9 @@
-import type { InterfaceDeclaration } from 'ts-morph'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+
 import { SingleBar } from 'cli-progress'
+import type { InterfaceDeclaration } from 'ts-morph'
 import { ModuleDeclarationKind, Project, SyntaxKind } from 'ts-morph'
+
 import { getExcludedInterfaceMembers } from './utils/get_excluded_interface_members.ts'
 import { getInterfaceRecursiveExtends } from './utils/get_interface_recursive_extends.ts'
 // import { isEventHandler } from "./utils/is_event_handler.ts"

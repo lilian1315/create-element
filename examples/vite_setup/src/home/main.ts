@@ -1,9 +1,11 @@
+import viteLogo from '/vite.svg'
 import { h } from '@lilian1315/create-element'
+
 import { createCounter } from './counter.ts'
 import { createTodolist } from './todolist.ts'
-import typescriptLogo from './typescript.svg'
+
 import '../style.css'
-import viteLogo from '/vite.svg'
+import typescriptLogo from './typescript.svg'
 
 document
   .querySelector<HTMLDivElement>('#app')!

@@ -1,6 +1,7 @@
-import type { DeepSignal } from 'alien-deepsignals'
 import { h } from '@lilian1315/create-element/alien-deepsignals'
+import type { DeepSignal } from 'alien-deepsignals'
 import { batch, computed, deepSignal, watch } from 'alien-deepsignals'
+
 import { debounce } from '../debounce'
 
 type Todo = DeepSignal<{ id: string; title: string; isDone: boolean }>

@@ -1,7 +1,8 @@
-import type { JSX } from '@lilian1315/create-element/alien-deepsignals/jsx-runtime'
-import type { Category, PostProps } from './post'
 import { h } from '@lilian1315/create-element'
+import type { JSX } from '@lilian1315/create-element/alien-deepsignals/jsx-runtime'
 import { computed, isComputed, signal } from 'alien-deepsignals'
+
+import type { Category, PostProps } from './post'
 import { Post } from './post'
 
 const postElementMap = new WeakMap<object, JSX.Element>()
