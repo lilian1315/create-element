@@ -1,6 +1,6 @@
 import type { Child, DomElement } from '../types'
 import type { Children, ReactiveChild, SpecialAttributesSignal } from './types'
-import { effect, isComputed, isSignal } from 'faisceau'
+import { effect, isReactive, unwrap } from 'faisceau'
 import {
   childToNode,
   handleAnyAttribute,
@@ -14,7 +14,7 @@ export function handleAnySignalAttribute(
   key: string | symbol,
   value: any,
 ): void {
-  if (isSignal(value) || isComputed(value)) {
+  if (isReactive(value)) {
     effect(() => handleAnyAttribute(element, key, value.get()))
     return
   }
@@ -37,7 +37,7 @@ export function handleClassSignalAttribute(
     return
   }
 
-  if (isSignal(value) || isComputed(value)) {
+  if (isReactive(value)) {
     effect(() => {
       element.classList = ''
       handleClassAttribute(element, value.get())
@@ -47,8 +47,7 @@ export function handleClassSignalAttribute(
 
   for (const k of Object.keys(value)) {
     effect(() => {
-      let v = value[k]
-      if (isSignal(v) || isComputed(v)) v = v.get()
+      const v = unwrap(value[k])
       element.classList.toggle(k as string, v === true)
     })
   }
@@ -63,7 +62,7 @@ export function handleStyleSignalAttribute(
     return
   }
 
-  if (isSignal(value) || isComputed(value)) {
+  if (isReactive(value)) {
     effect(() => handleStyleAttribute(element, value.get()))
     return
   }
@@ -71,8 +70,7 @@ export function handleStyleSignalAttribute(
   for (const key of Object.keys(value)) {
     effect(() => {
       // @ts-expect-error dynamic style access
-      let val = value[key]
-      if (isSignal(val) || isComputed(val)) val = val.get()
+      const val = unwrap(value[key])
       // @ts-expect-error dynamic style set
       element.style[key] = val
     })
@@ -85,9 +83,7 @@ export function handleDataSignalAttribute(
 ): void {
   for (const k of Object.keys(value)) {
     effect(() => {
-      let v = value[k]
-      if (isSignal(v) || isComputed(v)) v = v.get()
-
+      const v = unwrap(value[k])
       if (v === true) element.dataset[k] = ''
       else if (typeof v === 'string') element.dataset[k] = v
       else delete element.dataset[k]
@@ -96,7 +92,7 @@ export function handleDataSignalAttribute(
 }
 
 export function handleSignalChildren(element: DomElement, children: Children): void {
-  if (isSignal(children) || isComputed(children)) {
+  if (isReactive(children)) {
     let placeholder: Node | null = null
 
     const getPlaceholder = () => {

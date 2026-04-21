@@ -54,14 +54,14 @@
     "@vue/reactivity": "^3.5.28",
     "alien-deepsignals": "^0.3.1",
     "alien-signals": "^3.1.2",
-    "faisceau": "^0.1.4"
+    "faisceau": "^0.3.2"
   },
   "peerDependencies": {
     "@preact/signals-core": "^1.12.2",
     "@vue/reactivity": "^3.5.27",
     "alien-deepsignals": "^0.3.1",
     "alien-signals": "^3.1.2",
-    "faisceau": "^0.1.4"
+    "faisceau": "^0.3.2"
   },
   "peerDependenciesMeta": {
     "@preact/signals-core": {

@@ -37,7 +37,7 @@
 import type { Computed } from 'faisceau'
 import type { DomElement, PrefixedElementTag, Prettify } from '../types'
 import type { Children, ElementAttributesTagNameMap } from './types'
-import { computed, isComputed, isSignal } from 'faisceau'
+import { computed, isReactive } from 'faisceau'
 import { childrenToNodes } from '../utils'
 import { h } from './index'
 import { reactiveChildrenToNodes } from './utils'
@@ -66,7 +66,7 @@ export function jsx<
       const children = Array.isArray(props.children) ? props.children.flat() : [props.children]
 
       return children.flatMap((child) => {
-        if (isSignal(child) || isComputed(child)) return reactiveChildrenToNodes(child)
+        if (isReactive(child)) return reactiveChildrenToNodes(child)
         else return childrenToNodes(child)
       })
     })

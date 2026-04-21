@@ -1,12 +1,10 @@
-import type { Computed, Signal } from 'faisceau'
+import type { MaybeReactive, Reactive } from 'faisceau'
 import type {
   BaseElementAttributesTagNameMap,
   Child,
   PrefixedElementTag,
   SpecialAttributes,
 } from '../types'
-
-type MaybeReactive<T> = T | Signal<T> | Computed<T>
 
 type MayBeReactiveObject<T extends object> = {
   [K in keyof T]: MaybeReactive<T[K]>
@@ -18,7 +16,7 @@ type MayBeReactiveObjectExceptEventHandlers<T extends object> = {
     : MaybeReactive<T[K]>
 }
 
-export type ReactiveChild = Signal<Child> | Signal<Child[]> | Computed<Child> | Computed<Child[]>
+export type ReactiveChild = Reactive<Child> | Reactive<Child[]>
 
 export type Children = Child | Child[] | ReactiveChild
 
