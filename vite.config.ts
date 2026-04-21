@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite-plus'
 
-const ignorePatterns = ['**/generated/**']
+const ignorePatterns = ['**/generated/**', 'examples/**']
 
 export default defineConfig({
   lint: {
