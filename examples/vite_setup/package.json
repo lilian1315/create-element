@@ -2,14 +2,13 @@
   "type": "module",
   "version": "0.0.3",
   "scripts": {
-    "dev": "vite -c vite.config.ts",
-    "build": "tsc && vite -c vite.config.ts build",
-    "preview": "vite -c vite.config.ts preview"
+    "dev": "vp dev",
+    "build": "vp check && vp build",
+    "preview": "vp preview"
   },
   "devDependencies": {
     "@lilian1315/create-element": "workspace:*",
     "alien-deepsignals": "^0.3.1",
-    "typescript": "~5.9.3",
-    "vite": "npm:rolldown-vite@7.2.7"
+    "vite-plus": "latest"
   }
 }

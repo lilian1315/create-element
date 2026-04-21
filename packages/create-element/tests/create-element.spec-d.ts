@@ -4,7 +4,7 @@ import type { h as hFaisceau } from '../src/faisceau/index'
 import type { h as hCore } from '../src/index'
 import type { h as hPreactSignals } from '../src/preact-signals/index'
 import type { h as hVueReactivity } from '../src/vue-reactivity/index'
-import { describe, expectTypeOf, it } from 'vitest'
+import { describe, expectTypeOf, it } from 'vite-plus/test'
 
 type anyFactory =
   | typeof hCore

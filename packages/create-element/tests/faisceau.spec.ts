@@ -1,6 +1,6 @@
 import type { Children } from '../src/faisceau/types'
 import { computed, signal } from 'faisceau'
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 import { h } from '../src/faisceau/index'
 
 it('support signal / computed attributes', () => {

@@ -1,6 +1,6 @@
 import type { Children } from '../src/preact-signals/types'
 import { computed, signal } from '@preact/signals-core'
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 import { h } from '../src/preact-signals/index'
 
 it('support signal / computed attributes', () => {

@@ -1,18 +1,17 @@
 {
+  "type": "module",
   "scripts": {
-    "build": "pnpm run build:types && pnpm run build:core",
-    "build:types": "pnpm --filter @lilian1315/elements-writable-properties-types run build",
-    "build:core": "pnpm --filter @lilian1315/create-element run build",
-    "typecheck": "pnpm -r run typecheck",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
-    "release:core": "pnpm typecheck && pnpm lint && pnpm --filter @lilian1315/create-element test run && pnpm --filter @lilian1315/create-element exec bumpp -c 'release @lilian1315/create-element@' -t '@lilian1315/create-element@'",
-    "release:types": "pnpm typecheck && pnpm lint && pnpm --filter @lilian1315/elements-writable-properties-types exec bumpp -c 'release @lilian1315/elements-writable-properties-types@' -t '@lilian1315/elements-writable-properties-types@'"
+    "build": "vp run build:types && vp run build:core",
+    "build:types": "vp run --filter @lilian1315/elements-writable-properties-types build",
+    "build:core": "vp run --filter @lilian1315/create-element build",
+    "check": "vp check",
+    "release:core": "vp run check && vp run --filter @lilian1315/create-element test run && vp exec --filter @lilian1315/create-element bumpp -c 'release @lilian1315/create-element@' -t '@lilian1315/create-element@'",
+    "release:types": "vp run check && vp exec --filter @lilian1315/elements-writable-properties-types bumpp -c 'release @lilian1315/elements-writable-properties-types@' -t '@lilian1315/elements-writable-properties-types@'"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.2.0",
-    "bumpp": "^10.3.2",
-    "eslint": "^9.39.1",
-    "typescript": "~5.9.3"
-  }
+    "bumpp": "^11.0.1",
+    "playwright": "^1.58.2",
+    "vite-plus": "latest"
+  },
+  "packageManager": "pnpm@10.33.0"
 }

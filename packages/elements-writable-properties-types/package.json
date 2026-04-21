@@ -19,8 +19,7 @@
     "generated/index.d.ts"
   ],
   "scripts": {
-    "build": "node scripts/generate.ts",
-    "typecheck": "tsc --noEmit"
+    "build": "node scripts/generate.ts"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",

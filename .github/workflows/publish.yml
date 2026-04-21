@@ -13,24 +13,13 @@ jobs:
     permissions:
       contents: read
       id-token: write # Required for OIDC
-    strategy:
-      matrix:
-        node-version: [24]
     steps:
       - uses: actions/checkout@v6
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - uses: voidzero-dev/setup-vp@v1
         with:
-          version: 10
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-          cache: pnpm
-      - run: pnpm install
-      - run: pnpm run typecheck
-      - run: pnpm run lint
-      - run: pnpm run build:core
-      - run: pnpx jsr publish
-      - run: pnpm publish --filter @lilian1315/* --no-git-checks --access public
+          cache: true
+          run-install: true
+      - run: vp run check
+      - run: vp run build:core
+      - run: vpx jsr publish
+      - run: vpx pnpm publish --filter @lilian1315/* --no-git-checks --access public

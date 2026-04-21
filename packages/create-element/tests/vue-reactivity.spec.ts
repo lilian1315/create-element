@@ -1,6 +1,6 @@
 import type { Children } from '../src/vue-reactivity/types'
 import { computed, ref } from '@vue/reactivity'
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 import { h } from '../src/vue-reactivity/index'
 
 it('support ref / computed attributes', () => {

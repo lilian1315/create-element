@@ -1,6 +1,6 @@
 import type { Children } from '../src/alien-signals/types'
 import { computed, signal } from 'alien-signals'
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 import { h } from '../src/alien-signals/index'
 
 it('support signal / computed attributes', () => {
