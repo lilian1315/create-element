@@ -17,7 +17,10 @@ const tempProject = new Project({
   },
 })
 
-const webTypesFile = tempProject.createSourceFile('index.d.ts', readFileSync('./node_modules/@types/web/index.d.ts').toString())
+const webTypesFile = tempProject.createSourceFile(
+  'index.d.ts',
+  readFileSync('./node_modules/@types/web/index.d.ts').toString(),
+)
 
 const primaryInterfacesNamesSet = new Set<string>()
 const selectedInterfaces = new Set<InterfaceDeclaration>()
@@ -41,8 +44,10 @@ for (const iface of interfaces) {
       'SVGElementTagNameMap',
       'MathMLElementTagNameMap',
     ].includes(iface.getName()) === false &&
-    ['HTMLElement', 'SVGElement'].some(
-      (name) => Array.from(ifaceExtends).map((i) => i.getName()).includes(name),
+    ['HTMLElement', 'SVGElement'].some((name) =>
+      Array.from(ifaceExtends)
+        .map((i) => i.getName())
+        .includes(name),
     ) === false
   ) {
     continue
@@ -76,57 +81,62 @@ const tempFileInterfaces = tempFile.getInterfaces()
 const generatedTypesFile = tempProject.createSourceFile('generated_types.ts')
 
 console.log('Removing unwanted interface members and transforming getters/setters to properties...')
-progressBar.start(tempFileInterfaces.map((i) => i.getMembers().length).reduce((a, b) => a + b, 0), 0, { info: '' })
+progressBar.start(
+  tempFileInterfaces.map((i) => i.getMembers().length).reduce((a, b) => a + b, 0),
+  0,
+  { info: '' },
+)
 
-await Promise.all(tempFileInterfaces.map(async (i) => {
-  if (primaryInterfacesNamesSet.has(i.getName())) i.setIsExported(true)
+await Promise.all(
+  tempFileInterfaces.map(async (i) => {
+    if (primaryInterfacesNamesSet.has(i.getName())) i.setIsExported(true)
 
-  const excludedMembers = getExcludedInterfaceMembers(i.getName())
-  // const eventHandlerNames = interfaceEventHandlersNames.get(i.getName())
+    const excludedMembers = getExcludedInterfaceMembers(i.getName())
+    // const eventHandlerNames = interfaceEventHandlersNames.get(i.getName())
 
-  i.getMembers().forEach((m) => {
-    const name =
-      m.isKind(SyntaxKind.PropertySignature)
-      || m.isKind(SyntaxKind.MethodSignature)
-      || m.isKind(SyntaxKind.GetAccessor)
-      || m.isKind(SyntaxKind.SetAccessor) ?
-        m.getName() :
-        null
+    i.getMembers().forEach((m) => {
+      const name =
+        m.isKind(SyntaxKind.PropertySignature) ||
+        m.isKind(SyntaxKind.MethodSignature) ||
+        m.isKind(SyntaxKind.GetAccessor) ||
+        m.isKind(SyntaxKind.SetAccessor)
+          ? m.getName()
+          : null
 
-    progressBar.increment(1, { info: ` | Processing ${i.getName()}${name ? `.${name}` : ''}` })
+      progressBar.increment(1, { info: ` | Processing ${i.getName()}${name ? `.${name}` : ''}` })
 
-    // if(m.isKind(SyntaxKind.PropertySignature) && name && eventHandlerNames?.has(name)) {
-    //     const camelCaseName = getCamelcaseEventHandlerName(i.getName(), name)
+      // if(m.isKind(SyntaxKind.PropertySignature) && name && eventHandlerNames?.has(name)) {
+      //     const camelCaseName = getCamelcaseEventHandlerName(i.getName(), name)
 
-    //     if(!camelCaseName) throw new Error(`Could not find camelCase name for event handler ${i.getName()}.${name}. Please add it to the map in src/utils/get_camelcase_event_handler_name.ts`)
-    //     const listenerStructure = m.getStructure()
+      //     if(!camelCaseName) throw new Error(`Could not find camelCase name for event handler ${i.getName()}.${name}. Please add it to the map in src/utils/get_camelcase_event_handler_name.ts`)
+      //     const listenerStructure = m.getStructure()
 
-    //     listenerStructure.name = camelCaseName
-    //     i.addProperty(listenerStructure)
-    // }
+      //     listenerStructure.name = camelCaseName
+      //     i.addProperty(listenerStructure)
+      // }
 
-    if (
-      (name && excludedMembers.includes(name))
-      || m.isKind(SyntaxKind.MethodSignature)
-      || m.isKind(SyntaxKind.GetAccessor)
-      || (m.isKind(SyntaxKind.PropertySignature) && m.isReadonly())
-    ) {
-      m.remove()
-    } else if (m.isKind(SyntaxKind.SetAccessor)) {
-      const tempProperty = i.addProperty({
-        name: m.getName(),
-        docs: m.getJsDocs().map((d) => d.getInnerText()),
-        type: m.getParameters()[0].getType().getText(),
+      if (
+        (name && excludedMembers.includes(name)) ||
+        m.isKind(SyntaxKind.MethodSignature) ||
+        m.isKind(SyntaxKind.GetAccessor) ||
+        (m.isKind(SyntaxKind.PropertySignature) && m.isReadonly())
+      ) {
+        m.remove()
+      } else if (m.isKind(SyntaxKind.SetAccessor)) {
+        const tempProperty = i.addProperty({
+          name: m.getName(),
+          docs: m.getJsDocs().map((d) => d.getInnerText()),
+          type: m.getParameters()[0].getType().getText(),
+        })
 
-      })
+        const propertyText = tempProperty.getText()
+        tempProperty.remove()
 
-      const propertyText = tempProperty.getText()
-      tempProperty.remove()
-
-      m.replaceWithText(propertyText)
-    }
-  })
-}))
+        m.replaceWithText(propertyText)
+      }
+    })
+  }),
+)
 progressBar.stop()
 
 const namespace = generatedTypesFile.addModule({

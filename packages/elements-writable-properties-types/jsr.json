@@ -7,9 +7,6 @@
     ".": "./generated/index.d.ts"
   },
   "publish": {
-    "include": [
-      "generated/index.d.ts",
-      "README.md"
-    ]
+    "include": ["generated/index.d.ts", "README.md"]
   }
 }

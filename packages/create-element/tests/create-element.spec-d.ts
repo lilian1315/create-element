@@ -16,10 +16,11 @@ type anyFactory =
 
 describe(`create-element factories`, () => {
   it('cannot be called with innerHTML attribute and children at the same time', () => {
+    const innerHTML = 'text <span>in span</span>'
     // @ts-expect-error innerHTML attribute and children attribute cannot be used together
-    expectTypeOf<anyFactory>().toBeCallableWith('div', { innerHTML: 'text <span>in span</span>', children: 'text' })
+    expectTypeOf<anyFactory>().toBeCallableWith('div', { innerHTML, children: 'text' })
 
     // @ts-expect-error innerHTML attribute and children property cannot be used together
-    expectTypeOf<anyFactory>().toBeCallableWith('div', { innerHTML: 'text <span>in span</span>' }, 'text')
+    expectTypeOf<anyFactory>().toBeCallableWith('div', { innerHTML }, 'text')
   })
 })

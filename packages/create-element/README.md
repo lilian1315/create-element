@@ -26,14 +26,12 @@ const div = h('div', { class: 'container' }, 'Hello World!')
 
 // With event handlers
 const button = h('button', {
-  onclick: () => console.log('Clicked!')
-}, 'Click me')
+  onclick: () => console.log('Clicked!'),
+  children: 'Click me',
+})
 
 // Nested elements
-const app = h('div', null, [
-  h('h1', null, 'My App'),
-  button
-])
+const app = h('div', null, [h('h1', null, 'My App'), button])
 ```
 
 ## API
@@ -66,8 +64,8 @@ h('div', {
     active: true, // data-active=""
     hidden: false, // removed
     count: null, // removed
-    empty: undefined // removed
-  }
+    empty: undefined, // removed
+  },
 })
 
 // InnerHTML (cannot be used with children attribute or property)
@@ -95,8 +93,8 @@ Use JSX syntax with TypeScript configuration:
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@lilian1315/create-element"
-  }
+    "jsxImportSource": "@lilian1315/create-element",
+  },
 }
 ```
 
@@ -106,9 +104,7 @@ function App() {
   return (
     <div class="container">
       <h1>My App</h1>
-      <button onclick={() => console.log('clicked')}>
-        Click me
-      </button>
+      <button onclick={() => console.log('clicked')}>Click me</button>
     </div>
   )
 }

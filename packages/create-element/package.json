@@ -1,18 +1,24 @@
 {
   "name": "@lilian1315/create-element",
-  "type": "module",
   "version": "0.7.2",
   "description": "Type-safe `document.createElement` wrapper with JSX support and optional reactive lib integrations for building DOM elements.",
-  "source": "src/index.ts",
-  "author": "lilian1315",
+  "keywords": [
+    "createElement"
+  ],
   "license": "MIT",
+  "author": "lilian1315",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lilian1315/create-element.git"
   },
-  "keywords": [
-    "createElement"
+  "source": "src/index.ts",
+  "files": [
+    "README.md",
+    "dist/**/*.d.ts",
+    "dist/**/*.js"
   ],
+  "type": "module",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
     "./alien-deepsignals": "./dist/alien-deepsignals/index.js",
@@ -34,17 +40,21 @@
     "./vue-reactivity/jsx-runtime": "./dist/vue-reactivity/jsx-runtime.js",
     "./package.json": "./package.json"
   },
-  "types": "./dist/index.d.ts",
-  "files": [
-    "README.md",
-    "dist/**/*.d.ts",
-    "dist/**/*.js"
-  ],
   "scripts": {
     "build": "vp pack",
     "dev": "vp pack -w",
     "test": "vp test",
     "coverage": "vp test run --coverage"
+  },
+  "dependencies": {
+    "@lilian1315/elements-writable-properties-types": "workspace:*"
+  },
+  "devDependencies": {
+    "@preact/signals-core": "^1.13.0",
+    "@vue/reactivity": "^3.5.28",
+    "alien-deepsignals": "^0.3.1",
+    "alien-signals": "^3.1.2",
+    "faisceau": "^0.1.4"
   },
   "peerDependencies": {
     "@preact/signals-core": "^1.12.2",
@@ -69,15 +79,5 @@
     "faisceau": {
       "optional": true
     }
-  },
-  "dependencies": {
-    "@lilian1315/elements-writable-properties-types": "workspace:*"
-  },
-  "devDependencies": {
-    "@preact/signals-core": "^1.13.0",
-    "@vue/reactivity": "^3.5.28",
-    "alien-deepsignals": "^0.3.1",
-    "alien-signals": "^3.1.2",
-    "faisceau": "^0.1.4"
   }
 }

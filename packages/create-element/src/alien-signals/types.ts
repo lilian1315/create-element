@@ -1,5 +1,10 @@
 import type { computed, signal } from 'alien-signals'
-import type { BaseElementAttributesTagNameMap, Child, PrefixedElementTag, SpecialAttributes } from '../types'
+import type {
+  BaseElementAttributesTagNameMap,
+  Child,
+  PrefixedElementTag,
+  SpecialAttributes,
+} from '../types'
 
 export type Signal<T> = ReturnType<typeof signal<T>>
 export type Computed<T> = ReturnType<typeof computed<T>>
@@ -11,7 +16,9 @@ type MayBeReactiveObject<T extends object> = {
 }
 
 type MayBeReactiveObjectExceptEventHandlers<T extends object> = {
-  [K in keyof T]: [K, T[K]] extends [`on${string}`, ((...args: any[]) => any) | null] ? T[K] : MaybeReactive<T[K]>
+  [K in keyof T]: [K, T[K]] extends [`on${string}`, ((...args: any[]) => any) | null]
+    ? T[K]
+    : MaybeReactive<T[K]>
 }
 
 export type ReactiveChild = Signal<Child> | Signal<Child[]> | Computed<Child> | Computed<Child[]>
@@ -31,7 +38,13 @@ type DataSignalAttribute = MayBeReactiveObject<SpecialAttributes['data']>
 
 type InnerHTMLSignalAttribute = MaybeReactive<string>
 
-export type SpecialAttributesSignal = SpecialAttributes<ClassSignalAttribute, StyleSignalAttribute, DataSignalAttribute, Children, InnerHTMLSignalAttribute>
+export type SpecialAttributesSignal = SpecialAttributes<
+  ClassSignalAttribute,
+  StyleSignalAttribute,
+  DataSignalAttribute,
+  Children,
+  InnerHTMLSignalAttribute
+>
 
 export type WithChildren<T> = T & {
   /**
@@ -51,5 +64,9 @@ export type WithInnerHTML<T> = T & {
 }
 
 export type ElementAttributesTagNameMap = {
-  [T in PrefixedElementTag]: Partial<MayBeReactiveObjectExceptEventHandlers<BaseElementAttributesTagNameMap[T]> & SpecialAttributesSignal & Readonly<Record<string | symbol, unknown>>>
+  [T in PrefixedElementTag]: Partial<
+    MayBeReactiveObjectExceptEventHandlers<BaseElementAttributesTagNameMap[T]> &
+      SpecialAttributesSignal &
+      Readonly<Record<string | symbol, unknown>>
+  >
 }

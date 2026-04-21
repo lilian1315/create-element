@@ -27,13 +27,14 @@ const news: PostProps[] = [
   },
   {
     title: 'Weather Report',
-    content: 'Today\'s weather forecast.',
+    content: "Today's weather forecast.",
     imageUrl: 'https://picsum.photos/seed/4/400/200',
     categories: ['news', 'weather'],
   },
   {
     title: 'AI Revolution Continues',
-    content: 'Artificial Intelligence reaches new milestones in machine learning and natural language processing.',
+    content:
+      'Artificial Intelligence reaches new milestones in machine learning and natural language processing.',
     imageUrl: 'https://picsum.photos/seed/5/400/200',
     categories: ['news'],
   },
@@ -109,11 +110,12 @@ function onchange(e: Event) {
 
 const filteredNews = computed(() => {
   const category = categoryFilter.get()
-  return (category ? news.filter((post) => post.categories.includes(category)) : news)
-    .flatMap((post) => {
+  return (category ? news.filter((post) => post.categories.includes(category)) : news).flatMap(
+    (post) => {
       const element = getPostElement(post)
       return isComputed(element) ? element.get() : element
-    })
+    },
+  )
 })
 
 h('select', { name: 'categories', onchange })
@@ -130,9 +132,7 @@ export function News() {
         <option value="weather">Weather</option>
       </select>
       <div class="card">
-        <div class="posts">
-          {filteredNews}
-        </div>
+        <div class="posts">{filteredNews}</div>
       </div>
     </>
   )

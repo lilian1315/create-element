@@ -3,7 +3,7 @@ import { h } from '@lilian1315/create-element/alien-deepsignals'
 import { batch, computed, deepSignal, watch } from 'alien-deepsignals'
 import { debounce } from '../debounce'
 
-type Todo = DeepSignal<{ id: string, title: string, isDone: boolean }>
+type Todo = DeepSignal<{ id: string; title: string; isDone: boolean }>
 
 const todolistsIds = new Set<string>()
 
@@ -18,21 +18,43 @@ export function createTodolist(id?: string) {
 
   const todolistNodes = computed(() => todolist.map(getTodoNode))
 
-  const addInput = h('input', { class: 'todolist-add-input', type: 'text', placeholder: 'New todo' })
+  const addInput = h('input', {
+    class: 'todolist-add-input',
+    type: 'text',
+    placeholder: 'New todo',
+  })
 
-  const container = h('div', { class: 'todolist' }, h('div', { class: 'count-dones' }, 'Done: ', countDones), h('form', {
-    class: 'todolist-add-form',
-    onsubmit(e) {
-      e.preventDefault()
+  const container = h(
+    'div',
+    { class: 'todolist' },
+    h('div', { class: 'count-dones' }, 'Done: ', countDones),
+    h(
+      'form',
+      {
+        class: 'todolist-add-form',
+        onsubmit(e) {
+          e.preventDefault()
 
-      if (addInput.value.length > 0) {
-        add(addInput.value)
-        addInput.value = ''
-      }
-    },
-  }, addInput, h('button', { class: 'todolist-add-button', onclick() {
-    addInput.focus()
-  } }, 'add!')), todolistNodes)
+          if (addInput.value.length > 0) {
+            add(addInput.value)
+            addInput.value = ''
+          }
+        },
+      },
+      addInput,
+      h(
+        'button',
+        {
+          class: 'todolist-add-button',
+          onclick() {
+            addInput.focus()
+          },
+        },
+        'add!',
+      ),
+    ),
+    todolistNodes,
+  )
 
   return container
 
@@ -64,22 +86,30 @@ export function createTodolist(id?: string) {
       }),
       editInput,
       h('button', { class: 'todo-delete', type: 'button', onclick: () => del(todo) }, 'X'),
-      h('button', {
-        class: 'todo-add-after',
-        type: 'button',
-        onclick: () => {
-          const newTodo = addAfter(todo, '')
-          if (newTodo) focusTodoInput(newTodo)
+      h(
+        'button',
+        {
+          class: 'todo-add-after',
+          type: 'button',
+          onclick: () => {
+            const newTodo = addAfter(todo, '')
+            if (newTodo) focusTodoInput(newTodo)
+          },
         },
-      }, '+'),
-      h('button', {
-        class: 'todo-add-before',
-        type: 'button',
-        onclick: () => {
-          const newTodo = addBefore(todo, '')
-          if (newTodo) focusTodoInput(newTodo)
+        '+',
+      ),
+      h(
+        'button',
+        {
+          class: 'todo-add-before',
+          type: 'button',
+          onclick: () => {
+            const newTodo = addBefore(todo, '')
+            if (newTodo) focusTodoInput(newTodo)
+          },
         },
-      }, '+'),
+        '+',
+      ),
     ])
 
     todoNodeMap.set(todo, node)
@@ -119,7 +149,8 @@ export function createTodolist(id?: string) {
   }
 
   function useLocalStorage(id: string) {
-    if (todolistsIds.has(id)) throw new Error(`A todolist with the same id already exists. id: «${id}»`)
+    if (todolistsIds.has(id))
+      throw new Error(`A todolist with the same id already exists. id: «${id}»`)
 
     let storedTodos: any
     try {
@@ -128,7 +159,8 @@ export function createTodolist(id?: string) {
       console.error(`Failed to get the todolist with id «${id}». Error: `, e)
     }
 
-    if (storedTodos && Array.isArray(storedTodos) && storedTodos.length > 0) todolist.splice(0, 0, ...storedTodos)
+    if (storedTodos && Array.isArray(storedTodos) && storedTodos.length > 0)
+      todolist.splice(0, 0, ...storedTodos)
 
     const save = debounce(() => {
       localStorage.setItem(`todolist-${id}`, JSON.stringify(todolist))

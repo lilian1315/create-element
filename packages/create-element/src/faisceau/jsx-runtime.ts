@@ -50,7 +50,9 @@ export const Fragment = Symbol('Fragment')
 /**
  * JSX factory compatible with [faisceau](https://github.com/lilian1315/faisceau).
  */
-export function jsx<T extends PrefixedElementTag | JSX.ElementClass | typeof Fragment = PrefixedElementTag>(
+export function jsx<
+  T extends PrefixedElementTag | JSX.ElementClass | typeof Fragment = PrefixedElementTag,
+>(
   type: T,
   props: JSX.IntrinsicAttributes,
   __key: unknown,
@@ -82,7 +84,6 @@ export const jsxs = jsx
  */
 export const jsxDEV = jsx
 
-// eslint-disable-next-line ts/no-namespace
 export namespace JSX {
   export type Fragment = Computed<Node[]>
   export type Element = DomElement | Fragment

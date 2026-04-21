@@ -24,9 +24,6 @@
     "./vue-reactivity/jsx-runtime": "./src/vue-reactivity/jsx-runtime.ts"
   },
   "publish": {
-    "include": [
-      "src/**/*.ts",
-      "README.md"
-    ]
+    "include": ["src/**/*.ts", "README.md"]
   }
 }

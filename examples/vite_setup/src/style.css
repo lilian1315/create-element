@@ -106,7 +106,9 @@ button:focus-visible {
   background-color: rgba(0, 0, 0, 0.02);
   color: inherit;
   font-size: 1rem;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
 }
 
 .todolist-add-button {
@@ -137,7 +139,7 @@ button:focus-visible {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   transition-property: background, border-color, box-shadow;
-  transition-duration: .25s;
+  transition-duration: 0.25s;
   position: relative;
 }
 
@@ -203,7 +205,9 @@ button:focus-visible {
   font-weight: 600;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s, transform 0.25s;
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
 }
 
 .todo-add-before {

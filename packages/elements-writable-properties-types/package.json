@@ -1,23 +1,23 @@
 {
   "name": "@lilian1315/elements-writable-properties-types",
-  "type": "module",
   "version": "0.0.5",
-  "author": "lilian1315",
   "license": "MIT",
+  "author": "lilian1315",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lilian1315/create-element.git"
   },
-  "exports": {
-    ".": "./generated/index.d.ts",
-    "./package.json": "./package.json"
-  },
-  "main": "",
-  "types": "generated/index.d.ts",
   "files": [
     "README.md",
     "generated/index.d.ts"
   ],
+  "type": "module",
+  "main": "",
+  "types": "generated/index.d.ts",
+  "exports": {
+    ".": "./generated/index.d.ts",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "node scripts/generate.ts"
   },

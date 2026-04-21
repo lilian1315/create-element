@@ -156,5 +156,7 @@ export function getCamelcaseEventHandlerName(
   elementInterfaceName: string,
   lowercaseEventHandlerName: string,
 ): string | undefined {
-  return lowercaseToCamelcaseEventHandlersNameMap.get(elementInterfaceName)?.get(lowercaseEventHandlerName)
+  return lowercaseToCamelcaseEventHandlersNameMap
+    .get(elementInterfaceName)
+    ?.get(lowercaseEventHandlerName)
 }

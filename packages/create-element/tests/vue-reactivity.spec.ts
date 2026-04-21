@@ -1,5 +1,5 @@
 import type { Children } from '../src/vue-reactivity/types'
-import { computed, ref } from '@vue/reactivity'
+import { computed, ref, shallowRef } from '@vue/reactivity'
 import { expect, it } from 'vite-plus/test'
 import { h } from '../src/vue-reactivity/index'
 
@@ -187,7 +187,7 @@ it('support children property / attribute with refs / computed child', () => {
     const stringSignal = ref('Initial string')
     const node = h('span', { children: 'Initial node' })
     const node2 = h('span', { children: 'Other node' })
-    const nodeSignal = ref(node)
+    const nodeSignal = shallowRef(node)
 
     const element = factory([
       numberSignal,
@@ -224,7 +224,7 @@ it('support children property / attribute with reactive array', () => {
     const node2 = h('span', { children: 'Other node' })
     const node3 = h('span', { children: 'Third node' })
 
-    const signalArray = ref([node, 'regular string', node2, node3])
+    const signalArray = shallowRef([node, 'regular string', node2, node3])
 
     const element = factory(['before', signalArray, 'after'])
 

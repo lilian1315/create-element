@@ -21,22 +21,39 @@ import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '..
 import type { Children, ElementAttributesTagNameMap, WithChildren, WithInnerHTML } from './types'
 import { setActiveSub } from 'alien-signals'
 import { createBaseElement } from '../utils'
-import { handleAnySignalAttribute, handleClassSignalAttribute, handleDataSignalAttribute, handleSignalChildren, handleStyleSignalAttribute } from './utils'
+import {
+  handleAnySignalAttribute,
+  handleClassSignalAttribute,
+  handleDataSignalAttribute,
+  handleSignalChildren,
+  handleStyleSignalAttribute,
+} from './utils'
 
 /**
  * Creates a DOM element with [alien-signals](https://github.com/stackblitz/alien-signals) aware attributes, styles, datasets, and innerHTML.
  * @param tag Element tag name including SVG/MathML prefixes.
  * @param attributes Optional attribute bag that can contain reactive `class`, `style`, `data`, and `innerHTML` props. Cannot have children when innerHTML is set.
  */
-export function createElement<T extends PrefixedElementTag>(tag: T, attributes: Prettify<WithInnerHTML<ElementAttributesTagNameMap[T]>>): ElementPrefixedTagNameMap[T]
+export function createElement<T extends PrefixedElementTag>(
+  tag: T,
+  attributes: Prettify<WithInnerHTML<ElementAttributesTagNameMap[T]>>,
+): ElementPrefixedTagNameMap[T]
 /**
  * Creates a DOM element with [alien-signals](https://github.com/stackblitz/alien-signals) aware attributes, styles, datasets, and children.
  * @param tag Element tag name including SVG/MathML prefixes.
  * @param attributes Optional attribute bag that can contain reactive `class`, `style`, `data`, and `children` props.
  * @param children Additional children appended after `attributes.children`.
  */
-export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<WithChildren<ElementAttributesTagNameMap[T]>> | null, ...children: Children[]): ElementPrefixedTagNameMap[T]
-export function createElement<T extends PrefixedElementTag>(tag: T, attributes?: Prettify<ElementAttributesTagNameMap[T]> | null, ...children: Children[]): ElementPrefixedTagNameMap[T] {
+export function createElement<T extends PrefixedElementTag>(
+  tag: T,
+  attributes?: Prettify<WithChildren<ElementAttributesTagNameMap[T]>> | null,
+  ...children: Children[]
+): ElementPrefixedTagNameMap[T]
+export function createElement<T extends PrefixedElementTag>(
+  tag: T,
+  attributes?: Prettify<ElementAttributesTagNameMap[T]> | null,
+  ...children: Children[]
+): ElementPrefixedTagNameMap[T] {
   const element = createBaseElement(tag)
 
   const prevSub = setActiveSub()

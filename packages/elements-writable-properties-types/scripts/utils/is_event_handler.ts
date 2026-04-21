@@ -2,7 +2,10 @@ import type { PropertySignature, SourceFile, ts, Type, TypeElementTypes } from '
 import { SyntaxKind } from 'ts-morph'
 import { flattenUnion } from './flatten_union.ts'
 
-export function isEventHandler(m: TypeElementTypes, sourceFile: SourceFile): m is PropertySignature {
+export function isEventHandler(
+  m: TypeElementTypes,
+  sourceFile: SourceFile,
+): m is PropertySignature {
   const eventInterfaceType = sourceFile.getInterfaceOrThrow('Event').getType()
 
   if (!m.isKind(SyntaxKind.PropertySignature) || !m.getName().startsWith('on')) return false
@@ -25,6 +28,7 @@ export function isEventHandler(m: TypeElementTypes, sourceFile: SourceFile): m i
       .forEach((t) => possibleFirstParameterInterfaces.add(t))
   }
 
-  return Array.from(possibleFirstParameterInterfaces)
-    .some((i) => i.isAssignableTo(eventInterfaceType))
+  return Array.from(possibleFirstParameterInterfaces).some((i) =>
+    i.isAssignableTo(eventInterfaceType),
+  )
 }

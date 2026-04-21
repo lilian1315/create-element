@@ -137,14 +137,7 @@ for (const [factoryName, h] of factories) {
       const span3 = h('span', null, ' span3 element')
 
       const children = [
-        [
-          152,
-          ' first string element ',
-          null,
-          span,
-          undefined,
-          ' last element',
-        ],
+        [152, ' first string element ', null, span, undefined, ' last element'],
         [null, undefined, span2],
         null,
         span3,
@@ -152,7 +145,8 @@ for (const [factoryName, h] of factories) {
         ' real last!',
       ]
 
-      const expectedTextContent = '152 first string element span element last element span2 element span3 element real last!'
+      const expectedTextContent =
+        '152 first string element span element last element span2 element span3 element real last!'
 
       const doTest = function (element: HTMLElement) {
         expect(span.textContent).toBe('span element')

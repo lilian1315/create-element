@@ -1,9 +1,19 @@
 import type { Child, DomElement } from '../types'
 import type { Children, ReactiveChild, SpecialAttributesSignal } from './types'
 import { effect, isComputed, isSignal } from 'faisceau'
-import { childToNode, handleAnyAttribute, handleChildren, handleClassAttribute, handleStyleAttribute } from '../utils'
+import {
+  childToNode,
+  handleAnyAttribute,
+  handleChildren,
+  handleClassAttribute,
+  handleStyleAttribute,
+} from '../utils'
 
-export function handleAnySignalAttribute(element: DomElement, key: string | symbol, value: any): void {
+export function handleAnySignalAttribute(
+  element: DomElement,
+  key: string | symbol,
+  value: any,
+): void {
   if (isSignal(value) || isComputed(value)) {
     effect(() => handleAnyAttribute(element, key, value.get()))
     return
@@ -12,7 +22,10 @@ export function handleAnySignalAttribute(element: DomElement, key: string | symb
   handleAnyAttribute(element, key, value)
 }
 
-export function handleClassSignalAttribute(element: DomElement, value: SpecialAttributesSignal['class']): void {
+export function handleClassSignalAttribute(
+  element: DomElement,
+  value: SpecialAttributesSignal['class'],
+): void {
   if (typeof value === 'string') {
     handleClassAttribute(element, value)
     return
@@ -41,7 +54,10 @@ export function handleClassSignalAttribute(element: DomElement, value: SpecialAt
   }
 }
 
-export function handleStyleSignalAttribute(element: DomElement, value: SpecialAttributesSignal['style']): void {
+export function handleStyleSignalAttribute(
+  element: DomElement,
+  value: SpecialAttributesSignal['style'],
+): void {
   if (typeof value === 'string') {
     handleStyleAttribute(element, value)
     return
@@ -63,7 +79,10 @@ export function handleStyleSignalAttribute(element: DomElement, value: SpecialAt
   }
 }
 
-export function handleDataSignalAttribute(element: DomElement, value: SpecialAttributesSignal['data']): void {
+export function handleDataSignalAttribute(
+  element: DomElement,
+  value: SpecialAttributesSignal['data'],
+): void {
   for (const k of Object.keys(value)) {
     effect(() => {
       let v = value[k]
@@ -115,9 +134,13 @@ export function handleSignalChildren(element: DomElement, children: Children): v
         }
 
         if (newNode) {
-          if (node && element.contains(node)) element.insertBefore(newNode, node)
-          else if (lastInsertedNode && element.contains(lastInsertedNode)) insertAfter(element, newNode, lastInsertedNode)
-          else element.appendChild(newNode)
+          if (node && element.contains(node)) {
+            element.insertBefore(newNode, node)
+          } else if (lastInsertedNode && element.contains(lastInsertedNode)) {
+            insertAfter(element, newNode, lastInsertedNode)
+          } else {
+            element.appendChild(newNode)
+          }
 
           const indexInOld = nodes.indexOf(newNode)
           if (indexInOld !== -1) {

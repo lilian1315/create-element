@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["ESNext"],
-    "module": "esnext",
-    "moduleResolution": "node",
+    "lib": ["ESNext", "DOM"],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "allowImportingTsExtensions": true,
     "strict": true,
     "noEmit": true
