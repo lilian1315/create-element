@@ -4,7 +4,7 @@ export namespace DOMTypes {
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLAnchorElement)
      */
-    export interface HTMLAnchorElement extends HTMLElement, HTMLHyperlinkElementUtils {
+    export interface HTMLAnchorElement extends HTMLElement, HTMLHyperlinkElementUtils, HyperlinkElementUtils {
         relList: string;
         /** @deprecated */
         charset: string;
@@ -579,6 +579,17 @@ export namespace DOMTypes {
 
     interface HTMLHyperlinkElementUtils {
         /**
+         * Returns the hyperlink's URL.
+         *
+         * Can be set, to change the URL.
+         *
+         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLAnchorElement/href)
+         */
+        href: string;
+    }
+
+    interface HyperlinkElementUtils {
+        /**
          * Returns the hyperlink's URL's fragment (includes leading "#" if non-empty).
          *
          * Can be set, to change the URL's fragment (ignores leading "#").
@@ -602,14 +613,6 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLAnchorElement/hostname)
          */
         hostname: string;
-        /**
-         * Returns the hyperlink's URL.
-         *
-         * Can be set, to change the URL.
-         *
-         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLAnchorElement/href)
-         */
-        href: string;
         /**
          * Returns the hyperlink's URL's password.
          *
@@ -665,7 +668,7 @@ export namespace DOMTypes {
      *
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLAreaElement)
      */
-    export interface HTMLAreaElement extends HTMLElement, HTMLHyperlinkElementUtils {
+    export interface HTMLAreaElement extends HTMLElement, HTMLHyperlinkElementUtils, HyperlinkElementUtils {
         relList: string;
         /**
          * The **`alt`** property of the HTMLAreaElement interface specifies the text of the hyperlink, defining the textual label for an image map's link. It reflects the <area> element's alt attribute.
@@ -1610,6 +1613,12 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLInputElement/checked)
          */
         checked: boolean;
+        /**
+         * The **`colorSpace`** property of the HTMLInputElement interface reflects the <input> element's colorspace attribute, which indicates whether the color space of the serialized CSS color is sRGB (the default) or display-p3. It is only relevant to color controls.
+         *
+         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLInputElement/colorSpace)
+         */
+        colorSpace: string;
         /**
          * The **`defaultChecked`** property of the HTMLInputElement interface specifies the default checkedness state of the element. This property reflects the <input> element's checked attribute.
          *
@@ -2946,6 +2955,12 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTemplateElement/shadowRootClonable)
          */
         shadowRootClonable: boolean;
+        /**
+         * The **`shadowRootCustomElementRegistry`** property of the HTMLTemplateElement interface reflects the value of the shadowrootcustomelementregistry attribute of the associated <template> element.
+         *
+         * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLTemplateElement/shadowRootCustomElementRegistry)
+         */
+        shadowRootCustomElementRegistry: string;
         /**
          * The **`shadowRootDelegatesFocus`** property of the HTMLTemplateElement interface reflects the value of the shadowrootdelegatesfocus attribute of the associated <template> element.
          *
