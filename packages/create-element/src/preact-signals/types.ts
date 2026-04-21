@@ -1,4 +1,5 @@
 import type { Computed, Signal } from '@preact/signals-core'
+
 import type {
   BaseElementAttributesTagNameMap,
   Child,

@@ -1,6 +1,6 @@
-import type { Child, DomElement } from '../types'
-import type { Children, Computed, ReactiveChild, Signal, SpecialAttributesSignal } from './types'
 import { isComputed as _isComputed, isSignal as _isSignal, effect } from 'alien-signals'
+
+import type { Child, DomElement } from '../types'
 import {
   childToNode,
   handleAnyAttribute,
@@ -8,6 +8,7 @@ import {
   handleClassAttribute,
   handleStyleAttribute,
 } from '../utils'
+import type { Children, Computed, ReactiveChild, Signal, SpecialAttributesSignal } from './types'
 
 export function handleAnySignalAttribute(
   element: DomElement,

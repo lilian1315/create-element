@@ -35,11 +35,12 @@
  */
 
 import type { Computed } from 'faisceau'
-import type { DomElement, PrefixedElementTag, Prettify } from '../types'
-import type { Children, ElementAttributesTagNameMap } from './types'
 import { computed, isReactive } from 'faisceau'
+
+import type { DomElement, PrefixedElementTag, Prettify } from '../types'
 import { childrenToNodes } from '../utils'
 import { h } from './index'
+import type { Children, ElementAttributesTagNameMap } from './types'
 import { reactiveChildrenToNodes } from './utils'
 
 /**

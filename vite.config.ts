@@ -14,5 +14,6 @@ export default defineConfig({
     ignorePatterns,
     semi: false,
     singleQuote: true,
+    sortImports: true,
   },
 })

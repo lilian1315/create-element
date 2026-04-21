@@ -1,7 +1,8 @@
-import type { Children } from '../src/vue-reactivity/types'
 import { computed, ref, shallowRef } from '@vue/reactivity'
 import { expect, it } from 'vite-plus/test'
+
 import { h } from '../src/vue-reactivity/index'
+import type { Children } from '../src/vue-reactivity/types'
 
 it('support ref / computed attributes', () => {
   const title = ref('initial title')

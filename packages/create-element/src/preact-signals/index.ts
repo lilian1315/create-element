@@ -18,8 +18,8 @@
  */
 
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
-import type { Children, ElementAttributesTagNameMap, WithChildren, WithInnerHTML } from './types'
 import { createBaseElement } from '../utils'
+import type { Children, ElementAttributesTagNameMap, WithChildren, WithInnerHTML } from './types'
 import {
   handleAnySignalAttribute,
   handleClassSignalAttribute,

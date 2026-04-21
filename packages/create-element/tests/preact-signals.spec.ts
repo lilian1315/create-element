@@ -1,7 +1,8 @@
-import type { Children } from '../src/preact-signals/types'
 import { computed, signal } from '@preact/signals-core'
 import { expect, it } from 'vite-plus/test'
+
 import { h } from '../src/preact-signals/index'
+import type { Children } from '../src/preact-signals/types'
 
 it('support signal / computed attributes', () => {
   const title = signal('initial title')

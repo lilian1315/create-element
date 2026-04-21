@@ -36,11 +36,12 @@
  */
 
 import type { ComputedRef } from '@vue/reactivity'
-import type { DomElement, PrefixedElementTag, Prettify } from '../types'
-import type { Children, ElementAttributesTagNameMap } from './types'
 import { computed, isRef } from '@vue/reactivity'
+
+import type { DomElement, PrefixedElementTag, Prettify } from '../types'
 import { childrenToNodes } from '../utils'
 import { h } from './index'
+import type { Children, ElementAttributesTagNameMap } from './types'
 import { reactiveChildrenToNodes } from './utils'
 
 /**

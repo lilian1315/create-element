@@ -29,6 +29,7 @@
  * @module
  */
 
+import { h } from './index'
 import type {
   Children,
   DomElement,
@@ -36,7 +37,6 @@ import type {
   PrefixedElementTag,
   Prettify,
 } from './types'
-import { h } from './index'
 import { childrenToNodes } from './utils'
 
 /**

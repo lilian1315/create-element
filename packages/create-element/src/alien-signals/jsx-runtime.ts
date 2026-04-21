@@ -35,11 +35,12 @@
  * @requires alien-signals
  */
 
-import type { DomElement, PrefixedElementTag, Prettify } from '../types'
-import type { Children, Computed, ElementAttributesTagNameMap } from './types'
 import { computed } from 'alien-signals'
+
+import type { DomElement, PrefixedElementTag, Prettify } from '../types'
 import { childrenToNodes } from '../utils'
 import { h } from './index'
+import type { Children, Computed, ElementAttributesTagNameMap } from './types'
 import { isComputed, isSignal, reactiveChildrenToNodes } from './utils'
 
 /**

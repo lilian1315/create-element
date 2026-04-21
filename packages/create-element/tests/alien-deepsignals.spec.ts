@@ -1,7 +1,8 @@
-import type { Children } from '../src/alien-deepsignals/types'
 import { computed, signal } from 'alien-deepsignals'
 import { expect, it } from 'vite-plus/test'
+
 import { h } from '../src/alien-deepsignals/index'
+import type { Children } from '../src/alien-deepsignals/types'
 
 it('support signal / computed attributes', () => {
   const title = signal('initial title')

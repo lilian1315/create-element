@@ -1,7 +1,8 @@
-import type { Children } from '../src/faisceau/types'
 import { computed, signal } from 'faisceau'
 import { expect, it } from 'vite-plus/test'
+
 import { h } from '../src/faisceau/index'
+import type { Children } from '../src/faisceau/types'
 
 it('support signal / computed attributes', () => {
   const title = signal('initial title')

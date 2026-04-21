@@ -36,11 +36,12 @@
  */
 
 import type { ReadonlySignal } from '@preact/signals-core'
-import type { DomElement, PrefixedElementTag, Prettify } from '../types'
-import type { Children, ElementAttributesTagNameMap } from './types'
 import { computed } from '@preact/signals-core'
+
+import type { DomElement, PrefixedElementTag, Prettify } from '../types'
 import { childrenToNodes } from '../utils'
 import { h } from './index'
+import type { Children, ElementAttributesTagNameMap } from './types'
 import { isSignal, reactiveChildrenToNodes } from './utils'
 
 /**
