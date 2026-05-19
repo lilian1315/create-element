@@ -13,5 +13,5 @@
     "playwright": "^1.58.2",
     "vite-plus": "latest"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@11.1.3"
 }
