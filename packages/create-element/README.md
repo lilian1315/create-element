@@ -1,6 +1,6 @@
 # @lilian1315/create-element
 
-[![npm](https://img.shields.io/npm/v/@lilian1315/create-element)](https://www.npmjs.com/package/@lilian1315/create-element)
+[![npm](https://img.shields.io/npm/v/@lilian1315/create-element)](https://npmx.dev/package/@lilian1315/create-element)
 [![jsr](https://jsr.io/badges/@lilian1315/create-element)](https://jsr.io/@lilian1315/create-element)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
