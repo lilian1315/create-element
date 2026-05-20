@@ -1,14 +1,18 @@
 # @lilian1315/create-element
 
-Type-safe `document.createElement` wrapper with JSX support and optional reactive lib integrations for building DOM elements.
+[![npm](https://img.shields.io/npm/v/@lilian1315/create-element)](https://www.npmjs.com/package/@lilian1315/create-element)
+[![jsr](https://jsr.io/badges/@lilian1315/create-element)](https://jsr.io/@lilian1315/create-element)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+Type-safe `document.createElement` wrapper with JSX support and optional reactive library integrations for building DOM elements.
 
 ## Features
 
-- Type-safe element creation with TypeScript ([Usage](#usage))
-- Support for HTML, SVG, and MathML elements
-- Simple attribute and event handling ([Attributes](#attributes))
-- [JSX Support](#jsx-support)
-- Optional reactive programming with [alien-signals](https://github.com/stackblitz/alien-signals), [alien-deepsignals](https://github.com/CCherry07/alien-deepsignals), [faisceau](https://github.com/lilian1315/faisceau), [@preact/signals-core](https://github.com/preactjs/signals), and [@vue/reactivity](https://github.com/vuejs/core/tree/main/packages/reactivity) ([Reactive Support](#reactive-support-optional))
+- **Type-safe** element creation with full TypeScript autocompletion ([Usage](#usage))
+- Support for **HTML, SVG, and MathML** elements ([SVG and MathML](#svg-and-mathml))
+- Flexible attribute handling: classes, styles, datasets, events ([Attributes](#attributes))
+- **JSX** support with Fragments and function components ([JSX Support](#jsx-support))
+- **Reactive adapters** for signal-based UI updates ([Reactive Support](#reactive-support-optional))
 
 ## Installation
 
@@ -38,41 +42,49 @@ const app = h('div', null, [h('h1', null, 'My App'), button])
 
 ### `h(tag, attributes?, ...children)`
 
-- `tag`: HTML tag name (e.g., `'div'`, `'button'`)
-- `attributes`: Optional object with element attributes
-- `children`: Child elements or text
+Creates a DOM element and returns it.
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `tag` | `string` | HTML tag name (e.g. `'div'`), or prefixed for SVG/MathML (`'svg:circle'`, `'math:mi'`) |
+| `attributes` | `object \| null` | Optional attribute bag including special helpers (`class`, `style`, `data`, `innerHTML`, `children`) |
+| `children` | `Child[]` | Additional child nodes — strings, numbers, DOM nodes, `null`, or arrays thereof |
+
+**Returns:** the created DOM element (`HTMLElement`, `SVGElement`, or `MathMLElement`).
 
 ### Attributes
 
 ```typescript
-// Classes
+// Classes — string, array, or conditional object
 h('div', { class: 'btn primary' })
 h('div', { class: ['btn', 'primary'] })
 h('div', { class: { btn: true, primary: true, active: false } })
 
-// Styles
+// Styles — string or object
 h('div', { style: 'color: red' })
 h('div', { style: { color: 'red', fontSize: '16px' } })
 
-// Events
+// Events — lowercase on* handlers
 h('button', { onclick: () => console.log('clicked') })
 
-// Data attributes
+// Data attributes — mapped to element.dataset
 h('div', {
   data: {
-    testId: 'my-component',
-    active: true, // data-active=""
-    hidden: false, // removed
-    count: null, // removed
-    empty: undefined, // removed
+    testId: 'my-component', // data-test-id="my-component"
+    active: true,           // data-active=""
+    hidden: false,          // removed
+    count: null,            // removed
+    empty: undefined,       // removed
   },
 })
 
-// InnerHTML (cannot be used with children attribute or property)
+// innerHTML (mutually exclusive with children)
 h('div', { innerHTML: '<span>content</span>' })
 ```
 
 ### SVG and MathML
+
+Use `svg:` or `math:` prefixes for namespace-aware element creation:
 
 ```typescript
 // SVG elements
@@ -84,9 +96,11 @@ const math = h('math')
 const variable = h('math:mi', null, 'x')
 ```
 
+The root `svg` and `math` tags do not need a prefix.
+
 ## JSX Support
 
-Use JSX syntax with TypeScript configuration:
+Configure TypeScript to use the JSX runtime:
 
 ```jsonc
 // tsconfig.json
@@ -98,23 +112,59 @@ Use JSX syntax with TypeScript configuration:
 }
 ```
 
+### Elements and function components
+
 ```tsx
-// Regular JSX
+function Greeting({ name }: { name: string }) {
+  return <h1>Hello, {name}!</h1>
+}
+
 function App() {
   return (
     <div class="container">
-      <h1>My App</h1>
+      <Greeting name="World" />
       <button onclick={() => console.log('clicked')}>Click me</button>
     </div>
   )
 }
+
+document.body.appendChild(App())
 ```
 
-For reactive JSX, set `jsxImportSource` to the adapter you use (e.g. `@lilian1315/create-element/alien-signals`, `@lilian1315/create-element/alien-deepsignals`, `@lilian1315/create-element/faisceau`, `@lilian1315/create-element/preact-signals`, `@lilian1315/create-element/vue-reactivity`).
+### Fragments
+
+Use `Fragment` to group children without an extra DOM wrapper. A Fragment returns a `Node[]`.
+
+```tsx
+import { Fragment } from '@lilian1315/create-element/jsx-runtime'
+
+function List() {
+  return (
+    <>
+      <li>One</li>
+      <li>Two</li>
+    </>
+  )
+}
+```
+
+### Reactive JSX
+
+For reactive JSX, set `jsxImportSource` to the adapter path:
+
+| Signal library | `jsxImportSource` |
+| --- | --- |
+| alien-signals | `@lilian1315/create-element/alien-signals` |
+| alien-deepsignals | `@lilian1315/create-element/alien-deepsignals` |
+| faisceau | `@lilian1315/create-element/faisceau` |
+| @preact/signals-core | `@lilian1315/create-element/preact-signals` |
+| @vue/reactivity | `@lilian1315/create-element/vue-reactivity` |
 
 ## Reactive Support (Optional)
 
-`@lilian1315/create-element` ships multiple reactive adapters. Import `h` from the adapter that matches your signal library and install the corresponding dependency. Attributes, styles, datasets, and children will stay in sync automatically.
+Each reactive adapter wraps `createElement` so that signal/computed values in attributes, styles, datasets, and children are automatically tracked and updated in the DOM.
+
+Import `h` from the adapter that matches your signal library and install the corresponding peer dependency.
 
 ### alien-signals
 

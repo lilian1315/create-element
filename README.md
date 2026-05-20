@@ -1,205 +1,57 @@
 # @lilian1315/create-element
 
-Type-safe `document.createElement` wrapper with JSX support and optional reactive lib integrations for building DOM elements.
+[![npm](https://img.shields.io/npm/v/@lilian1315/create-element)](https://www.npmjs.com/package/@lilian1315/create-element)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-## Features
+Type-safe `document.createElement` wrapper with JSX support and optional reactive library integrations for building DOM elements.
 
-- Type-safe element creation with TypeScript ([Usage](#usage))
-- Support for HTML, SVG, and MathML elements
-- Simple attribute and event handling ([Attributes](#attributes))
-- [JSX Support](#jsx-support)
-- Optional reactive programming with [alien-signals](https://github.com/stackblitz/alien-signals), [alien-deepsignals](https://github.com/CCherry07/alien-deepsignals), [faisceau](https://github.com/lilian1315/faisceau), [@preact/signals-core](https://github.com/preactjs/signals), and [@vue/reactivity](https://github.com/vuejs/core/tree/main/packages/reactivity) ([Reactive Support](#reactive-support-optional))
+## Packages
 
-## Installation
+| Package | Description |
+| --- | --- |
+| [`@lilian1315/create-element`](./packages/create-element) | Core library — type-safe element creation, JSX runtime, and reactive adapters |
+| [`@lilian1315/elements-writable-properties-types`](./packages/elements-writable-properties-types) | Auto-generated TypeScript types for writable DOM element properties |
+
+## Quick Start
 
 ```bash
 pnpm add @lilian1315/create-element
 ```
 
-## Usage
-
 ```typescript
 import { h } from '@lilian1315/create-element'
 
-// Create a simple element
-const div = h('div', { class: 'container' }, 'Hello World!')
-
-// With event handlers
-const button = h('button', {
-  onclick: () => console.log('Clicked!'),
-  children: 'Click me',
-})
-
-// Nested elements
-const app = h('div', null, [h('h1', null, 'My App'), button])
-```
-
-## API
-
-### `h(tag, attributes?, ...children)`
-
-- `tag`: HTML tag name (e.g., `'div'`, `'button'`)
-- `attributes`: Optional object with element attributes
-- `children`: Child elements or text
-
-### Attributes
-
-```typescript
-// Classes
-h('div', { class: 'btn primary' })
-h('div', { class: ['btn', 'primary'] })
-h('div', { class: { btn: true, primary: true, active: false } })
-
-// Styles
-h('div', { style: 'color: red' })
-h('div', { style: { color: 'red', fontSize: '16px' } })
-
-// Events
-h('button', { onclick: () => console.log('clicked') })
-
-// Data attributes
-h('div', {
-  data: {
-    testId: 'my-component',
-    active: true, // data-active=""
-    hidden: false, // removed
-    count: null, // removed
-    empty: undefined, // removed
-  },
-})
-
-// InnerHTML (cannot be used with children attribute or property)
-h('div', { innerHTML: '<span>content</span>' })
-```
-
-### SVG and MathML
-
-```typescript
-// SVG elements
-const svg = h('svg', { width: '100', height: '100' })
-const circle = h('svg:circle', { cx: '50', cy: '50', r: '20' })
-
-// MathML elements
-const math = h('math')
-const variable = h('math:mi', null, 'x')
-```
-
-## JSX Support
-
-Use JSX syntax with TypeScript configuration:
-
-```jsonc
-// tsconfig.json
-{
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "@lilian1315/create-element",
-  },
-}
-```
-
-```tsx
-// Regular JSX
-function App() {
-  return (
-    <div class="container">
-      <h1>My App</h1>
-      <button onclick={() => console.log('clicked')}>Click me</button>
-    </div>
-  )
-}
-```
-
-For reactive JSX, set `jsxImportSource` to the adapter you use (e.g. `@lilian1315/create-element/alien-signals`, `@lilian1315/create-element/alien-deepsignals`, `@lilian1315/create-element/faisceau`, `@lilian1315/create-element/preact-signals`, `@lilian1315/create-element/vue-reactivity`).
-
-## Reactive Support (Optional)
-
-`@lilian1315/create-element` ships multiple reactive adapters. Import `h` from the adapter that matches your signal library and install the corresponding dependency. Attributes, styles, datasets, and children will stay in sync automatically.
-
-### alien-signals
-
-```typescript
-import { h } from '@lilian1315/create-element/alien-signals'
-import { computed, signal } from 'alien-signals'
-
-const count = signal(0)
-const label = computed(() => `Count: ${count()}`)
-
-const counter = h('section', { class: 'counter' }, [
-  h('p', null, label),
-  h('button', { onclick: () => count(count() + 1) }, 'Increment'),
+const app = h('div', { class: 'container' }, [
+  h('h1', null, 'Hello World!'),
+  h('button', { onclick: () => alert('Clicked!') }, 'Click me'),
 ])
+
+document.body.appendChild(app)
 ```
 
-Requires: `pnpm add alien-signals`
+## Features
 
-### alien-deepsignals
+- **Type-safe** — full TypeScript support with autocompletion for element attributes
+- **HTML, SVG, and MathML** — create any DOM element with namespace-aware prefixes (`svg:circle`, `math:mi`)
+- **JSX** — use JSX syntax via standard `react-jsx` transform
+- **Reactive adapters** — optional first-class integrations with popular signal libraries:
+  - [alien-signals](https://github.com/stackblitz/alien-signals)
+  - [alien-deepsignals](https://github.com/CCherry07/alien-deepsignals)
+  - [faisceau](https://github.com/lilian1315/faisceau)
+  - [@preact/signals-core](https://github.com/preactjs/signals)
+  - [@vue/reactivity](https://github.com/vuejs/core/tree/main/packages/reactivity)
 
-```typescript
-import { h } from '@lilian1315/create-element/alien-deepsignals'
-import { computed, signal } from 'alien-deepsignals'
+## Documentation
 
-const count = signal(0)
-const label = computed(() => `Count: ${count.get()}`)
+See the full [API documentation and usage guide](./packages/create-element/README.md).
 
-const counter = h('section', null, [
-  h('p', null, label),
-  h('button', { onclick: () => count.set(count.get() + 1) }, 'Increment'),
-])
+## Development
+
+```bash
+pnpm install
+pnpm -r build
+pnpm -r test
 ```
-
-Requires: `pnpm add alien-deepsignals`
-
-### faisceau
-
-```typescript
-import { h } from '@lilian1315/create-element/faisceau'
-import { computed, signal } from 'faisceau'
-
-const count = signal(0)
-const label = computed(() => `Count: ${count.get()}`)
-
-const counter = h('section', null, [
-  h('p', null, label),
-  h('button', { onclick: () => count.set(count.get() + 1) }, 'Increment'),
-])
-```
-
-Requires: `pnpm add faisceau`
-
-### @preact/signals-core
-
-```typescript
-import { h } from '@lilian1315/create-element/preact-signals'
-import { computed, signal } from '@preact/signals-core'
-
-const count = signal(0)
-const label = computed(() => `Count: ${count.value}`)
-
-const counter = h('section', null, [
-  h('p', null, label),
-  h('button', { onclick: () => (count.value = count.value + 1) }, 'Increment'),
-])
-```
-
-Requires: `pnpm add @preact/signals-core`
-
-### @vue/reactivity
-
-```typescript
-import { h } from '@lilian1315/create-element/vue-reactivity'
-import { computed, ref } from '@vue/reactivity'
-
-const count = ref(0)
-const label = computed(() => `Count: ${count.value}`)
-
-const counter = h('section', null, [
-  h('p', null, label),
-  h('button', { onclick: () => count.value++ }, 'Increment'),
-])
-```
-
-Requires: `pnpm add @vue/reactivity`
 
 ## License
 
