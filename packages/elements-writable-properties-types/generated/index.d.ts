@@ -1221,8 +1221,6 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLFormElement)
      */
     export interface HTMLFormElement extends HTMLElement {
-        [index: number]: Element;
-        [name: string]: any;
         relList: string;
         /**
          * The **`HTMLFormElement.acceptCharset`** property represents the character encoding for the given <form> element.
@@ -2477,7 +2475,6 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLSelectElement)
      */
     export interface HTMLSelectElement extends HTMLElement {
-        [name: number]: HTMLOptionElement | HTMLOptGroupElement;
         /**
          * The **`autocomplete`** property of the HTMLSelectElement interface indicates whether the value of the control can be automatically completed by the browser. It reflects the <select> element's autocomplete attribute.
          *

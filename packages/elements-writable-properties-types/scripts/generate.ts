@@ -121,6 +121,7 @@ await Promise.all(
         (name && excludedMembers.includes(name)) ||
         m.isKind(SyntaxKind.MethodSignature) ||
         m.isKind(SyntaxKind.GetAccessor) ||
+        m.isKind(SyntaxKind.IndexSignature) ||
         (m.isKind(SyntaxKind.PropertySignature) && m.isReadonly())
       ) {
         m.remove()
