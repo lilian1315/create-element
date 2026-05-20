@@ -8,10 +8,10 @@ Type-safe `document.createElement` wrapper with JSX support and optional reactiv
 
 ## Packages
 
-| Package | Description |
-| --- | --- |
-| [`@lilian1315/create-element`](./packages/create-element) | Core library — type-safe element creation, JSX runtime, and reactive adapters |
-| [`@lilian1315/elements-writable-properties-types`](./packages/elements-writable-properties-types) | Auto-generated TypeScript types for writable DOM element properties |
+| Package                                                                                           | Description                                                                   |
+| ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [`@lilian1315/create-element`](./packages/create-element)                                         | Core library — type-safe element creation, JSX runtime, and reactive adapters |
+| [`@lilian1315/elements-writable-properties-types`](./packages/elements-writable-properties-types) | Auto-generated TypeScript types for writable DOM element properties           |
 
 ## Quick Start
 

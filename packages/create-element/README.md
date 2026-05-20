@@ -44,11 +44,11 @@ const app = h('div', null, [h('h1', null, 'My App'), button])
 
 Creates a DOM element and returns it.
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `tag` | `string` | HTML tag name (e.g. `'div'`), or prefixed for SVG/MathML (`'svg:circle'`, `'math:mi'`) |
+| Parameter    | Type             | Description                                                                                          |
+| ------------ | ---------------- | ---------------------------------------------------------------------------------------------------- |
+| `tag`        | `string`         | HTML tag name (e.g. `'div'`), or prefixed for SVG/MathML (`'svg:circle'`, `'math:mi'`)               |
 | `attributes` | `object \| null` | Optional attribute bag including special helpers (`class`, `style`, `data`, `innerHTML`, `children`) |
-| `children` | `Child[]` | Additional child nodes — strings, numbers, DOM nodes, `null`, or arrays thereof |
+| `children`   | `Child[]`        | Additional child nodes — strings, numbers, DOM nodes, `null`, or arrays thereof                      |
 
 **Returns:** the created DOM element (`HTMLElement`, `SVGElement`, or `MathMLElement`).
 
@@ -71,10 +71,10 @@ h('button', { onclick: () => console.log('clicked') })
 h('div', {
   data: {
     testId: 'my-component', // data-test-id="my-component"
-    active: true,           // data-active=""
-    hidden: false,          // removed
-    count: null,            // removed
-    empty: undefined,       // removed
+    active: true, // data-active=""
+    hidden: false, // removed
+    count: null, // removed
+    empty: undefined, // removed
   },
 })
 
@@ -152,13 +152,13 @@ function List() {
 
 For reactive JSX, set `jsxImportSource` to the adapter path:
 
-| Signal library | `jsxImportSource` |
-| --- | --- |
-| alien-signals | `@lilian1315/create-element/alien-signals` |
-| alien-deepsignals | `@lilian1315/create-element/alien-deepsignals` |
-| faisceau | `@lilian1315/create-element/faisceau` |
-| @preact/signals-core | `@lilian1315/create-element/preact-signals` |
-| @vue/reactivity | `@lilian1315/create-element/vue-reactivity` |
+| Signal library       | `jsxImportSource`                              |
+| -------------------- | ---------------------------------------------- |
+| alien-signals        | `@lilian1315/create-element/alien-signals`     |
+| alien-deepsignals    | `@lilian1315/create-element/alien-deepsignals` |
+| faisceau             | `@lilian1315/create-element/faisceau`          |
+| @preact/signals-core | `@lilian1315/create-element/preact-signals`    |
+| @vue/reactivity      | `@lilian1315/create-element/vue-reactivity`    |
 
 ## Reactive Support (Optional)
 
