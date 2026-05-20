@@ -1,6 +1,6 @@
 {
   "name": "@lilian1315/create-element",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Type-safe `document.createElement` wrapper with JSX support and optional reactive lib integrations for building DOM elements.",
   "keywords": [
     "createElement"
