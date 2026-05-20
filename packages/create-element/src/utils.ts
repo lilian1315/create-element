@@ -40,6 +40,8 @@ export function handleAnyAttribute(
   }
 
   if (name in element || typeof name === 'symbol') {
+    if (value === undefined && typeof name !== 'symbol') return
+
     try {
       // @ts-expect-error try to set the value directly
       element[name] = value

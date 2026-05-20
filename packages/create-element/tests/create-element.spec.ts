@@ -39,6 +39,16 @@ for (const [factoryName, h] of factories) {
       expect(element.hidden).toBe(true)
     })
 
+    it('does not set attribute when value is undefined', () => {
+      const element = h('input', {
+        type: 'text',
+        value: undefined,
+      })
+
+      expect(element.type).toBe('text')
+      expect(element.value).toBe('')
+    })
+
     it('create whith tag and unknown attributes', () => {
       const symbol = Symbol('test symbol')
       const element = h('picture', {
