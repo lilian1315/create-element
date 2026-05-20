@@ -5,8 +5,8 @@
     "build:types": "vp run --filter @lilian1315/elements-writable-properties-types build",
     "build:core": "vp run --filter @lilian1315/create-element build",
     "check": "vp check",
-    "release:core": "vp run check && vp run --filter @lilian1315/create-element test run && vp exec --filter @lilian1315/create-element bumpp -c 'release @lilian1315/create-element@' -t '@lilian1315/create-element@'",
-    "release:types": "vp run check && vp exec --filter @lilian1315/elements-writable-properties-types bumpp -c 'release @lilian1315/elements-writable-properties-types@' -t '@lilian1315/elements-writable-properties-types@'"
+    "release:core": "vp run check && vp run --filter @lilian1315/create-element test run && vp exec --filter @lilian1315/create-element bumpp -c \"release @lilian1315/create-element@\" -t @lilian1315/create-element@",
+    "release:types": "vp run check && vp exec --filter @lilian1315/elements-writable-properties-types bumpp -c \"release @lilian1315/elements-writable-properties-types@\" -t @lilian1315/elements-writable-properties-types@"
   },
   "devDependencies": {
     "bumpp": "^11.0.1",
