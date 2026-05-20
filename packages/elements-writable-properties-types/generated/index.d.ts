@@ -1400,7 +1400,7 @@ export namespace DOMTypes {
          */
         height: string;
         /**
-         * The **`loading`** property of the HTMLIFrameElement interface is a string that provides a hint to the user agent indicating whether the iframe should be loaded immediately on page load, or only when it is needed.
+         * The **`loading`** property of the HTMLIFrameElement interface is a string that provides a hint to the browser indicating whether the iframe should be loaded immediately on page load, or only when it is needed.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLIFrameElement/loading)
          */
@@ -1509,7 +1509,7 @@ export namespace DOMTypes {
          */
         isMap: boolean;
         /**
-         * The **`loading`** property of the HTMLImageElement interface provides a hint to the user agent on how to handle the loading of the image which is currently outside the window's visual viewport. This helps to optimize the loading of the document's contents by postponing loading the image until it's expected to be needed, rather than immediately during the initial page load. It reflects the <img> element's loading content attribute.
+         * The **`loading`** property of the HTMLImageElement interface provides a hint to the browser on how to handle the loading of the image which is currently outside the window's visual viewport. This helps to optimize the loading of the document's contents by postponing loading the image until it's expected to be needed, rather than immediately during the initial page load. It reflects the <img> element's loading content attribute.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/loading)
          */
@@ -1537,7 +1537,7 @@ export namespace DOMTypes {
          */
         referrerPolicy: string;
         /**
-         * The **`sizes`** property of the HTMLImageElement interface allows you to specify the layout width of the image for each of a list of media queries. This provides the ability to automatically select among different images—even images of different orientations or aspect ratios—as the document state changes to match different media conditions. It reflects the <img> element's sizes content attribute.
+         * The **`sizes`** property of the HTMLImageElement interface allows you to specify the layout width of the image for each of a list of media queries, or auto for lazy-loaded images to allow the browser to automatically select an image to display based on the layout size of the element. This allows the browser to choose between different images specified in the element srcset to match different media conditions — even images with different orientations or aspect ratios.
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes)
          */
