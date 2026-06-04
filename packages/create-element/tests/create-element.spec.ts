@@ -53,11 +53,15 @@ for (const [factoryName, h] of factories) {
       const symbol = Symbol('test symbol')
       const element = h('picture', {
         [symbol]: 'Test symbol',
-        unknown: 'Test unknown',
+        'unknown-attribute': 'Test unknown',
+        'undefined-attribute': undefined,
+        'null-attribute': null,
       })
       // @ts-expect-error symbol attribute
       expect(element[symbol]).toBe('Test symbol')
-      expect(element.getAttribute('unknown')).toBe('Test unknown')
+      expect(element.getAttribute('unknown-attribute')).toBe('Test unknown')
+      expect(element.hasAttribute('undefined-attribute')).toBe(false)
+      expect(element.hasAttribute('null-attribute')).toBe(false)
     })
 
     it('support class attribute (string)', () => {
