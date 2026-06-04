@@ -46,7 +46,8 @@ export function handleAnyAttribute(
       // @ts-expect-error try to set the value directly
       element[name] = value
     } catch {}
-  } else if(value !== null && value !== undefined) {
+  } else if (value !== null && value !== undefined) {
+    // oxlint-disable-next-line typescript/no-base-to-string
     element.setAttribute(name, String(value))
   }
 }
