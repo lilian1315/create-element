@@ -1,5 +1,5 @@
 import { computed, signal } from 'alien-signals'
-import { expect, it } from 'vite-plus/test'
+import { expect, it, vi } from 'vite-plus/test'
 
 import { h } from '../src/alien-signals/index'
 import type { Children } from '../src/alien-signals/types'
@@ -179,6 +179,23 @@ it('support signal / computed data attribute', () => {
   expect(element.dataset.special).toBe('four')
   special(false)
   expect(element.dataset.special).toBeUndefined()
+})
+
+it('support signal / computed event listener attribute', () => {
+  const onclick = vi.fn()
+  const onclick2 = vi.fn()
+  const signalEventHandler = signal<(() => void) | null>(onclick)
+
+  const element = h('p', { onclick: signalEventHandler })
+
+  element.click()
+  signalEventHandler(onclick2)
+  element.click()
+  signalEventHandler(null)
+  element.click()
+
+  expect(onclick).toHaveBeenCalledOnce()
+  expect(onclick2).toHaveBeenCalledOnce()
 })
 
 it('support children property / attribute with signals / computed child', () => {

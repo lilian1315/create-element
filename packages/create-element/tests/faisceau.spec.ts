@@ -1,5 +1,5 @@
 import { computed, signal } from 'faisceau'
-import { expect, it } from 'vite-plus/test'
+import { expect, it, vi } from 'vite-plus/test'
 
 import { h } from '../src/faisceau/index'
 import type { Children } from '../src/faisceau/types'
@@ -142,6 +142,23 @@ it('support style attribute (MayBeReactiveObject<CSSStyleDeclaration>)', () => {
 
   expect(element.style.fontSize).toBe('25px')
   expect(element.style.lineHeight).toBe('2em')
+})
+
+it('support signal / computed event listener attribute', () => {
+  const onclick = vi.fn()
+  const onclick2 = vi.fn()
+  const signalEventHandler = signal<(() => void) | null>(onclick)
+
+  const element = h('p', { onclick: signalEventHandler })
+
+  element.click()
+  signalEventHandler.set(onclick2)
+  element.click()
+  signalEventHandler.set(null)
+  element.click()
+
+  expect(onclick).toHaveBeenCalledOnce()
+  expect(onclick2).toHaveBeenCalledOnce()
 })
 
 it('support signal / computed data attribute', () => {

@@ -1,5 +1,5 @@
 import { computed, ref, shallowRef } from '@vue/reactivity'
-import { expect, it } from 'vite-plus/test'
+import { expect, it, vi } from 'vite-plus/test'
 
 import { h } from '../src/vue-reactivity/index'
 import type { Children } from '../src/vue-reactivity/types'
@@ -179,6 +179,23 @@ it('support ref / computed data attribute', () => {
   expect(element.dataset.special).toBe('four')
   special.value = false
   expect(element.dataset.special).toBeUndefined()
+})
+
+it('support ref / computed event listener attribute', () => {
+  const onclick = vi.fn()
+  const onclick2 = vi.fn()
+  const refEventHandler = ref<(() => void) | null>(onclick)
+
+  const element = h('p', { onclick: refEventHandler })
+
+  element.click()
+  refEventHandler.value = onclick2
+  element.click()
+  refEventHandler.value = null
+  element.click()
+
+  expect(onclick).toHaveBeenCalledOnce()
+  expect(onclick2).toHaveBeenCalledOnce()
 })
 
 it('support children property / attribute with refs / computed child', () => {

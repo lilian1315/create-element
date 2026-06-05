@@ -6,9 +6,12 @@ import {
   handleAnyAttribute,
   handleChildren,
   handleClassAttribute,
+  handleEventHandlerAttribute,
   handleStyleAttribute,
 } from '../utils'
 import type { Children, ReactiveChild, SpecialAttributesSignal } from './types'
+
+const elementsEventHandlers = new WeakMap<DomElement, Map<string, Function>>()
 
 export function handleAnySignalAttribute(
   element: DomElement,
@@ -16,7 +19,19 @@ export function handleAnySignalAttribute(
   value: any,
 ): void {
   if (isRef(value)) {
-    effect(() => handleAnyAttribute(element, key, value.value))
+    effect(() => {
+      const v = value.value
+      if (
+        typeof key === 'string' &&
+        key.startsWith('on') &&
+        (typeof v === 'function' || v === null || v === undefined)
+      ) {
+        handleSignalEventHandlerAttribute(element, key, v)
+        return
+      }
+
+      handleAnyAttribute(element, key, v)
+    })
     return
   }
 
@@ -53,6 +68,27 @@ export function handleClassSignalAttribute(
       element.classList.toggle(k as string, v === true)
     })
   }
+}
+
+export function handleSignalEventHandlerAttribute(
+  element: DomElement,
+  key: string,
+  value: Function | null | undefined,
+): void {
+  let eventHandlers = elementsEventHandlers.get(element)
+
+  if (!eventHandlers) {
+    eventHandlers = new Map<string, Function>()
+    elementsEventHandlers.set(element, eventHandlers)
+  }
+
+  const existing = eventHandlers.get(key)
+  if (existing) element.removeEventListener(key.slice(2).toLowerCase(), existing as EventListener)
+
+  if (!value) return
+
+  eventHandlers.set(key, value)
+  handleEventHandlerAttribute(element, key, value)
 }
 
 export function handleStyleSignalAttribute(

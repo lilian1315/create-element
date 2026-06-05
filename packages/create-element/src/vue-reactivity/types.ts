@@ -13,12 +13,6 @@ type MayBeReactiveObject<T extends object> = {
   [K in keyof T]: MaybeReactive<T[K]>
 }
 
-type MayBeReactiveObjectExceptEventHandlers<T extends object> = {
-  [K in keyof T]: [K, T[K]] extends [`on${string}`, ((...args: any[]) => any) | null]
-    ? T[K]
-    : MaybeReactive<T[K]>
-}
-
 export type ReactiveChild =
   | Ref<Exclude<Child, Node>>
   | Ref<Exclude<Child, Node>[]>
@@ -69,7 +63,7 @@ export type WithInnerHTML<T> = T & {
 
 export type ElementAttributesTagNameMap = {
   [T in PrefixedElementTag]: Partial<
-    MayBeReactiveObjectExceptEventHandlers<BaseElementAttributesTagNameMap[T]> &
+    MayBeReactiveObject<BaseElementAttributesTagNameMap[T]> &
       SpecialAttributesSignal &
       Readonly<Record<string | symbol, unknown>>
   >
