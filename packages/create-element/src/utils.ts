@@ -31,24 +31,24 @@ export function createBaseElement<T extends PrefixedElementTag>(
 
 export function handleAnyAttribute(
   element: DomElement,
-  name: string | symbol,
+  key: string | symbol,
   value: unknown,
 ): void {
-  if (typeof name === 'string' && name.startsWith('on') && typeof value === 'function') {
-    handleEventHandlerAttribute(element, name, value)
+  if (typeof key === 'string' && key.startsWith('on') && typeof value === 'function') {
+    handleEventHandlerAttribute(element, key, value)
     return
   }
 
-  if (name in element || typeof name === 'symbol') {
-    if ((value === undefined || value === null) && typeof name !== 'symbol') return
+  if (key in element || typeof key === 'symbol') {
+    if ((value === undefined || value === null) && typeof key !== 'symbol') return
 
     try {
       // @ts-expect-error try to set the value directly
-      element[name] = value
+      element[key] = value
     } catch {}
   } else if (value !== null && value !== undefined) {
     // oxlint-disable-next-line typescript/no-base-to-string
-    element.setAttribute(name, String(value))
+    element.setAttribute(key, String(value))
   }
 }
 
@@ -72,10 +72,10 @@ export function handleClassAttribute(element: DomElement, value: SpecialAttribut
 
 export function handleEventHandlerAttribute(
   element: DomElement,
-  name: string,
+  key: string,
   value: Function,
 ): void {
-  element.addEventListener(name.slice(2).toLowerCase(), value as EventListener)
+  element.addEventListener(key.slice(2).toLowerCase(), value as EventListener)
 }
 
 export function handleStyleAttribute(element: DomElement, value: SpecialAttributes['style']): void {
