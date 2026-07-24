@@ -42,8 +42,7 @@ export function handleAnyAttribute(
     if ((value === undefined || value === null) && typeof key !== 'symbol') return
 
     try {
-      // @ts-expect-error try to set the value directly
-      element[key] = value
+      Reflect.set(element, key, value)
     } catch {}
   } else if (value !== null && value !== undefined) {
     // oxlint-disable-next-line typescript/no-base-to-string
