@@ -9,24 +9,23 @@ import type {
 
 export function createBaseElement<T extends PrefixedElementTag>(
   tag: T,
-): ElementPrefixedTagNameMap[T] {
-  let element: ElementPrefixedTagNameMap[T]
-
+): ElementPrefixedTagNameMap[T]
+export function createBaseElement(tag: PrefixedElementTag): DomElement {
   if (tag === 'svg' || tag.startsWith('svg:')) {
-    element = document.createElementNS(
+    return document.createElementNS(
       'http://www.w3.org/2000/svg',
       tag === 'svg' ? 'svg' : tag.substring(4),
-    ) as ElementPrefixedTagNameMap[T]
-  } else if (tag === 'math' || tag.startsWith('math:')) {
-    element = document.createElementNS(
-      'http://www.w3.org/1998/Math/MathML',
-      tag === 'math' ? 'math' : tag.substring(5),
-    ) as ElementPrefixedTagNameMap[T]
-  } else {
-    element = document.createElement(tag) as ElementPrefixedTagNameMap[T]
+    )
   }
 
-  return element
+  if (tag === 'math' || tag.startsWith('math:')) {
+    return document.createElementNS(
+      'http://www.w3.org/1998/Math/MathML',
+      tag === 'math' ? 'math' : tag.substring(5),
+    )
+  }
+
+  return document.createElement(tag)
 }
 
 export function handleAnyAttribute(
