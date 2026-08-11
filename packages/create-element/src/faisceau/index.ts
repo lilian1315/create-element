@@ -17,18 +17,10 @@
  * ```
  */
 
-import { untracked } from 'faisceau'
-
+import { createReactiveElement } from '../reactive-element'
 import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
-import { createBaseElement } from '../utils'
+import { reactivityAdapter } from './reactivity'
 import type { Children, ElementAttributesTagNameMap, WithChildren, WithInnerHTML } from './types'
-import {
-  handleAnySignalAttribute,
-  handleClassSignalAttribute,
-  handleDataSignalAttribute,
-  handleSignalChildren,
-  handleStyleSignalAttribute,
-} from './utils'
 
 /**
  * Creates a DOM element with [faisceau](https://github.com/lilian1315/faisceau) aware attributes, styles, datasets, and innerHTML.
@@ -55,43 +47,7 @@ export function createElement<T extends PrefixedElementTag>(
   attributes?: Prettify<ElementAttributesTagNameMap[T]> | null,
   ...children: Children[]
 ): ElementPrefixedTagNameMap[T] {
-  const element = createBaseElement(tag)
-
-  untracked(() => {
-    if (attributes) {
-      for (const name of Reflect.ownKeys(attributes)) {
-        if (name === 'children') {
-          if (Array.isArray(attributes.children)) {
-            attributes.children.forEach((child) => handleSignalChildren(element, child))
-          } else {
-            handleSignalChildren(element, attributes.children)
-          }
-          continue
-        }
-
-        if (name === 'class' && attributes.class) {
-          handleClassSignalAttribute(element, attributes.class)
-          continue
-        }
-
-        if (name === 'style' && attributes.style) {
-          handleStyleSignalAttribute(element, attributes.style)
-          continue
-        }
-
-        if (name === 'data' && attributes.data) {
-          handleDataSignalAttribute(element, attributes.data)
-          continue
-        }
-
-        handleAnySignalAttribute(element, name, attributes[name])
-      }
-    }
-
-    children.forEach((child) => handleSignalChildren(element, child))
-  })
-
-  return element
+  return createReactiveElement(reactivityAdapter, tag, attributes, children)
 }
 
 /**

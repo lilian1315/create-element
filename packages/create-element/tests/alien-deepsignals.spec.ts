@@ -1,4 +1,4 @@
-import { computed, signal } from 'alien-deepsignals'
+import { computed, deepSignal, signal } from 'alien-deepsignals'
 import { expect, it, vi } from 'vite-plus/test'
 
 import { h } from '../src/alien-deepsignals/index'
@@ -179,6 +179,32 @@ it('support signal / computed data attribute', () => {
   expect(element.dataset.special).toBe('four')
   special.set(false)
   expect(element.dataset.special).toBeUndefined()
+})
+
+it('support deep signal object properties', () => {
+  const classValue = deepSignal({ selected: true })
+  const styleValue = deepSignal({ color: 'red' })
+  const dataValue = deepSignal<{ state: string | boolean | undefined }>({ state: 'initial' })
+  const element = h('div', {
+    class: classValue,
+    style: styleValue,
+    data: dataValue,
+  })
+
+  expect(element.classList.contains('selected')).toBe(true)
+  expect(element.style.color).toBe('red')
+  expect(element.dataset.state).toBe('initial')
+
+  classValue.selected = false
+  styleValue.color = 'blue'
+  dataValue.state = true
+
+  expect(element.classList.contains('selected')).toBe(false)
+  expect(element.style.color).toBe('blue')
+  expect(element.dataset.state).toBe('')
+
+  dataValue.state = undefined
+  expect(element.dataset.state).toBeUndefined()
 })
 
 it('support signal / computed event listener attribute', () => {

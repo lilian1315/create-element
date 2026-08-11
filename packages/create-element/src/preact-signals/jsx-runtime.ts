@@ -38,11 +38,12 @@
 import type { ReadonlySignal } from '@preact/signals-core'
 import { computed } from '@preact/signals-core'
 
+import { childValueToNodes } from '../reactive-element'
+import { getReactiveValue } from '../reactivity'
 import type { DomElement, PrefixedElementTag, Prettify } from '../types'
-import { childrenToNodes } from '../utils'
 import { h } from './index'
+import { reactivityAdapter } from './reactivity'
 import type { Children, ElementAttributesTagNameMap } from './types'
-import { isSignal, reactiveChildrenToNodes } from './utils'
 
 /**
  * Symbol used to group children without introducing an extra DOM node when using JSX.
@@ -67,10 +68,9 @@ export function jsx<
     return computed(() => {
       const children = Array.isArray(props.children) ? props.children.flat() : [props.children]
 
-      return children.flatMap((child) => {
-        if (isSignal(child)) return reactiveChildrenToNodes(child)
-        else return childrenToNodes(child)
-      })
+      return children.flatMap((child) =>
+        childValueToNodes(getReactiveValue(reactivityAdapter, child)),
+      )
     })
   }
   return h<PrefixedElementTag>(type, props)

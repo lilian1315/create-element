@@ -1,4 +1,4 @@
-import { computed, ref, shallowRef } from '@vue/reactivity'
+import { computed, reactive, ref, shallowRef } from '@vue/reactivity'
 import { expect, it, vi } from 'vite-plus/test'
 
 import { h } from '../src/vue-reactivity/index'
@@ -179,6 +179,32 @@ it('support ref / computed data attribute', () => {
   expect(element.dataset.special).toBe('four')
   special.value = false
   expect(element.dataset.special).toBeUndefined()
+})
+
+it('support reactive object properties', () => {
+  const classValue = reactive({ selected: true })
+  const styleValue = reactive({ color: 'red' })
+  const dataValue = reactive<{ state: string | boolean | undefined }>({ state: 'initial' })
+  const element = h('div', {
+    class: classValue,
+    style: styleValue,
+    data: dataValue,
+  })
+
+  expect(element.classList.contains('selected')).toBe(true)
+  expect(element.style.color).toBe('red')
+  expect(element.dataset.state).toBe('initial')
+
+  classValue.selected = false
+  styleValue.color = 'blue'
+  dataValue.state = true
+
+  expect(element.classList.contains('selected')).toBe(false)
+  expect(element.style.color).toBe('blue')
+  expect(element.dataset.state).toBe('')
+
+  dataValue.state = undefined
+  expect(element.dataset.state).toBeUndefined()
 })
 
 it('support ref / computed event listener attribute', () => {
