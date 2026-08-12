@@ -65,7 +65,6 @@ export namespace DOMTypes {
          */
         type: string;
     }
-
     /**
      * The **`HTMLElement`** interface represents any HTML element. Some elements directly implement this interface, while others implement it via an interface that inherits it.
      *
@@ -151,7 +150,6 @@ export namespace DOMTypes {
          */
         writingSuggestions: string;
     }
-
     /**
      * **`Element`** is the most general base class from which all element objects (i.e., objects that represent elements) in a Document inherit. It only has methods and properties common to all kinds of elements. More specific classes inherit from Element.
      *
@@ -188,7 +186,6 @@ export namespace DOMTypes {
          */
         slot: string;
     }
-
     /**
      * The DOM **`Node`** interface is an abstract base class upon which many other DOM API objects are based, thus letting those object types be used similarly and often interchangeably. As an abstract class, there is no such thing as a plain Node object. All objects that implement Node functionality are based on one of its subclasses. Most notable are Document, Element, and DocumentFragment.
      *
@@ -196,7 +193,6 @@ export namespace DOMTypes {
      */
     interface Node extends EventTarget {
     }
-
     /**
      * The **`EventTarget`** interface is implemented by objects that can receive events and may have listeners for them. In other words, any target of events implements the three methods associated with this interface.
      *
@@ -204,7 +200,6 @@ export namespace DOMTypes {
      */
     interface EventTarget {
     }
-
     interface ARIAMixin {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/ariaActiveDescendantElement) */
         ariaActiveDescendantElement: Element | null;
@@ -311,25 +306,18 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/role) */
         role: string | null;
     }
-
     interface Animatable {
     }
-
     interface ChildNode extends Node {
     }
-
     interface NonDocumentTypeChildNode {
     }
-
     interface ParentNode extends Node {
     }
-
     interface Slottable {
     }
-
     interface ElementCSSInlineStyle {
     }
-
     interface ElementContentEditable {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/contentEditable) */
         contentEditable: string;
@@ -338,7 +326,6 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/inputMode) */
         inputMode: string;
     }
-
     interface GlobalEventHandlers {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/abort_event) */
         onabort: ((this: GlobalEventHandlers, ev: UIEvent) => any) | null;
@@ -567,7 +554,6 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/wheel_event) */
         onwheel: ((this: GlobalEventHandlers, ev: WheelEvent) => any) | null;
     }
-
     interface HTMLOrSVGElement {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/autofocus) */
         autofocus: boolean;
@@ -576,7 +562,6 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/tabIndex) */
         tabIndex: number;
     }
-
     interface HTMLHyperlinkElementUtils {
         /**
          * Returns the hyperlink's URL.
@@ -587,7 +572,6 @@ export namespace DOMTypes {
          */
         href: string;
     }
-
     interface HyperlinkElementUtils {
         /**
          * Returns the hyperlink's URL's fragment (includes leading "#" if non-empty).
@@ -662,7 +646,6 @@ export namespace DOMTypes {
          */
         username: string;
     }
-
     /**
      * The **`HTMLAreaElement`** interface provides special properties and methods (beyond those of the regular object HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of <area> elements.
      *
@@ -721,7 +704,6 @@ export namespace DOMTypes {
          */
         target: string;
     }
-
     /**
      * The **`HTMLAudioElement`** interface provides access to the properties of <audio> elements, as well as methods to manipulate them.
      *
@@ -729,7 +711,6 @@ export namespace DOMTypes {
      */
     export interface HTMLAudioElement extends HTMLMediaElement {
     }
-
     /**
      * The **`HTMLMediaElement`** interface adds to HTMLElement the properties and methods needed to support basic media-related capabilities that are common to audio and video.
      *
@@ -831,7 +812,6 @@ export namespace DOMTypes {
          */
         volume: number;
     }
-
     /**
      * The **`HTMLBRElement`** interface represents an HTML line break element (<br>). It inherits from HTMLElement.
      *
@@ -841,7 +821,6 @@ export namespace DOMTypes {
         /** @deprecated */
         clear: string;
     }
-
     /**
      * The **`HTMLBaseElement`** interface contains the base URI for a document. This object inherits all of the properties and methods as described in the HTMLElement interface.
      *
@@ -861,7 +840,6 @@ export namespace DOMTypes {
          */
         target: string;
     }
-
     /**
      * The **`HTMLBodyElement`** interface provides special properties (beyond those inherited from the regular HTMLElement interface) for manipulating <body> elements.
      *
@@ -881,7 +859,6 @@ export namespace DOMTypes {
         /** @deprecated */
         vLink: string;
     }
-
     interface WindowEventHandlers {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Window/afterprint_event) */
         onafterprint: ((this: WindowEventHandlers, ev: Event) => any) | null;
@@ -928,7 +905,6 @@ export namespace DOMTypes {
          */
         onunload: ((this: WindowEventHandlers, ev: Event) => any) | null;
     }
-
     /**
      * The **`HTMLButtonElement`** interface provides properties and methods (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating <button> elements.
      *
@@ -1002,14 +978,12 @@ export namespace DOMTypes {
          */
         value: string;
     }
-
     interface PopoverTargetAttributes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLButtonElement/popoverTargetAction) */
         popoverTargetAction: string;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLButtonElement/popoverTargetElement) */
         popoverTargetElement: Element | null;
     }
-
     /**
      * The **`HTMLCanvasElement`** interface provides properties and methods for manipulating the layout and presentation of <canvas> elements. The HTMLCanvasElement interface also inherits the properties and methods of the HTMLElement interface.
      *
@@ -1029,7 +1003,6 @@ export namespace DOMTypes {
          */
         width: number;
     }
-
     /**
      * The **`HTMLDListElement`** interface provides special properties (beyond those of the regular HTMLElement interface it also has available to it by inheritance) for manipulating definition list (<dl>) elements.
      *
@@ -1044,7 +1017,6 @@ export namespace DOMTypes {
          */
         compact: boolean;
     }
-
     /**
      * The **`HTMLDataElement`** interface provides special properties (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating <data> elements.
      *
@@ -1058,7 +1030,6 @@ export namespace DOMTypes {
          */
         value: string;
     }
-
     /**
      * The **`HTMLDataListElement`** interface provides special properties (beyond the HTMLElement object interface it also has available to it by inheritance) to manipulate <datalist> elements and their content.
      *
@@ -1066,7 +1037,6 @@ export namespace DOMTypes {
      */
     export interface HTMLDataListElement extends HTMLElement {
     }
-
     /**
      * The **`HTMLDetailsElement`** interface provides special properties (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating <details> elements.
      *
@@ -1086,7 +1056,6 @@ export namespace DOMTypes {
          */
         open: boolean;
     }
-
     /**
      * The **`HTMLDialogElement`** interface provides methods to manipulate <dialog> elements. It inherits properties and methods from the HTMLElement interface.
      *
@@ -1112,13 +1081,11 @@ export namespace DOMTypes {
          */
         returnValue: string;
     }
-
     /** @deprecated */
     export interface HTMLDirectoryElement extends HTMLElement {
         /** @deprecated */
         compact: boolean;
     }
-
     /**
      * The **`HTMLDivElement`** interface provides special properties (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating <div> elements.
      *
@@ -1128,7 +1095,6 @@ export namespace DOMTypes {
         /** @deprecated */
         align: string;
     }
-
     /**
      * The **`HTMLEmbedElement`** interface provides special properties (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating <embed> elements.
      *
@@ -1164,7 +1130,6 @@ export namespace DOMTypes {
          */
         width: string;
     }
-
     /**
      * The **`HTMLFieldSetElement`** interface provides special properties and methods (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of <fieldset> elements.
      *
@@ -1184,7 +1149,6 @@ export namespace DOMTypes {
          */
         name: string;
     }
-
     /**
      * Implements the document object model (DOM) representation of the font element. The HTML Font Element <font> defines the font size, font face and color of text.
      * @deprecated
@@ -1214,7 +1178,6 @@ export namespace DOMTypes {
          */
         size: string;
     }
-
     /**
      * The **`HTMLFormElement`** interface represents a <form> element in the DOM. It allows access to—and, in some cases, modification of—aspects of the form, as well as access to its component elements.
      *
@@ -1283,7 +1246,6 @@ export namespace DOMTypes {
          */
         target: string;
     }
-
     /** @deprecated */
     export interface HTMLFrameElement extends HTMLElement {
         /** @deprecated */
@@ -1303,7 +1265,6 @@ export namespace DOMTypes {
         /** @deprecated */
         src: string;
     }
-
     /**
      * The **`HTMLFrameSetElement`** interface provides special properties (beyond those of the regular HTMLElement interface they also inherit) for manipulating <frameset> elements.
      * @deprecated
@@ -1316,7 +1277,6 @@ export namespace DOMTypes {
         /** @deprecated */
         rows: string;
     }
-
     /**
      * The **`HTMLHRElement`** interface provides special properties (beyond those of the HTMLElement interface it also has available to it by inheritance) for manipulating <hr> elements.
      *
@@ -1334,7 +1294,6 @@ export namespace DOMTypes {
         /** @deprecated */
         width: string;
     }
-
     /**
      * The **`HTMLHeadElement`** interface contains the descriptive information, or metadata, for a document. This object inherits all of the properties and methods described in the HTMLElement interface.
      *
@@ -1342,7 +1301,6 @@ export namespace DOMTypes {
      */
     export interface HTMLHeadElement extends HTMLElement {
     }
-
     /**
      * The **`HTMLHeadingElement`** interface represents the different heading elements, <h1> through <h6>. It inherits methods and properties from the HTMLElement interface.
      *
@@ -1352,7 +1310,6 @@ export namespace DOMTypes {
         /** @deprecated */
         align: string;
     }
-
     /**
      * The **`HTMLHtmlElement`** interface serves as the root node for a given HTML document. This object inherits the properties and methods described in the HTMLElement interface.
      *
@@ -1367,7 +1324,6 @@ export namespace DOMTypes {
          */
         version: string;
     }
-
     /**
      * The **`HTMLIFrameElement`** interface provides special properties and methods (beyond those of the HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of inline frame elements.
      *
@@ -1442,7 +1398,6 @@ export namespace DOMTypes {
          */
         width: string;
     }
-
     /**
      * The **`HTMLImageElement`** interface represents an HTML <img> element, providing the properties and methods used to manipulate image elements.
      *
@@ -1572,7 +1527,6 @@ export namespace DOMTypes {
          */
         width: number;
     }
-
     /**
      * The **`HTMLInputElement`** interface provides special properties and methods for manipulating the options, layout, and presentation of <input> elements.
      *
@@ -1824,7 +1778,6 @@ export namespace DOMTypes {
          */
         width: number;
     }
-
     /**
      * The **`HTMLLIElement`** interface exposes specific properties and methods (beyond those defined by regular HTMLElement interface it also has available to it by inheritance) for manipulating list elements.
      *
@@ -1840,7 +1793,6 @@ export namespace DOMTypes {
          */
         value: number;
     }
-
     /**
      * The **`HTMLLabelElement`** interface gives access to properties specific to <label> elements. It inherits methods and properties from the base HTMLElement interface.
      *
@@ -1854,7 +1806,6 @@ export namespace DOMTypes {
          */
         htmlFor: string;
     }
-
     /**
      * The **`HTMLLegendElement`** is an interface allowing to access properties of the <legend> elements. It inherits properties and methods from the HTMLElement interface.
      *
@@ -1864,7 +1815,6 @@ export namespace DOMTypes {
         /** @deprecated */
         align: string;
     }
-
     /**
      * The **`HTMLLinkElement`** interface represents reference information for external resources and the relationship of those resources to a document and vice versa (corresponds to <link> element; not to be confused with <a>, which is represented by HTMLAnchorElement). This object inherits all of the properties and methods of the HTMLElement interface.
      *
@@ -1959,10 +1909,8 @@ export namespace DOMTypes {
          */
         type: string;
     }
-
     interface LinkStyle {
     }
-
     /**
      * The **`HTMLMapElement`** interface provides special properties and methods (beyond those of the regular object HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of map elements.
      *
@@ -1976,7 +1924,6 @@ export namespace DOMTypes {
          */
         name: string;
     }
-
     /**
      * The **`HTMLMarqueeElement`** interface provides methods to manipulate <marquee> elements.
      * @deprecated
@@ -2007,7 +1954,6 @@ export namespace DOMTypes {
         /** @deprecated */
         width: string;
     }
-
     /**
      * The **`HTMLMenuElement`** interface provides additional properties (beyond those inherited from the HTMLElement interface) for manipulating a <menu> element. <menu> is a semantic alternative to the <ul> element.
      *
@@ -2022,7 +1968,6 @@ export namespace DOMTypes {
          */
         compact: boolean;
     }
-
     /**
      * The **`HTMLMetaElement`** interface contains descriptive metadata about a document provided in HTML as <meta> elements. This interface inherits all of the properties and methods described in the HTMLElement interface.
      *
@@ -2061,7 +2006,6 @@ export namespace DOMTypes {
          */
         scheme: string;
     }
-
     /**
      * The HTML <meter> elements expose the **`HTMLMeterElement`** interface, which provides special properties and methods (beyond the HTMLElement object interface they also have available to them by inheritance) for manipulating the layout and presentation of <meter> elements.
      *
@@ -2105,7 +2049,6 @@ export namespace DOMTypes {
          */
         value: number;
     }
-
     /**
      * The **`HTMLModElement`** interface provides special properties (beyond the regular methods and properties available through the HTMLElement interface they also have available to them by inheritance) for manipulating modification elements, that is <del> and <ins>.
      *
@@ -2125,7 +2068,6 @@ export namespace DOMTypes {
          */
         dateTime: string;
     }
-
     /**
      * The **`HTMLOListElement`** interface provides special properties (beyond those defined on the regular HTMLElement interface it also has available to it by inheritance) for manipulating ordered list elements.
      *
@@ -2158,7 +2100,6 @@ export namespace DOMTypes {
          */
         type: string;
     }
-
     /**
      * The **`HTMLObjectElement`** interface provides special properties and methods (beyond those on the HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of <object> element, representing external resources.
      *
@@ -2223,7 +2164,6 @@ export namespace DOMTypes {
          */
         width: string;
     }
-
     /**
      * The **`HTMLOptGroupElement`** interface provides special properties and methods (beyond the regular HTMLElement object interface they also have available to them by inheritance) for manipulating the layout and presentation of <optgroup> elements.
      *
@@ -2243,7 +2183,6 @@ export namespace DOMTypes {
          */
         label: string;
     }
-
     /**
      * The **`HTMLOptionElement`** interface represents <option> elements and inherits all properties and methods of the HTMLElement interface.
      *
@@ -2287,7 +2226,6 @@ export namespace DOMTypes {
          */
         value: string;
     }
-
     /**
      * The **`HTMLOutputElement`** interface provides properties and methods (beyond those inherited from HTMLElement) for manipulating the layout and presentation of <output> elements.
      *
@@ -2314,7 +2252,6 @@ export namespace DOMTypes {
          */
         value: string;
     }
-
     /**
      * The **`HTMLParagraphElement`** interface provides special properties (beyond those of the regular HTMLElement object interface it inherits) for manipulating <p> elements.
      *
@@ -2324,7 +2261,6 @@ export namespace DOMTypes {
         /** @deprecated */
         align: string;
     }
-
     /**
      * The **`HTMLParamElement`** interface provides special properties (beyond those of the regular HTMLElement object interface it inherits) for manipulating <param> elements, representing a pair of a key and a value that acts as a parameter for an <object> element.
      * @deprecated
@@ -2341,7 +2277,6 @@ export namespace DOMTypes {
         /** @deprecated */
         valueType: string;
     }
-
     /**
      * The **`HTMLPictureElement`** interface represents a <picture> HTML element. It doesn't implement specific properties or methods.
      *
@@ -2349,7 +2284,6 @@ export namespace DOMTypes {
      */
     export interface HTMLPictureElement extends HTMLElement {
     }
-
     /**
      * The **`HTMLPreElement`** interface exposes specific properties and methods (beyond those of the HTMLElement interface it also has available to it by inheritance) for manipulating a block of preformatted text (<pre>).
      *
@@ -2359,7 +2293,6 @@ export namespace DOMTypes {
         /** @deprecated */
         width: number;
     }
-
     /**
      * The **`HTMLProgressElement`** interface provides special properties and methods (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of <progress> elements.
      *
@@ -2379,7 +2312,6 @@ export namespace DOMTypes {
          */
         value: number;
     }
-
     /**
      * The **`HTMLQuoteElement`** interface provides special properties and methods (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating quoting elements, like <blockquote> and <q>, but not the <cite> element.
      *
@@ -2393,7 +2325,6 @@ export namespace DOMTypes {
          */
         cite: string;
     }
-
     /**
      * HTML <script> elements expose the **`HTMLScriptElement`** interface, which provides special properties and methods for manipulating the behavior and execution of <script> elements (beyond the inherited HTMLElement interface).
      *
@@ -2468,7 +2399,6 @@ export namespace DOMTypes {
          */
         type: string;
     }
-
     /**
      * The **`HTMLSelectElement`** interface represents a <select> HTML Element. These elements also share all of the properties and methods of other HTML elements via the HTMLElement interface.
      *
@@ -2530,7 +2460,6 @@ export namespace DOMTypes {
          */
         value: string;
     }
-
     /**
      * The **`HTMLSlotElement`** interface of the Shadow DOM API enables access to the name and assigned nodes of an HTML <slot> element.
      *
@@ -2544,7 +2473,6 @@ export namespace DOMTypes {
          */
         name: string;
     }
-
     /**
      * The **`HTMLSourceElement`** interface provides special properties (beyond the regular HTMLElement object interface it also has available to it by inheritance) for manipulating <source> elements.
      *
@@ -2594,7 +2522,6 @@ export namespace DOMTypes {
          */
         width: number;
     }
-
     /**
      * The **`HTMLSpanElement`** interface represents a <span> element and derives from the HTMLElement interface, but without implementing any additional properties or methods.
      *
@@ -2602,7 +2529,6 @@ export namespace DOMTypes {
      */
     export interface HTMLSpanElement extends HTMLElement {
     }
-
     /**
      * The **`HTMLStyleElement`** interface represents a <style> element. It inherits properties and methods from its parent, HTMLElement.
      *
@@ -2630,7 +2556,6 @@ export namespace DOMTypes {
          */
         type: string;
     }
-
     /**
      * The **`HTMLTableCaptionElement`** interface provides special properties (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating table <caption> elements.
      *
@@ -2645,7 +2570,6 @@ export namespace DOMTypes {
          */
         align: string;
     }
-
     /**
      * The **`HTMLTableCellElement`** interface provides special properties and methods (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of table cells, either header cells (<th>) or data cells (<td>), in an HTML document.
      *
@@ -2731,7 +2655,6 @@ export namespace DOMTypes {
         /** @deprecated */
         width: string;
     }
-
     /**
      * The **`HTMLTableColElement`** interface provides properties for manipulating single or grouped table column elements.
      *
@@ -2775,11 +2698,9 @@ export namespace DOMTypes {
         /** @deprecated */
         width: string;
     }
-
     /** @deprecated prefer HTMLTableCellElement */
     export interface HTMLTableDataCellElement extends HTMLTableCellElement {
     }
-
     /**
      * The **`HTMLTableElement`** interface provides special properties and methods (beyond the regular HTMLElement object interface it also has available to it by inheritance) for manipulating the layout and presentation of tables in an HTML document.
      *
@@ -2856,11 +2777,9 @@ export namespace DOMTypes {
          */
         width: string;
     }
-
     /** @deprecated prefer HTMLTableCellElement */
     export interface HTMLTableHeaderCellElement extends HTMLTableCellElement {
     }
-
     /**
      * The **`HTMLTableRowElement`** interface provides special properties and methods (beyond the HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of rows in an HTML table.
      *
@@ -2903,7 +2822,6 @@ export namespace DOMTypes {
          */
         vAlign: string;
     }
-
     /**
      * The **`HTMLTableSectionElement`** interface provides special properties and methods (beyond the HTMLElement interface it also has available to it by inheritance) for manipulating the layout and presentation of sections, that is headers, footers and bodies (<thead>, <tfoot>, and <tbody>, respectively) in an HTML table.
      *
@@ -2939,7 +2857,6 @@ export namespace DOMTypes {
          */
         vAlign: string;
     }
-
     /**
      * The **`HTMLTemplateElement`** interface enables access to the contents of an HTML <template> element.
      *
@@ -2977,7 +2894,6 @@ export namespace DOMTypes {
          */
         shadowRootSerializable: boolean;
     }
-
     /**
      * The **`HTMLTextAreaElement`** interface provides properties and methods for manipulating the layout and presentation of <textarea> elements.
      *
@@ -3087,7 +3003,6 @@ export namespace DOMTypes {
          */
         wrap: string;
     }
-
     /**
      * The **`HTMLTimeElement`** interface provides special properties (beyond the regular HTMLElement interface it also has available to it by inheritance) for manipulating <time> elements.
      *
@@ -3101,7 +3016,6 @@ export namespace DOMTypes {
          */
         dateTime: string;
     }
-
     /**
      * The **`HTMLTitleElement`** interface is implemented by a document's <title>. This element inherits all of the properties and methods of the HTMLElement interface.
      *
@@ -3115,7 +3029,6 @@ export namespace DOMTypes {
          */
         text: string;
     }
-
     /**
      * The **`HTMLTrackElement`** interface represents an HTML <track> element within the DOM. This element can be used as a child of either <audio> or <video> to specify a text track containing information such as closed captions or subtitles.
      *
@@ -3153,7 +3066,6 @@ export namespace DOMTypes {
          */
         srclang: string;
     }
-
     /**
      * The **`HTMLUListElement`** interface provides special properties (beyond those defined on the regular HTMLElement interface it also has available to it by inheritance) for manipulating unordered list (<ul>) elements.
      *
@@ -3170,7 +3082,6 @@ export namespace DOMTypes {
         /** @deprecated */
         type: string;
     }
-
     /**
      * The **`HTMLUnknownElement`** interface represents an invalid HTML element and derives from the HTMLElement interface, but without implementing any additional properties or methods.
      *
@@ -3178,7 +3089,6 @@ export namespace DOMTypes {
      */
     export interface HTMLUnknownElement extends HTMLElement {
     }
-
     /**
      * Implemented by the <video> element, the **`HTMLVideoElement`** interface provides special properties and methods for manipulating video objects. It also inherits properties and methods of HTMLMediaElement and HTMLElement.
      *
@@ -3215,7 +3125,6 @@ export namespace DOMTypes {
          */
         width: number;
     }
-
     /**
      * The **`MathMLElement`** interface represents any MathML element.
      *
@@ -3223,7 +3132,6 @@ export namespace DOMTypes {
      */
     export interface MathMLElement extends Element, ElementCSSInlineStyle, GlobalEventHandlers, HTMLOrSVGElement {
     }
-
     /**
      * The **`SVGAElement`** interface provides access to the properties of an <a> element, as well as methods to manipulate them.
      *
@@ -3263,7 +3171,6 @@ export namespace DOMTypes {
          */
         type: string;
     }
-
     /**
      * The **`SVGGraphicsElement`** interface represents SVG elements whose primary purpose is to directly render graphics into a group.
      *
@@ -3271,7 +3178,6 @@ export namespace DOMTypes {
      */
     export interface SVGGraphicsElement extends SVGElement, SVGTests {
     }
-
     /**
      * All of the SVG DOM interfaces that correspond directly to elements in the SVG language derive from the **`SVGElement`** interface.
      *
@@ -3279,13 +3185,10 @@ export namespace DOMTypes {
      */
     export interface SVGElement extends Element, ElementCSSInlineStyle, GlobalEventHandlers, HTMLOrSVGElement {
     }
-
     interface SVGTests {
     }
-
     interface SVGURIReference {
     }
-
     /**
      * The **`SVGAnimateElement`** interface corresponds to the <animate> element.
      *
@@ -3293,7 +3196,6 @@ export namespace DOMTypes {
      */
     export interface SVGAnimateElement extends SVGAnimationElement {
     }
-
     /**
      * The **`SVGAnimationElement`** interface is the base interface for all of the animation element interfaces: SVGAnimateElement, SVGSetElement, SVGAnimateColorElement, SVGAnimateMotionElement and SVGAnimateTransformElement.
      *
@@ -3301,7 +3203,6 @@ export namespace DOMTypes {
      */
     export interface SVGAnimationElement extends SVGElement, SVGTests {
     }
-
     /**
      * The **`SVGAnimateMotionElement`** interface corresponds to the <animateMotion> element.
      *
@@ -3309,7 +3210,6 @@ export namespace DOMTypes {
      */
     export interface SVGAnimateMotionElement extends SVGAnimationElement {
     }
-
     /**
      * The **`SVGAnimateTransformElement`** interface corresponds to the <animateTransform> element.
      *
@@ -3317,7 +3217,6 @@ export namespace DOMTypes {
      */
     export interface SVGAnimateTransformElement extends SVGAnimationElement {
     }
-
     /**
      * The **`SVGCircleElement`** interface is an interface for the <circle> element.
      *
@@ -3325,7 +3224,6 @@ export namespace DOMTypes {
      */
     export interface SVGCircleElement extends SVGGeometryElement {
     }
-
     /**
      * The **`SVGGeometryElement`** interface represents SVG elements whose rendering is defined by geometry with an equivalent path, and which can be filled and stroked. This includes paths and the basic shapes.
      *
@@ -3333,7 +3231,6 @@ export namespace DOMTypes {
      */
     export interface SVGGeometryElement extends SVGGraphicsElement {
     }
-
     /**
      * The **`SVGClipPathElement`** interface provides access to the properties of <clipPath> elements, as well as methods to manipulate them.
      *
@@ -3341,7 +3238,6 @@ export namespace DOMTypes {
      */
     export interface SVGClipPathElement extends SVGElement {
     }
-
     /**
      * The **`SVGComponentTransferFunctionElement`** interface represents a base interface used by the component transfer function interfaces.
      *
@@ -3349,7 +3245,6 @@ export namespace DOMTypes {
      */
     export interface SVGComponentTransferFunctionElement extends SVGElement {
     }
-
     /**
      * The **`SVGDefsElement`** interface corresponds to the <defs> element.
      *
@@ -3357,7 +3252,6 @@ export namespace DOMTypes {
      */
     export interface SVGDefsElement extends SVGGraphicsElement {
     }
-
     /**
      * The **`SVGDescElement`** interface corresponds to the <desc> element.
      *
@@ -3365,7 +3259,6 @@ export namespace DOMTypes {
      */
     export interface SVGDescElement extends SVGElement {
     }
-
     /**
      * The **`SVGEllipseElement`** interface provides access to the properties of <ellipse> elements.
      *
@@ -3373,7 +3266,6 @@ export namespace DOMTypes {
      */
     export interface SVGEllipseElement extends SVGGeometryElement {
     }
-
     /**
      * The **`SVGFEBlendElement`** interface corresponds to the <feBlend> element.
      *
@@ -3381,10 +3273,8 @@ export namespace DOMTypes {
      */
     export interface SVGFEBlendElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     interface SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEColorMatrixElement`** interface corresponds to the <feColorMatrix> element.
      *
@@ -3392,7 +3282,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEColorMatrixElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEComponentTransferElement`** interface corresponds to the <feComponentTransfer> element.
      *
@@ -3400,7 +3289,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEComponentTransferElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFECompositeElement`** interface corresponds to the <feComposite> element.
      *
@@ -3408,7 +3296,6 @@ export namespace DOMTypes {
      */
     export interface SVGFECompositeElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEConvolveMatrixElement`** interface corresponds to the <feConvolveMatrix> element.
      *
@@ -3416,7 +3303,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEConvolveMatrixElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEDiffuseLightingElement`** interface corresponds to the <feDiffuseLighting> element.
      *
@@ -3424,7 +3310,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEDiffuseLightingElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEDisplacementMapElement`** interface corresponds to the <feDisplacementMap> element.
      *
@@ -3432,7 +3317,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEDisplacementMapElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEDistantLightElement`** interface corresponds to the <feDistantLight> element.
      *
@@ -3440,7 +3324,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEDistantLightElement extends SVGElement {
     }
-
     /**
      * The **`SVGFEDropShadowElement`** interface corresponds to the <feDropShadow> element.
      *
@@ -3448,7 +3331,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEDropShadowElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEFloodElement`** interface corresponds to the <feFlood> element.
      *
@@ -3456,7 +3338,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEFloodElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEFuncAElement`** interface corresponds to the <feFuncA> element.
      *
@@ -3464,7 +3345,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEFuncAElement extends SVGComponentTransferFunctionElement {
     }
-
     /**
      * The **`SVGFEFuncBElement`** interface corresponds to the <feFuncB> element.
      *
@@ -3472,7 +3352,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEFuncBElement extends SVGComponentTransferFunctionElement {
     }
-
     /**
      * The **`SVGFEFuncGElement`** interface corresponds to the <feFuncG> element.
      *
@@ -3480,7 +3359,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEFuncGElement extends SVGComponentTransferFunctionElement {
     }
-
     /**
      * The **`SVGFEFuncRElement`** interface corresponds to the <feFuncR> element.
      *
@@ -3488,7 +3366,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEFuncRElement extends SVGComponentTransferFunctionElement {
     }
-
     /**
      * The **`SVGFEGaussianBlurElement`** interface corresponds to the <feGaussianBlur> element.
      *
@@ -3496,7 +3373,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEGaussianBlurElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEImageElement`** interface corresponds to the <feImage> element.
      *
@@ -3504,7 +3380,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEImageElement extends SVGElement, SVGFilterPrimitiveStandardAttributes, SVGURIReference {
     }
-
     /**
      * The **`SVGFEMergeElement`** interface corresponds to the <feMerge> element.
      *
@@ -3512,7 +3387,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEMergeElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEMergeNodeElement`** interface corresponds to the <feMergeNode> element.
      *
@@ -3520,7 +3394,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEMergeNodeElement extends SVGElement {
     }
-
     /**
      * The **`SVGFEMorphologyElement`** interface corresponds to the <feMorphology> element.
      *
@@ -3528,7 +3401,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEMorphologyElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEOffsetElement`** interface corresponds to the <feOffset> element.
      *
@@ -3536,7 +3408,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEOffsetElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFEPointLightElement`** interface corresponds to the <fePointLight> element.
      *
@@ -3544,7 +3415,6 @@ export namespace DOMTypes {
      */
     export interface SVGFEPointLightElement extends SVGElement {
     }
-
     /**
      * The **`SVGFESpecularLightingElement`** interface corresponds to the <feSpecularLighting> element.
      *
@@ -3552,7 +3422,6 @@ export namespace DOMTypes {
      */
     export interface SVGFESpecularLightingElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFESpotLightElement`** interface corresponds to the <feSpotLight> element.
      *
@@ -3560,7 +3429,6 @@ export namespace DOMTypes {
      */
     export interface SVGFESpotLightElement extends SVGElement {
     }
-
     /**
      * The **`SVGFETileElement`** interface corresponds to the <feTile> element.
      *
@@ -3568,7 +3436,6 @@ export namespace DOMTypes {
      */
     export interface SVGFETileElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFETurbulenceElement`** interface corresponds to the <feTurbulence> element.
      *
@@ -3576,7 +3443,6 @@ export namespace DOMTypes {
      */
     export interface SVGFETurbulenceElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     }
-
     /**
      * The **`SVGFilterElement`** interface provides access to the properties of <filter> elements, as well as methods to manipulate them.
      *
@@ -3584,7 +3450,6 @@ export namespace DOMTypes {
      */
     export interface SVGFilterElement extends SVGElement, SVGURIReference {
     }
-
     /**
      * The **`SVGForeignObjectElement`** interface provides access to the properties of <foreignObject> elements, as well as methods to manipulate them.
      *
@@ -3592,7 +3457,6 @@ export namespace DOMTypes {
      */
     export interface SVGForeignObjectElement extends SVGGraphicsElement {
     }
-
     /**
      * The **`SVGGElement`** interface corresponds to the <g> element.
      *
@@ -3600,7 +3464,6 @@ export namespace DOMTypes {
      */
     export interface SVGGElement extends SVGGraphicsElement {
     }
-
     /**
      * The SVGGradient interface is a base interface used by SVGLinearGradientElement and SVGRadialGradientElement.
      *
@@ -3608,7 +3471,6 @@ export namespace DOMTypes {
      */
     export interface SVGGradientElement extends SVGElement, SVGURIReference {
     }
-
     /**
      * The **`SVGImageElement`** interface corresponds to the <image> element.
      *
@@ -3622,7 +3484,6 @@ export namespace DOMTypes {
          */
         crossOrigin: string | null;
     }
-
     /**
      * The **`SVGLineElement`** interface provides access to the properties of <line> elements, as well as methods to manipulate them.
      *
@@ -3630,7 +3491,6 @@ export namespace DOMTypes {
      */
     export interface SVGLineElement extends SVGGeometryElement {
     }
-
     /**
      * The **`SVGLinearGradientElement`** interface corresponds to the <linearGradient> element.
      *
@@ -3638,7 +3498,6 @@ export namespace DOMTypes {
      */
     export interface SVGLinearGradientElement extends SVGGradientElement {
     }
-
     /**
      * The **`SVGMPathElement`** interface corresponds to the <mpath> element.
      *
@@ -3646,7 +3505,6 @@ export namespace DOMTypes {
      */
     export interface SVGMPathElement extends SVGElement, SVGURIReference {
     }
-
     /**
      * The **`SVGMarkerElement`** interface provides access to the properties of <marker> elements, as well as methods to manipulate them. The <marker> element defines the graphics used for drawing marks on a shape.
      *
@@ -3654,10 +3512,8 @@ export namespace DOMTypes {
      */
     export interface SVGMarkerElement extends SVGElement, SVGFitToViewBox {
     }
-
     interface SVGFitToViewBox {
     }
-
     /**
      * The **`SVGMaskElement`** interface provides access to the properties of <mask> elements, as well as methods to manipulate them.
      *
@@ -3665,7 +3521,6 @@ export namespace DOMTypes {
      */
     export interface SVGMaskElement extends SVGElement {
     }
-
     /**
      * The **`SVGMetadataElement`** interface corresponds to the <metadata> element.
      *
@@ -3673,7 +3528,6 @@ export namespace DOMTypes {
      */
     export interface SVGMetadataElement extends SVGElement {
     }
-
     /**
      * The **`SVGPathElement`** interface corresponds to the <path> element.
      *
@@ -3681,7 +3535,6 @@ export namespace DOMTypes {
      */
     export interface SVGPathElement extends SVGGeometryElement {
     }
-
     /**
      * The **`SVGPatternElement`** interface corresponds to the <pattern> element.
      *
@@ -3689,7 +3542,6 @@ export namespace DOMTypes {
      */
     export interface SVGPatternElement extends SVGElement, SVGFitToViewBox, SVGURIReference {
     }
-
     /**
      * The **`SVGPolygonElement`** interface provides access to the properties of <polygon> elements, as well as methods to manipulate them.
      *
@@ -3697,10 +3549,8 @@ export namespace DOMTypes {
      */
     export interface SVGPolygonElement extends SVGGeometryElement, SVGAnimatedPoints {
     }
-
     interface SVGAnimatedPoints {
     }
-
     /**
      * The **`SVGPolylineElement`** interface provides access to the properties of <polyline> elements, as well as methods to manipulate them.
      *
@@ -3708,7 +3558,6 @@ export namespace DOMTypes {
      */
     export interface SVGPolylineElement extends SVGGeometryElement, SVGAnimatedPoints {
     }
-
     /**
      * The **`SVGRadialGradientElement`** interface corresponds to the <RadialGradient> element.
      *
@@ -3716,7 +3565,6 @@ export namespace DOMTypes {
      */
     export interface SVGRadialGradientElement extends SVGGradientElement {
     }
-
     /**
      * The **`SVGRectElement`** interface provides access to the properties of <rect> elements, as well as methods to manipulate them.
      *
@@ -3724,7 +3572,6 @@ export namespace DOMTypes {
      */
     export interface SVGRectElement extends SVGGeometryElement {
     }
-
     /**
      * The **`SVGSVGElement`** interface provides access to the properties of <svg> elements, as well as methods to manipulate them. This interface contains also various miscellaneous commonly-used utility methods, such as matrix operations and the ability to control the time of redraw on visual rendering devices.
      *
@@ -3738,7 +3585,6 @@ export namespace DOMTypes {
          */
         currentScale: number;
     }
-
     /**
      * The **`SVGScriptElement`** interface corresponds to the SVG <script> element.
      *
@@ -3752,7 +3598,6 @@ export namespace DOMTypes {
          */
         type: string;
     }
-
     /**
      * The **`SVGSetElement`** interface corresponds to the <set> element.
      *
@@ -3760,7 +3605,6 @@ export namespace DOMTypes {
      */
     export interface SVGSetElement extends SVGAnimationElement {
     }
-
     /**
      * The **`SVGStopElement`** interface corresponds to the <stop> element.
      *
@@ -3768,7 +3612,6 @@ export namespace DOMTypes {
      */
     export interface SVGStopElement extends SVGElement {
     }
-
     /**
      * The **`SVGStyleElement`** interface corresponds to the SVG <style> element.
      *
@@ -3801,7 +3644,6 @@ export namespace DOMTypes {
          */
         type: string;
     }
-
     /**
      * The **`SVGSwitchElement`** interface corresponds to the <switch> element.
      *
@@ -3809,7 +3651,6 @@ export namespace DOMTypes {
      */
     export interface SVGSwitchElement extends SVGGraphicsElement {
     }
-
     /**
      * The **`SVGSymbolElement`** interface corresponds to the <symbol> element.
      *
@@ -3817,7 +3658,6 @@ export namespace DOMTypes {
      */
     export interface SVGSymbolElement extends SVGElement, SVGFitToViewBox {
     }
-
     /**
      * The **`SVGTSpanElement`** interface represents a <tspan> element.
      *
@@ -3825,7 +3665,6 @@ export namespace DOMTypes {
      */
     export interface SVGTSpanElement extends SVGTextPositioningElement {
     }
-
     /**
      * The **`SVGTextPositioningElement`** interface is implemented by elements that support attributes that position individual text glyphs. It is inherited by SVGTextElement and SVGTSpanElement.
      *
@@ -3833,7 +3672,6 @@ export namespace DOMTypes {
      */
     export interface SVGTextPositioningElement extends SVGTextContentElement {
     }
-
     /**
      * The **`SVGTextContentElement`** interface is implemented by elements that support rendering child text content. It is inherited by various text-related interfaces, such as SVGTextElement, SVGTSpanElement, and SVGTextPathElement.
      *
@@ -3841,7 +3679,6 @@ export namespace DOMTypes {
      */
     export interface SVGTextContentElement extends SVGGraphicsElement {
     }
-
     /**
      * The **`SVGTextElement`** interface corresponds to the <text> elements.
      *
@@ -3849,7 +3686,6 @@ export namespace DOMTypes {
      */
     export interface SVGTextElement extends SVGTextPositioningElement {
     }
-
     /**
      * The **`SVGTextPathElement`** interface corresponds to the <textPath> element.
      *
@@ -3857,7 +3693,6 @@ export namespace DOMTypes {
      */
     export interface SVGTextPathElement extends SVGTextContentElement, SVGURIReference {
     }
-
     /**
      * The **`SVGTitleElement`** interface corresponds to the <title> element.
      *
@@ -3865,7 +3700,6 @@ export namespace DOMTypes {
      */
     export interface SVGTitleElement extends SVGElement {
     }
-
     /**
      * The **`SVGUseElement`** interface corresponds to the <use> element.
      *
@@ -3873,7 +3707,6 @@ export namespace DOMTypes {
      */
     export interface SVGUseElement extends SVGGraphicsElement, SVGURIReference {
     }
-
     /**
      * The **`SVGViewElement`** interface provides access to the properties of <view> elements, as well as methods to manipulate them.
      *
@@ -3881,7 +3714,6 @@ export namespace DOMTypes {
      */
     export interface SVGViewElement extends SVGElement, SVGFitToViewBox {
     }
-
     export interface HTMLElementTagNameMap {
         "a": HTMLAnchorElement;
         "abbr": HTMLElement;
@@ -3996,7 +3828,6 @@ export namespace DOMTypes {
         "video": HTMLVideoElement;
         "wbr": HTMLElement;
     }
-
     export interface HTMLElementDeprecatedTagNameMap {
         "acronym": HTMLElement;
         "applet": HTMLUnknownElement;
@@ -4028,7 +3859,6 @@ export namespace DOMTypes {
         "tt": HTMLElement;
         "xmp": HTMLPreElement;
     }
-
     export interface SVGElementTagNameMap {
         "a": SVGAElement;
         "animate": SVGAnimateElement;
@@ -4094,7 +3924,6 @@ export namespace DOMTypes {
         "use": SVGUseElement;
         "view": SVGViewElement;
     }
-
     export interface MathMLElementTagNameMap {
         "a": MathMLElement;
         "annotation": MathMLElement;

@@ -24,10 +24,10 @@ type InputProps = DOMTypes.HTMLElementTagNameMap['input']
 
 ## Regenerating
 
-The types are generated from `@types/web` using `ts-morph`:
+The types are generated from `@types/web` using the TypeScript 6 compiler API:
 
 ```bash
-pnpm --filter @lilian1315/elements-writable-properties-types build
+vp run --filter @lilian1315/elements-writable-properties-types build
 ```
 
 ## License

@@ -1,157 +1,149 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { EOL } from 'node:os'
 
+import ts from '@typescript/typescript6'
 import { SingleBar } from 'cli-progress'
-import type { InterfaceDeclaration } from 'ts-morph'
-import { ModuleDeclarationKind, Project, SyntaxKind } from 'ts-morph'
 
 import { getExcludedInterfaceMembers } from './utils/get_excluded_interface_members.ts'
-import { getInterfaceRecursiveExtends } from './utils/get_interface_recursive_extends.ts'
-// import { isEventHandler } from "./utils/is_event_handler.ts"
-// import { getCamelcaseEventHandlerName } from "./utils/get_camelcase_event_handler_name.ts"
 
 const progressBar = new SingleBar({
   format: '[{bar}] {percentage}% | {value}/{total}{info}',
 })
-const tempProject = new Project({
-  useInMemoryFileSystem: true,
-  compilerOptions: {
-    lib: ['ESNext'],
-  },
-})
-
-const webTypesFile = tempProject.createSourceFile(
+const sourceText = readFileSync('./node_modules/@types/web/index.d.ts', 'utf8')
+const sourceFile = ts.createSourceFile(
   'index.d.ts',
-  readFileSync('./node_modules/@types/web/index.d.ts').toString(),
+  sourceText,
+  ts.ScriptTarget.Latest,
+  true,
+  ts.ScriptKind.TS,
 )
+const interfaces = sourceFile.statements.filter(ts.isInterfaceDeclaration)
+const interfacesByName = new Map<string, ts.InterfaceDeclaration>()
+for (const iface of interfaces) {
+  if (!interfacesByName.has(iface.name.text)) interfacesByName.set(iface.name.text, iface)
+}
+const primaryInterfaceNames = new Set<string>()
+const selectedInterfaceNames = new Set<string>()
+const recursiveExtendsCache = new Map<string, Set<string>>()
+const rootInterfaceNames = new Set([
+  'HTMLElement',
+  'SVGElement',
+  'MathMLElement',
+  'HTMLElementTagNameMap',
+  'HTMLElementDeprecatedTagNameMap',
+  'SVGElementTagNameMap',
+  'MathMLElementTagNameMap',
+])
 
-const primaryInterfacesNamesSet = new Set<string>()
-const selectedInterfaces = new Set<InterfaceDeclaration>()
-// const interfaceEventHandlersNames = new Map<string, Set<string>>()
-const interfaces = webTypesFile.getInterfaces()
+function getRecursiveExtends(name: string, stack = new Set<string>()): Set<string> {
+  const cached = recursiveExtendsCache.get(name)
+  if (cached) return cached
+  if (stack.has(name)) return new Set()
+
+  const result = new Set<string>()
+  const nextStack = new Set(stack).add(name)
+  const iface = interfacesByName.get(name)
+
+  for (const clause of iface?.heritageClauses ?? []) {
+    if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue
+    for (const type of clause.types) {
+      const parentName = type.expression.getText(sourceFile)
+      result.add(parentName)
+      getRecursiveExtends(parentName, nextStack).forEach((ancestor) => result.add(ancestor))
+    }
+  }
+
+  recursiveExtendsCache.set(name, result)
+  return result
+}
 
 console.log('Filtering interfaces...')
 progressBar.start(interfaces.length, 0, { info: '' })
 
 for (const iface of interfaces) {
-  progressBar.increment(1, { info: ` | Checking ${iface.getName()}` })
-  const ifaceExtends = getInterfaceRecursiveExtends(iface)
+  progressBar.increment(1, { info: ` | Checking ${iface.name.text}` })
+  const inheritedNames = getRecursiveExtends(iface.name.text)
 
   if (
-    [
-      'HTMLElement',
-      'SVGElement',
-      'MathMLElement',
-      'HTMLElementTagNameMap',
-      'HTMLElementDeprecatedTagNameMap',
-      'SVGElementTagNameMap',
-      'MathMLElementTagNameMap',
-    ].includes(iface.getName()) === false &&
-    ['HTMLElement', 'SVGElement'].some((name) =>
-      Array.from(ifaceExtends)
-        .map((i) => i.getName())
-        .includes(name),
-    ) === false
+    !rootInterfaceNames.has(iface.name.text) &&
+    !inheritedNames.has('HTMLElement') &&
+    !inheritedNames.has('SVGElement')
   ) {
     continue
   }
 
-  primaryInterfacesNamesSet.add(iface.getName())
-  selectedInterfaces.add(iface)
-  ifaceExtends.forEach((i) => selectedInterfaces.add(i))
+  primaryInterfaceNames.add(iface.name.text)
+  selectedInterfaceNames.add(iface.name.text)
+  inheritedNames.forEach((name) => {
+    if (interfacesByName.has(name)) selectedInterfaceNames.add(name)
+    else console.warn(`${name} (not resolved)`)
+  })
 }
 progressBar.stop()
 
-// console.log('Finding event handlers names...')
-// progressBar.start(selectedInterfaces.size, 0, { info: '' })
-
-// selectedInterfaces.forEach((i) => {
-//     progressBar.increment(1, { info: ' | Checking ' + i.getName() })
-//     i.getMembers().forEach((m) => {
-//         if (!isEventHandler(m, webTypesFile)) return
-//         const eventHandlerNames = interfaceEventHandlersNames.get(i.getName()) ?? new Set<string>()
-//         eventHandlerNames.add(m.getName())
-//         interfaceEventHandlersNames.set(i.getName(), eventHandlerNames)
-//     });
-// })
-
-// progressBar.stop()
-
-const tempFile = tempProject.createSourceFile('temp.ts')
-tempFile.addInterfaces(Array.from(selectedInterfaces).map((i) => i.getStructure()))
-
-const tempFileInterfaces = tempFile.getInterfaces()
-const generatedTypesFile = tempProject.createSourceFile('generated_types.ts')
+const selectedInterfaces = [...selectedInterfaceNames].map((name) => interfacesByName.get(name)!)
+const totalMembers = selectedInterfaces.reduce((total, iface) => total + iface.members.length, 0)
 
 console.log('Removing unwanted interface members and transforming getters/setters to properties...')
-progressBar.start(
-  tempFileInterfaces.map((i) => i.getMembers().length).reduce((a, b) => a + b, 0),
-  0,
-  { info: '' },
-)
+progressBar.start(totalMembers, 0, { info: '' })
 
-await Promise.all(
-  tempFileInterfaces.map(async (i) => {
-    if (primaryInterfacesNamesSet.has(i.getName())) i.setIsExported(true)
+const generatedInterfaces = selectedInterfaces.map((iface) => {
+  const excludedMembers = getExcludedInterfaceMembers(iface.name.text)
+  const setterProperties: ts.PropertySignature[] = []
+  const members: ts.TypeElement[] = []
 
-    const excludedMembers = getExcludedInterfaceMembers(i.getName())
-    // const eventHandlerNames = interfaceEventHandlersNames.get(i.getName())
-
-    i.getMembers().forEach((m) => {
-      const name =
-        m.isKind(SyntaxKind.PropertySignature) ||
-        m.isKind(SyntaxKind.MethodSignature) ||
-        m.isKind(SyntaxKind.GetAccessor) ||
-        m.isKind(SyntaxKind.SetAccessor)
-          ? m.getName()
-          : null
-
-      progressBar.increment(1, { info: ` | Processing ${i.getName()}${name ? `.${name}` : ''}` })
-
-      // if(m.isKind(SyntaxKind.PropertySignature) && name && eventHandlerNames?.has(name)) {
-      //     const camelCaseName = getCamelcaseEventHandlerName(i.getName(), name)
-
-      //     if(!camelCaseName) throw new Error(`Could not find camelCase name for event handler ${i.getName()}.${name}. Please add it to the map in src/utils/get_camelcase_event_handler_name.ts`)
-      //     const listenerStructure = m.getStructure()
-
-      //     listenerStructure.name = camelCaseName
-      //     i.addProperty(listenerStructure)
-      // }
-
-      if (
-        (name && excludedMembers.includes(name)) ||
-        m.isKind(SyntaxKind.MethodSignature) ||
-        m.isKind(SyntaxKind.GetAccessor) ||
-        m.isKind(SyntaxKind.IndexSignature) ||
-        (m.isKind(SyntaxKind.PropertySignature) && m.isReadonly())
-      ) {
-        m.remove()
-      } else if (m.isKind(SyntaxKind.SetAccessor)) {
-        const tempProperty = i.addProperty({
-          name: m.getName(),
-          docs: m.getJsDocs().map((d) => d.getInnerText()),
-          type: m.getParameters()[0].getType().getText(),
-        })
-
-        const propertyText = tempProperty.getText()
-        tempProperty.remove()
-
-        m.replaceWithText(propertyText)
-      }
+  for (const member of iface.members) {
+    const name = member.name && ts.isIdentifier(member.name) ? member.name.text : undefined
+    progressBar.increment(1, {
+      info: ` | Processing ${iface.name.text}${name ? `.${name}` : ''}`,
     })
-  }),
-)
+
+    if (
+      (name && excludedMembers.includes(name)) ||
+      ts.isMethodSignature(member) ||
+      ts.isGetAccessorDeclaration(member) ||
+      ts.isIndexSignatureDeclaration(member) ||
+      (ts.isPropertySignature(member) &&
+        member.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ReadonlyKeyword))
+    ) {
+      continue
+    }
+
+    if (ts.isSetAccessorDeclaration(member)) {
+      const parameter = member.parameters[0]
+      setterProperties.push(
+        ts.factory.createPropertySignature(undefined, member.name, undefined, parameter.type),
+      )
+    } else {
+      members.push(member)
+    }
+  }
+
+  const modifiers = primaryInterfaceNames.has(iface.name.text)
+    ? [ts.factory.createModifier(ts.SyntaxKind.ExportKeyword)]
+    : undefined
+
+  return ts.factory.updateInterfaceDeclaration(
+    iface,
+    modifiers,
+    iface.name,
+    iface.typeParameters,
+    iface.heritageClauses,
+    [...setterProperties, ...members],
+  )
+})
 progressBar.stop()
 
-const namespace = generatedTypesFile.addModule({
-  name: 'DOMTypes',
-  isExported: true,
-  declarationKind: ModuleDeclarationKind.Namespace,
-})
-
-namespace.addInterfaces(Array.from(tempFileInterfaces).map((i) => i.getStructure()))
+const namespace = ts.factory.createModuleDeclaration(
+  [ts.factory.createModifier(ts.SyntaxKind.ExportKeyword)],
+  ts.factory.createIdentifier('DOMTypes'),
+  ts.factory.createModuleBlock(generatedInterfaces),
+  ts.NodeFlags.Namespace,
+)
+const generatedSourceFile = ts.factory.updateSourceFile(sourceFile, [namespace], false, [], [], false, [])
+const newLineKind = EOL === '\r\n' ? ts.NewLineKind.CarriageReturnLineFeed : ts.NewLineKind.LineFeed
+const output = ts.createPrinter({ newLine: newLineKind }).printFile(generatedSourceFile)
 
 console.log('Saving types...')
-generatedTypesFile.formatText()
 if (!existsSync('./generated')) mkdirSync('./generated')
-
-writeFileSync('./generated/index.d.ts', generatedTypesFile.getFullText())
+writeFileSync('./generated/index.d.ts', output)
