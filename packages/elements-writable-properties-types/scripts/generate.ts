@@ -140,7 +140,15 @@ const namespace = ts.factory.createModuleDeclaration(
   ts.factory.createModuleBlock(generatedInterfaces),
   ts.NodeFlags.Namespace,
 )
-const generatedSourceFile = ts.factory.updateSourceFile(sourceFile, [namespace], false, [], [], false, [])
+const generatedSourceFile = ts.factory.updateSourceFile(
+  sourceFile,
+  [namespace],
+  false,
+  [],
+  [],
+  false,
+  [],
+)
 const newLineKind = EOL === '\r\n' ? ts.NewLineKind.CarriageReturnLineFeed : ts.NewLineKind.LineFeed
 const output = ts.createPrinter({ newLine: newLineKind }).printFile(generatedSourceFile)
 
