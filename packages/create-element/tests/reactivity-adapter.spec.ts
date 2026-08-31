@@ -50,7 +50,9 @@ const fixtures: ReactivityAdapterFixture[] = [
         set: (value) => source(value),
       }
     },
-    effect: alienAdapter.effect,
+    effect(run) {
+      return alienAdapter.effect(run)
+    },
     mountFragment() {
       const source = alienSignal('first')
       const fragment = alienJsx(
@@ -66,7 +68,7 @@ const fixtures: ReactivityAdapterFixture[] = [
       return mountReactiveFragment(
         () => alienAdapter.get(fragment),
         (value) => source(value),
-        alienAdapter.effect,
+        (run) => alienAdapter.effect(run),
       )
     },
   },
@@ -80,7 +82,9 @@ const fixtures: ReactivityAdapterFixture[] = [
         set: (value) => source.set(value),
       }
     },
-    effect: alienDeepAdapter.effect,
+    effect(run) {
+      return alienDeepAdapter.effect(run)
+    },
     mountFragment() {
       const source = alienDeepSignal('first')
       const fragment = alienDeepJsx(
@@ -96,7 +100,7 @@ const fixtures: ReactivityAdapterFixture[] = [
       return mountReactiveFragment(
         () => alienDeepAdapter.get(fragment),
         (value) => source.set(value),
-        alienDeepAdapter.effect,
+        (run) => alienDeepAdapter.effect(run),
       )
     },
   },
@@ -110,7 +114,9 @@ const fixtures: ReactivityAdapterFixture[] = [
         set: (value) => source.set(value),
       }
     },
-    effect: faisceauAdapter.effect,
+    effect(run) {
+      return faisceauAdapter.effect(run)
+    },
     mountFragment() {
       const source = faisceauSignal('first')
       const fragment = faisceauJsx(
@@ -126,7 +132,7 @@ const fixtures: ReactivityAdapterFixture[] = [
       return mountReactiveFragment(
         () => faisceauAdapter.get(fragment),
         (value) => source.set(value),
-        faisceauAdapter.effect,
+        (run) => faisceauAdapter.effect(run),
       )
     },
   },
@@ -142,7 +148,9 @@ const fixtures: ReactivityAdapterFixture[] = [
         },
       }
     },
-    effect: preactAdapter.effect,
+    effect(run) {
+      return preactAdapter.effect(run)
+    },
     mountFragment() {
       const source = preactSignal('first')
       const fragment = preactJsx(
@@ -160,7 +168,7 @@ const fixtures: ReactivityAdapterFixture[] = [
         (value) => {
           source.value = value
         },
-        preactAdapter.effect,
+        (run) => preactAdapter.effect(run),
       )
     },
   },
@@ -176,7 +184,9 @@ const fixtures: ReactivityAdapterFixture[] = [
         },
       }
     },
-    effect: vueAdapter.effect,
+    effect(run) {
+      return vueAdapter.effect(run)
+    },
     mountFragment() {
       const source = vueSignal('first')
       const fragment = vueJsx(
@@ -194,7 +204,7 @@ const fixtures: ReactivityAdapterFixture[] = [
         (value) => {
           source.value = value
         },
-        vueAdapter.effect,
+        (run) => vueAdapter.effect(run),
       )
     },
   },
