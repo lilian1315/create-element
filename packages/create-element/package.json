@@ -51,11 +51,11 @@
   },
   "devDependencies": {
     "@preact/signals-core": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
     "@vue/reactivity": "catalog:",
     "alien-deepsignals": "catalog:",
     "alien-signals": "catalog:",
     "faisceau": "catalog:",
-    "@vitest/browser-playwright": "catalog:",
     "playwright": "*",
     "vitest": "catalog:"
   },
