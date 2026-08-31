@@ -50,18 +50,21 @@
     "@lilian1315/elements-writable-properties-types": "workspace:*"
   },
   "devDependencies": {
-    "@preact/signals-core": "^1.13.0",
-    "@vue/reactivity": "^3.5.28",
-    "alien-deepsignals": "^0.3.1",
-    "alien-signals": "^3.1.2",
-    "faisceau": "^0.3.2"
+    "@preact/signals-core": "catalog:",
+    "@vue/reactivity": "catalog:",
+    "alien-deepsignals": "catalog:",
+    "alien-signals": "catalog:",
+    "faisceau": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
+    "playwright": "*",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
-    "@preact/signals-core": "^1.12.2",
-    "@vue/reactivity": "^3.5.27",
-    "alien-deepsignals": "^0.3.1",
-    "alien-signals": "^3.1.2",
-    "faisceau": "^0.3.2"
+    "@preact/signals-core": "catalog:",
+    "@vue/reactivity": "catalog:",
+    "alien-deepsignals": "catalog:",
+    "alien-signals": "catalog:",
+    "faisceau": "catalog:"
   },
   "peerDependenciesMeta": {
     "@preact/signals-core": {

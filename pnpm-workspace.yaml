@@ -1,3 +1,24 @@
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@0.3.0
+  vite-plus: 0.3.0
+  "@preact/signals-core": 1.13.0
+  "@vue/reactivity": 3.5.28
+  alien-deepsignals: 0.3.1
+  alien-signals: 3.1.2
+  faisceau: 0.3.2
+  vitest: 4.1.11
+  typescript: 7.0.2
+  '@vitest/browser-playwright': 4.1.11
+overrides:
+  vite@*: 'catalog:'
+  vitest@*: 'catalog:'
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: '*'
+    vitest: '*'
 packages:
   - 'packages/*'
   - 'examples/*'
