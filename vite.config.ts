@@ -3,6 +3,10 @@ import { defineConfig } from 'vite-plus'
 const ignorePatterns = ['**/generated/**', 'examples/**']
 
 export default defineConfig({
+  staged: {
+    '*': 'vp check --fix',
+    'pnpm-workspace.yaml': 'vpr generate-deno-config',
+  },
   lint: {
     ignorePatterns,
     options: {
