@@ -22,7 +22,14 @@ export interface SpecialAttributes<
   class: ClassAttribute
   style: StyleAttribute
   data: DataAttribute
+  /**
+   * Adds child nodes to the element. When this attribute is used, `innerHTML` must not be provided.
+   */
   children: ChildrenAttribute | ChildrenAttribute[]
+  /**
+   * Sets the innerHTML of the element. When this attribute is used, `children` must not be provided.
+   * Attention: Using `innerHTML` can expose your application to security risks like Cross-Site Scripting (XSS) attacks if the content is not properly sanitized.
+   */
   innerHTML: InnerHTMLAttribute
 }
 
@@ -52,10 +59,16 @@ export type BaseElementAttributesTagNameMap = {
           : never
 }
 
-export type ElementAttributesTagNameMap = {
+export type ElementAttributesTagNameMap<ChildrenType = SpecialAttributes['children']> = {
   [T in PrefixedElementTag]: Partial<
     BaseElementAttributesTagNameMap[T] &
-      SpecialAttributes &
+      SpecialAttributes<
+        SpecialAttributes['class'],
+        SpecialAttributes['style'],
+        SpecialAttributes['data'],
+        ChildrenType,
+        SpecialAttributes['innerHTML']
+      > &
       Readonly<Record<string | symbol, unknown>>
   >
 }
@@ -72,20 +85,11 @@ export type ElementPrefixedTagNameMap = {
           : never
 }
 
-export type WithChildren<T> = T & {
-  /**
-   * Adds child nodes to the element. When this attribute is used, `innerHTML` must not be provided.
-   */
-  children?: SpecialAttributes['children']
+export type WithoutInnerHTML<T> = T & {
   innerHTML?: never
 }
 
-export type WithInnerHTML<T> = T & {
-  /**
-   * Sets the innerHTML of the element. When this attribute is used, `children` must not be provided.
-   * Attention: Using `innerHTML` can expose your application to security risks like Cross-Site Scripting (XSS) attacks if the content is not properly sanitized.
-   */
-  innerHTML?: string
+export type WithoutChildren<T> = T & {
   children?: never
 }
 

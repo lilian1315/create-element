@@ -4,17 +4,10 @@ import type {
   ElementPrefixedTagNameMap,
   PrefixedElementTag,
   Prettify,
-  WithChildren,
-  WithInnerHTML,
+  WithoutInnerHTML,
+  WithoutChildren,
 } from './types'
-import {
-  createBaseElement,
-  handleAnyAttribute,
-  handleChildren,
-  handleClassAttribute,
-  handleDataAttribute,
-  handleStyleAttribute,
-} from './utils'
+import { applyAttributes, createBaseElement, handleChildren } from './utils'
 
 /**
  * Creates a DOM element (HTML, SVG, or MathML) with type-safe attributes and children handling.
@@ -23,7 +16,7 @@ import {
  */
 export function createElement<T extends PrefixedElementTag>(
   tag: T,
-  attributes: Prettify<WithInnerHTML<ElementAttributesTagNameMap[T]>>,
+  attributes: Prettify<WithoutChildren<ElementAttributesTagNameMap[T]>>,
 ): ElementPrefixedTagNameMap[T]
 /**
  * Creates a DOM element (HTML, SVG, or MathML) with type-safe attributes and children handling.
@@ -33,7 +26,7 @@ export function createElement<T extends PrefixedElementTag>(
  */
 export function createElement<T extends PrefixedElementTag>(
   tag: T,
-  attributes?: Prettify<WithChildren<ElementAttributesTagNameMap[T]>> | null,
+  attributes?: Prettify<WithoutInnerHTML<ElementAttributesTagNameMap[T]>> | null,
   ...children: Children[]
 ): ElementPrefixedTagNameMap[T]
 export function createElement<T extends PrefixedElementTag>(
@@ -43,33 +36,7 @@ export function createElement<T extends PrefixedElementTag>(
 ): ElementPrefixedTagNameMap[T] {
   const element = createBaseElement(tag)
 
-  if (attributes) {
-    for (const name of Reflect.ownKeys(attributes)) {
-      if (name === 'children') {
-        if (Array.isArray(attributes.children))
-          attributes.children.forEach((subChildren) => handleChildren(element, subChildren))
-        else handleChildren(element, attributes.children)
-        continue
-      }
-
-      if (name === 'class' && attributes.class) {
-        handleClassAttribute(element, attributes.class)
-        continue
-      }
-
-      if (name === 'style' && attributes.style) {
-        handleStyleAttribute(element, attributes.style)
-        continue
-      }
-
-      if (name === 'data' && attributes.data) {
-        handleDataAttribute(element, attributes.data)
-        continue
-      }
-
-      handleAnyAttribute(element, name, attributes[name])
-    }
-  }
+  if (attributes) applyAttributes(element, attributes, handleChildren)
 
   children.forEach((subChildren) => handleChildren(element, subChildren))
 

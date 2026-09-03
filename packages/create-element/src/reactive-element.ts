@@ -10,6 +10,7 @@ import {
 
 type ReactiveElementAttributes = Readonly<Record<string | symbol, unknown>>
 type ClassAttribute = string | string[] | Record<string, boolean>
+type AppendReactiveChild = (element: DomElement, child: unknown) => void
 
 const elementsEventHandlers = new WeakMap<DomElement, Map<string, Function>>()
 
@@ -18,19 +19,28 @@ export function createReactiveElement<Source, T extends PrefixedElementTag>(
   tag: T,
   attributes: ReactiveElementAttributes | null | undefined,
   children: unknown[],
+  appendChild?: AppendReactiveChild,
 ): ElementPrefixedTagNameMap[T] {
   const element = createBaseElement(tag)
+  const append =
+    appendChild ??
+    ((parent: DomElement, child: unknown) => appendReactiveChildren(adapter, parent, child))
+
+  const appendChildren = (value: unknown): void => {
+    if (Array.isArray(value)) {
+      value.forEach(appendChildren)
+      return
+    }
+
+    append(element, value)
+  }
 
   if (attributes) {
     for (const name of Reflect.ownKeys(attributes)) {
       const value = attributes[name]
 
       if (name === 'children') {
-        if (Array.isArray(value)) {
-          value.forEach((child) => handleReactiveChildren(adapter, element, child))
-        } else {
-          handleReactiveChildren(adapter, element, value)
-        }
+        appendChildren(value)
         continue
       }
 
@@ -53,7 +63,7 @@ export function createReactiveElement<Source, T extends PrefixedElementTag>(
     }
   }
 
-  children.forEach((child) => handleReactiveChildren(adapter, element, child))
+  children.forEach(appendChildren)
 
   return element
 }
@@ -198,13 +208,14 @@ function handleReactiveDataAttribute<Source>(
   }
 }
 
-function handleReactiveChildren<Source>(
+export function appendReactiveChildren<Source>(
   adapter: ReactivityAdapter<Source>,
   element: DomElement,
   children: unknown,
+  toNodes: (value: unknown) => Node[] = childValueToNodes,
 ): void {
   if (!adapter.isReactive(children)) {
-    childValueToNodes(children).forEach((node) => element.appendChild(node))
+    toNodes(children).forEach((node) => element.appendChild(node))
     return
   }
 
@@ -219,7 +230,7 @@ function handleReactiveChildren<Source>(
 
   adapter.effect(() => {
     const value = adapter.get(children)
-    const newNodes = childValueToNodes(value)
+    const newNodes = toNodes(value)
     if (newNodes.length === 0) newNodes.push(getPlaceholder())
 
     let lastInsertedNode: Node | null = null

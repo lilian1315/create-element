@@ -40,17 +40,17 @@ import type {
 import { childrenToNodes } from './utils'
 
 /**
- * Symbol used to group children without introducing an extra DOM node when using JSX.
+ * Component used to group children without introducing an extra DOM node when using JSX.
  */
-export const Fragment = Symbol('Fragment')
+export const Fragment: JSX.ElementClass = ({ children }: { children?: Children | Children[] }) => {
+  return childrenToNodes(Array.isArray(children) ? children.flat() : children)
+}
 
 /**
  * JSX factory
  */
-export function jsx<
-  T extends PrefixedElementTag | JSX.ElementClass | typeof Fragment = PrefixedElementTag,
->(
-  type: T,
+export function jsx(
+  type: PrefixedElementTag | JSX.ElementClass,
   props: JSX.IntrinsicAttributes,
   __key: unknown,
   __isStaticChildren: unknown,
@@ -58,9 +58,7 @@ export function jsx<
   __self: unknown,
 ): JSX.Element {
   if (typeof type === 'function') return type(props)
-  if (type === Fragment)
-    return childrenToNodes(Array.isArray(props.children) ? props.children.flat() : props.children)
-  return h<PrefixedElementTag>(type, props)
+  return h(type, props)
 }
 
 /**

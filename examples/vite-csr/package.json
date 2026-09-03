@@ -1,0 +1,18 @@
+{
+  "name": "vite-csr-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "tsc && vp build",
+    "preview": "vp preview"
+  },
+  "devDependencies": {
+    "@lilian1315/create-element": "workspace:*",
+    "@vue/reactivity": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

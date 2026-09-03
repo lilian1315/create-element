@@ -9,6 +9,7 @@ catalog:
   vitest: 4.1.11
   typescript: 7.0.2
   '@vitest/browser-playwright': 4.1.11
+  '@vitest/coverage-v8': 4.1.11
 overrides:
   vite@*: 'catalog:'
   vitest@*: 'catalog:'

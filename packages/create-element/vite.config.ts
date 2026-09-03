@@ -1,5 +1,5 @@
+import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vite-plus'
-import { playwright } from 'vite-plus/test/browser-playwright'
 
 export default defineConfig({
   pack: {
@@ -14,6 +14,7 @@ export default defineConfig({
     unbundle: true,
   },
   test: {
+    exclude: ['tests-node/**'],
     browser: {
       enabled: true,
       provider: playwright(),

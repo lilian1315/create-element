@@ -1,4 +1,4 @@
-import { describe, expectTypeOf, it } from 'vite-plus/test'
+import { describe, expectTypeOf, it } from 'vitest'
 
 import type { h as hAlienDeepsignals } from '../src/alien-deepsignals/index'
 import type { h as hAlienSignals } from '../src/alien-signals/index'

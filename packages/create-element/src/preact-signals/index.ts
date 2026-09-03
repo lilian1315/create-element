@@ -18,9 +18,15 @@
  */
 
 import { createReactiveElement } from '../reactive-element'
-import type { ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
+import type {
+  ElementPrefixedTagNameMap,
+  PrefixedElementTag,
+  Prettify,
+  WithoutChildren,
+  WithoutInnerHTML,
+} from '../types'
 import { reactivityAdapter } from './reactivity'
-import type { Children, ElementAttributesTagNameMap, WithChildren, WithInnerHTML } from './types'
+import type { Children, ElementAttributesTagNameMap } from './types'
 
 /**
  * Creates a DOM element with [@preact/signals-core](https://github.com/preactjs/signals) aware attributes, styles, datasets, and innerHTML.
@@ -29,7 +35,7 @@ import type { Children, ElementAttributesTagNameMap, WithChildren, WithInnerHTML
  */
 export function createElement<T extends PrefixedElementTag>(
   tag: T,
-  attributes: Prettify<WithInnerHTML<ElementAttributesTagNameMap[T]>>,
+  attributes: Prettify<WithoutChildren<ElementAttributesTagNameMap[T]>>,
 ): ElementPrefixedTagNameMap[T]
 /**
  * Creates a DOM element with [@preact/signals-core](https://github.com/preactjs/signals) aware attributes, styles, datasets, and children.
@@ -39,7 +45,7 @@ export function createElement<T extends PrefixedElementTag>(
  */
 export function createElement<T extends PrefixedElementTag>(
   tag: T,
-  attributes?: Prettify<WithChildren<ElementAttributesTagNameMap[T]>> | null,
+  attributes?: Prettify<WithoutInnerHTML<ElementAttributesTagNameMap[T]>> | null,
   ...children: Children[]
 ): ElementPrefixedTagNameMap[T]
 export function createElement<T extends PrefixedElementTag>(

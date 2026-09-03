@@ -1,5 +1,5 @@
 import { computed, signal } from 'faisceau'
-import { expect, it, vi } from 'vite-plus/test'
+import { expect, it, vi } from 'vitest'
 
 import { h } from '../src/faisceau/index'
 import type { Children } from '../src/faisceau/types'

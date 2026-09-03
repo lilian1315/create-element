@@ -45,17 +45,21 @@ import { reactivityAdapter } from './reactivity'
 import type { Children, Computed, ElementAttributesTagNameMap } from './types'
 
 /**
- * Symbol used to group children without introducing an extra DOM node when using JSX.
+ * Component used to group children without introducing an extra DOM node when using JSX.
  */
-export const Fragment = Symbol('Fragment')
+export const Fragment: JSX.ElementClass = ({ children }: { children?: Children | Children[] }) => {
+  return computed(() => {
+    const values = Array.isArray(children) ? children.flat() : [children]
+
+    return values.flatMap((child) => childValueToNodes(getReactiveValue(reactivityAdapter, child)))
+  })
+}
 
 /**
  * JSX factory compatible with [alien-signals](https://github.com/stackblitz/alien-signals).
  */
-export function jsx<
-  T extends PrefixedElementTag | JSX.ElementClass | typeof Fragment = PrefixedElementTag,
->(
-  type: T,
+export function jsx(
+  type: PrefixedElementTag | JSX.ElementClass,
   props: JSX.IntrinsicAttributes,
   __key: unknown,
   __isStaticChildren: unknown,
@@ -63,16 +67,7 @@ export function jsx<
   __self: unknown,
 ): JSX.Element {
   if (typeof type === 'function') return type(props)
-  if (type === Fragment) {
-    return computed(() => {
-      const children = Array.isArray(props.children) ? props.children.flat() : [props.children]
-
-      return children.flatMap((child) =>
-        childValueToNodes(getReactiveValue(reactivityAdapter, child)),
-      )
-    })
-  }
-  return h<PrefixedElementTag>(type, props)
+  return h(type, props)
 }
 
 /**

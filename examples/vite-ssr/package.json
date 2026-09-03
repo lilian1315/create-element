@@ -1,0 +1,19 @@
+{
+  "name": "vite-ssr",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "tsc && vp build",
+    "preview": "vp preview"
+  },
+  "devDependencies": {
+    "@lilian1315/create-element": "workspace:*",
+    "@vue/reactivity": "catalog:",
+    "nitro": "3.0.260610-beta",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

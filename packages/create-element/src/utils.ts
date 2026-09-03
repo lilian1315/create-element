@@ -7,6 +7,52 @@ import type {
   SpecialAttributes,
 } from './types'
 
+type Attributes<ChildValue> = Partial<
+  SpecialAttributes<
+    SpecialAttributes['class'],
+    SpecialAttributes['style'],
+    SpecialAttributes['data'],
+    ChildValue,
+    SpecialAttributes['innerHTML']
+  > &
+    Readonly<Record<string | symbol, unknown>>
+>
+
+export function applyAttributes<ChildValue>(
+  element: DomElement,
+  attributes: Attributes<ChildValue>,
+  appendChild: (element: DomElement, child: ChildValue) => void,
+): void {
+  const hasInnerHTML = attributes.innerHTML !== undefined
+
+  for (const name of Reflect.ownKeys(attributes)) {
+    if (name === 'children') {
+      if (hasInnerHTML) continue
+      if (Array.isArray(attributes.children))
+        attributes.children.forEach((child) => appendChild(element, child))
+      else if (attributes.children !== undefined) appendChild(element, attributes.children)
+      continue
+    }
+
+    if (name === 'class' && attributes.class) {
+      handleClassAttribute(element, attributes.class)
+      continue
+    }
+
+    if (name === 'style' && attributes.style) {
+      handleStyleAttribute(element, attributes.style)
+      continue
+    }
+
+    if (name === 'data' && attributes.data) {
+      handleDataAttribute(element, attributes.data)
+      continue
+    }
+
+    handleAnyAttribute(element, name, attributes[name])
+  }
+}
+
 export function createBaseElement<T extends PrefixedElementTag>(
   tag: T,
 ): ElementPrefixedTagNameMap[T]
@@ -93,8 +139,10 @@ export function handleDataAttribute(element: DomElement, value: SpecialAttribute
   }
 }
 
-export function handleChildren(element: DomElement, children: Children) {
-  childrenToNodes(children).forEach((node) => element.appendChild(node))
+export function handleChildren(element: DomElement, children: Children | Children[]) {
+  childrenToNodes(Array.isArray(children) ? children.flat() : children).forEach((node) =>
+    element.appendChild(node),
+  )
 }
 
 export function childrenToNodes(children: Children): Node[] {

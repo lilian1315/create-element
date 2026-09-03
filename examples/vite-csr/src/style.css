@@ -1,0 +1,100 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #282433;
+  background: #f7f5fb;
+  color-scheme: light dark;
+  font-synthesis: none;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+main {
+  width: min(32rem, calc(100% - 3rem));
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.hero {
+  position: relative;
+
+  .base,
+  .framework,
+  .vite {
+    inset-inline: 0;
+    margin: 0 auto;
+  }
+
+  .base {
+    width: 170px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .framework,
+  .vite {
+    position: absolute;
+  }
+
+  .framework {
+    z-index: 1;
+    top: 34px;
+    height: 28px;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg) scale(1.4);
+  }
+
+  .vite {
+    z-index: 0;
+    top: 107px;
+    height: 26px;
+    width: auto;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg) scale(0.8);
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  color: #7c3aed;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  line-height: 1;
+}
+
+p {
+  margin: 0;
+}
+
+.counter {
+  margin-top: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #7c3aed;
+  border-radius: 0.5rem;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+}
+
+button.counter {
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #f5f3ff;
+    background: #17141f;
+  }
+}

@@ -4,7 +4,7 @@
 [![jsr](https://jsr.io/badges/@lilian1315/create-element)](https://jsr.io/@lilian1315/create-element)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Type-safe `document.createElement` wrapper with JSX support and optional reactive library integrations for building DOM elements.
+Type-safe DOM and virtual element creation with JSX, server rendering, and optional reactive library integrations.
 
 ## Features
 
@@ -12,6 +12,7 @@ Type-safe `document.createElement` wrapper with JSX support and optional reactiv
 - Support for **HTML, SVG, and MathML** elements ([SVG and MathML](#svg-and-mathml))
 - Flexible attribute handling: classes, styles, datasets, events ([Attributes](#attributes))
 - **JSX** support with Fragments and function components ([JSX Support](#jsx-support))
+- Lightweight **virtual trees and server rendering** ([Virtual Trees and SSR](#virtual-trees-and-ssr))
 - **Reactive adapters** for signal-based UI updates ([Reactive Support](#reactive-support-optional))
 
 ## Installation
@@ -147,6 +148,67 @@ function List() {
   )
 }
 ```
+
+## Virtual Trees and SSR
+
+The `/virtual` entry point uses the same `h(type, props, ...children)` API but returns lightweight
+Preact-style VNodes instead of creating DOM elements immediately. `mount` materializes a tree in
+the browser, while the separate `/server` entry point serializes the same tree without requiring a DOM.
+This is a virtual tree API, not a reconciler: mounting materializes the complete tree, and VNode keys
+are currently metadata only.
+
+```typescript
+import { h, mount } from '@lilian1315/create-element/virtual'
+import { renderToString } from '@lilian1315/create-element/server'
+
+const app = h('main', { class: 'page' }, h('h1', null, 'Hello from a VNode'))
+
+const html = renderToString(app)
+// <main class="page"><h1>Hello from a VNode</h1></main>
+
+mount(document.querySelector<HTMLElement>('#app')!, app)
+```
+
+For virtual JSX, use the virtual runtime:
+
+```jsonc
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@lilian1315/create-element/virtual",
+  },
+}
+```
+
+`renderToString` is synchronous and produces static HTML. Event handlers are omitted. `innerHTML`
+is emitted without escaping and must only receive trusted or sanitized content. Client hydration is
+not currently included.
+
+`createElementFromVNode` materializes one intrinsic-element VNode. Components and fragments can
+produce several nodes, so pass those trees to `mount` instead.
+
+### Reactive server rendering
+
+Append `/virtual` to an adapter path to create reactive VNodes, then use the corresponding `/server`
+renderer to serialize their current values:
+
+```typescript
+import { shallowRef } from '@vue/reactivity'
+import { renderToString } from '@lilian1315/create-element/vue-reactivity/server'
+import { h, mount } from '@lilian1315/create-element/vue-reactivity/virtual'
+
+const count = shallowRef(1)
+const tree = h('p', null, 'Count: ', count)
+
+renderToString(tree) // <p>Count: 1</p>
+mount(document.querySelector<HTMLElement>('#app')!, tree)
+```
+
+The same `/virtual` and `/server` pair is available for `alien-signals`, `alien-deepsignals`,
+`faisceau`, `preact-signals`, and `vue-reactivity`. `mount` subscribes to reactive values and updates
+the DOM. Server rendering reads sources with `peek`, produces one static snapshot, and does not
+subscribe to later updates. For reactive VNode JSX, use the adapter's `/virtual` path as
+`jsxImportSource`.
 
 ### Reactive JSX
 

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vite-plus/test'
+import { describe, expect, it, vi } from 'vitest'
 
 import { h as hAlienDeepsignals } from '../src/alien-deepsignals/index'
 import { h as hAlienSignals } from '../src/alien-signals/index'

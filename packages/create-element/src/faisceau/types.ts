@@ -28,35 +28,18 @@ type DataSignalAttribute = MayBeReactiveObject<SpecialAttributes['data']>
 
 type InnerHTMLSignalAttribute = MaybeReactive<string>
 
-export type SpecialAttributesSignal = SpecialAttributes<
+export type SpecialAttributesSignal<ChildrenType = Children> = SpecialAttributes<
   ClassSignalAttribute,
   StyleSignalAttribute,
   DataSignalAttribute,
-  Children,
+  ChildrenType,
   InnerHTMLSignalAttribute
 >
 
-export type WithChildren<T> = T & {
-  /**
-   * Adds child nodes to the element. When this attribute is used, `innerHTML` must not be provided.
-   */
-  children?: SpecialAttributesSignal['children']
-  innerHTML?: never
-}
-
-export type WithInnerHTML<T> = T & {
-  /**
-   * Sets the innerHTML of the element. When this attribute is used, `children` must not be provided.
-   * Attention: Using `innerHTML` can expose your application to security risks like Cross-Site Scripting (XSS) attacks if the content is not properly sanitized.
-   */
-  innerHTML?: InnerHTMLSignalAttribute
-  children?: never
-}
-
-export type ElementAttributesTagNameMap = {
+export type ElementAttributesTagNameMap<ChildrenType = Children> = {
   [T in PrefixedElementTag]: Partial<
     MayBeReactiveObject<BaseElementAttributesTagNameMap[T]> &
-      SpecialAttributesSignal &
+      SpecialAttributesSignal<ChildrenType> &
       Readonly<Record<string | symbol, unknown>>
   >
 }

@@ -3,7 +3,7 @@ import { shallowRef as vueSignal } from '@vue/reactivity'
 import { signal as alienDeepSignal } from 'alien-deepsignals'
 import { signal as alienSignal } from 'alien-signals'
 import { signal as faisceauSignal } from 'faisceau'
-import { describe, expect, it } from 'vite-plus/test'
+import { describe, expect, it } from 'vitest'
 
 import {
   Fragment as AlienDeepFragment,
