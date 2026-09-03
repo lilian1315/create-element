@@ -1,7 +1,7 @@
 /** @jsxImportSource ../src/vue-reactivity/virtual */
 
 import { shallowRef } from '@vue/reactivity'
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 
 import { isVNode } from '../src/virtual/vnode'
 import { renderToString } from '../src/vue-reactivity/server/index'

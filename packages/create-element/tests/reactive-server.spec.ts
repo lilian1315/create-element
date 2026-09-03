@@ -3,7 +3,7 @@ import { computed as vueComputed, shallowRef } from '@vue/reactivity'
 import { computed as alienDeepComputed, signal as alienDeepSignal } from 'alien-deepsignals'
 import { computed as alienComputed, signal as alienSignal } from 'alien-signals'
 import { computed as faisceauComputed, signal as faisceauSignal } from 'faisceau'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import { renderToString as renderAlienDeep } from '../src/alien-deepsignals/server/index'
 import { h as alienDeepH } from '../src/alien-deepsignals/virtual/index'

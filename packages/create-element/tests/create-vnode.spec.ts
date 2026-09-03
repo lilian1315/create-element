@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vite-plus/test'
 
 import { createElement } from '../src/index'
 import { h, mount } from '../src/virtual/index'

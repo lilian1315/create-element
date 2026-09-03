@@ -1,5 +1,5 @@
 import { computed, reactive, ref, shallowRef } from '@vue/reactivity'
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
 
 import { h } from '../src/vue-reactivity/index'
 import type { Children } from '../src/vue-reactivity/types'

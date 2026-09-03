@@ -1,7 +1,7 @@
 /** @jsxImportSource ../src/alien-signals/virtual */
 
 import { signal } from 'alien-signals'
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 
 import { renderToString } from '../src/alien-signals/server/index'
 import { isVNode } from '../src/virtual/vnode'

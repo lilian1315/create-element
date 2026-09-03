@@ -1,7 +1,7 @@
 /** @jsxImportSource ../src/preact-signals/virtual */
 
 import { signal } from '@preact/signals-core'
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 
 import { renderToString } from '../src/preact-signals/server/index'
 import { isVNode } from '../src/virtual/vnode'

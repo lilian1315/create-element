@@ -1,6 +1,6 @@
 /** @jsxImportSource ../src/virtual */
 
-import { expect, it } from 'vitest'
+import { expect, it } from 'vite-plus/test'
 
 import { renderToString } from '../src/server/index'
 import { mount } from '../src/virtual/index'

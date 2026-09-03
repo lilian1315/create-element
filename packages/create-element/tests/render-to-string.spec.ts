@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vite-plus/test'
 
 import { renderToString } from '../src/server/index'
 import { h } from '../src/virtual/index'

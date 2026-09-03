@@ -3,7 +3,7 @@ import { shallowRef } from '@vue/reactivity'
 import { signal as alienDeepSignal } from 'alien-deepsignals'
 import { signal as alienSignal } from 'alien-signals'
 import { signal as faisceauSignal } from 'faisceau'
-import { expectTypeOf, it } from 'vitest'
+import { expectTypeOf, it } from 'vite-plus/test'
 
 import { h as alienDeepH } from '../src/alien-deepsignals/virtual/index'
 import { h as alienH } from '../src/alien-signals/virtual/index'

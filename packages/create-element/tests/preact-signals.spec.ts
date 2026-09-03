@@ -1,5 +1,5 @@
 import { computed, signal } from '@preact/signals-core'
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
 
 import { h } from '../src/preact-signals/index'
 import type { Children } from '../src/preact-signals/types'

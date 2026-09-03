@@ -1,5 +1,5 @@
 import { computed, signal } from 'alien-signals'
-import { expect, it, vi } from 'vitest'
+import { expect, it, vi } from 'vite-plus/test'
 
 import { h } from '../src/alien-signals/index'
 import type { Children } from '../src/alien-signals/types'
