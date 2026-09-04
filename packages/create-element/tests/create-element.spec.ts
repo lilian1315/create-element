@@ -78,6 +78,13 @@ for (const [factoryName, h] of factories) {
       expect(element.classList.contains('class2')).toBe(true)
     })
 
+    it('ignore array class attribute empty strings', () => {
+      const element = h('span', { class: ['class1', 'class2', '', ' '] })
+
+      expect(element.classList.contains('class1')).toBe(true)
+      expect(element.classList.contains('class2')).toBe(true)
+    })
+
     it('support class attribute (object)', () => {
       const element = h('span', {
         class: {

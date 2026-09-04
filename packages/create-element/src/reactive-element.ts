@@ -122,7 +122,7 @@ function handleReactiveClassAttribute<Source>(
 
   if (isStringArray(value)) {
     element.classList = ''
-    element.classList.add(...value)
+    element.classList.add(...value.map((c) => c.trim()).filter(Boolean))
     return
   }
 

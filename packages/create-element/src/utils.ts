@@ -104,7 +104,7 @@ export function handleClassAttribute(element: DomElement, value: SpecialAttribut
   }
   if (Array.isArray(value)) {
     // Add each class from array (filter out falsy values)
-    value.filter(Boolean).forEach((className) => element.classList.add(className))
+    element.classList.add(...value.map((c) => c.trim()).filter(Boolean))
     return
   }
 
