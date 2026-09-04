@@ -1,5 +1,5 @@
 import { appendReactiveChildren, createReactiveElement } from './reactive-element'
-import type { ReactivityAdapter } from './reactivity'
+import { EffectScope, type ReactivityAdapter, type StopEffect } from './reactivity'
 import type { DomElement, PrefixedElementTag } from './types'
 import type { VNode } from './virtual/types'
 import { isElementVNode, isVNode } from './virtual/vnode'
@@ -29,28 +29,54 @@ export type ReactiveVNodeAttributes<Attributes, Children, Source> = {
   children?: Children
 }
 
+const mountedScopes = new WeakMap<DomElement, EffectScope>()
+
 export function mountReactiveVirtual<Source>(
   adapter: ReactivityAdapter<Source>,
   target: DomElement,
   children: unknown,
-): void {
-  target.replaceChildren()
-  appendReactiveVirtualChildren(adapter, target, children)
+): StopEffect {
+  mountedScopes.get(target)?.dispose()
+
+  const scope = new EffectScope()
+  mountedScopes.set(target, scope)
+
+  try {
+    target.replaceChildren()
+    appendReactiveVirtualChildren(adapter, scope, target, children)
+  } catch (error) {
+    if (mountedScopes.get(target) === scope) mountedScopes.delete(target)
+    scope.dispose()
+    target.replaceChildren()
+    throw error
+  }
+
+  return () => {
+    if (mountedScopes.get(target) !== scope) {
+      scope.dispose()
+      return
+    }
+
+    mountedScopes.delete(target)
+    scope.dispose()
+    target.replaceChildren()
+  }
 }
 
 function appendReactiveVirtualChildren<Source>(
   adapter: ReactivityAdapter<Source>,
+  scope: EffectScope,
   parent: DomElement,
   children: unknown,
 ): void {
   if (Array.isArray(children)) {
-    children.forEach((child) => appendReactiveVirtualChildren(adapter, parent, child))
+    children.forEach((child) => appendReactiveVirtualChildren(adapter, scope, parent, child))
     return
   }
 
   if (adapter.isReactive(children)) {
-    appendReactiveChildren(adapter, parent, children, (value) =>
-      reactiveVirtualValueToNodes(adapter, value),
+    appendReactiveChildren(adapter, scope, parent, children, (value, contentScope) =>
+      reactiveVirtualValueToNodes(adapter, contentScope, value),
     )
     return
   }
@@ -59,6 +85,7 @@ function appendReactiveVirtualChildren<Source>(
     if (typeof children.type === 'function') {
       appendReactiveVirtualChildren(
         adapter,
+        scope,
         parent,
         Reflect.apply(children.type, undefined, [children.props]),
       )
@@ -66,7 +93,7 @@ function appendReactiveVirtualChildren<Source>(
     }
 
     if (isElementVNode(children)) {
-      parent.appendChild(createReactiveElementFromVNode(adapter, children))
+      parent.appendChild(createReactiveElementFromVNode(adapter, children, scope))
     }
     return
   }
@@ -78,14 +105,15 @@ function appendReactiveVirtualChildren<Source>(
 
 function reactiveVirtualValueToNodes<Source>(
   adapter: ReactivityAdapter<Source>,
+  scope: EffectScope,
   value: unknown,
 ): Node[] {
   if (Array.isArray(value)) {
-    return value.flatMap((child) => reactiveVirtualValueToNodes(adapter, child))
+    return value.flatMap((child) => reactiveVirtualValueToNodes(adapter, scope, child))
   }
 
   if (adapter.isReactive(value)) {
-    return reactiveVirtualValueToNodes(adapter, adapter.get(value))
+    return reactiveVirtualValueToNodes(adapter, scope, adapter.get(value))
   }
 
   if (value === null || value === undefined || typeof value === 'boolean') return []
@@ -95,10 +123,14 @@ function reactiveVirtualValueToNodes<Source>(
 
   if (!isVNode(value)) return []
   if (typeof value.type === 'function') {
-    return reactiveVirtualValueToNodes(adapter, Reflect.apply(value.type, undefined, [value.props]))
+    return reactiveVirtualValueToNodes(
+      adapter,
+      scope,
+      Reflect.apply(value.type, undefined, [value.props]),
+    )
   }
 
-  return isElementVNode(value) ? [createReactiveElementFromVNode(adapter, value)] : []
+  return isElementVNode(value) ? [createReactiveElementFromVNode(adapter, value, scope)] : []
 }
 
 export function createReactiveElementFromVNode<Source>(
@@ -107,8 +139,14 @@ export function createReactiveElementFromVNode<Source>(
     readonly type: PrefixedElementTag
     readonly props: Readonly<Record<string | symbol, unknown>>
   },
+  scope = new EffectScope(),
 ): DomElement {
-  return createReactiveElement(adapter, vnode.type, vnode.props, [], (element, child) =>
-    appendReactiveVirtualChildren(adapter, element, child),
+  return createReactiveElement(
+    adapter,
+    vnode.type,
+    vnode.props,
+    [],
+    (element, child) => appendReactiveVirtualChildren(adapter, scope, element, child),
+    scope,
   )
 }

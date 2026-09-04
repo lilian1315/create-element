@@ -41,6 +41,6 @@ export function createElementFromVNode<T extends PrefixedElementTag>(
   return createReactiveElementFromVNode(reactivityAdapter, vnode)
 }
 
-export function mount(target: DomElement, children: VNodeChildren): void {
-  mountReactiveVirtual(reactivityAdapter, target, children)
+export function mount(target: DomElement, children: VNodeChildren): () => void {
+  return mountReactiveVirtual(reactivityAdapter, target, children)
 }

@@ -201,14 +201,17 @@ const count = shallowRef(1)
 const tree = h('p', null, 'Count: ', count)
 
 renderToString(tree) // <p>Count: 1</p>
-mount(document.querySelector<HTMLElement>('#app')!, tree)
+const dispose = mount(document.querySelector<HTMLElement>('#app')!, tree)
+
+dispose()
 ```
 
 The same `/virtual` and `/server` pair is available for `alien-signals`, `alien-deepsignals`,
-`faisceau`, `preact-signals`, and `vue-reactivity`. `mount` subscribes to reactive values and updates
-the DOM. Server rendering reads sources with `peek`, produces one static snapshot, and does not
-subscribe to later updates. For reactive VNode JSX, use the adapter's `/virtual` path as
-`jsxImportSource`.
+`faisceau`, `preact-signals`, and `vue-reactivity`. Reactive `mount` subscribes to reactive values and
+returns a disposer that stops every owned effect, removes event listeners, and clears the target.
+Mounting again into the same target disposes its previous tree automatically. Server rendering reads
+sources with `peek`, produces one static snapshot, and does not subscribe to later updates. For
+reactive VNode JSX, use the adapter's `/virtual` path as `jsxImportSource`.
 
 ### Reactive JSX
 

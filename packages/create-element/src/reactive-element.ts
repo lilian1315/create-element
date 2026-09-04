@@ -1,4 +1,4 @@
-import { getReactiveValue, type ReactivityAdapter } from './reactivity'
+import { EffectScope, getReactiveValue, type ReactivityAdapter } from './reactivity'
 import type { DomElement, ElementPrefixedTagNameMap, PrefixedElementTag } from './types'
 import {
   createBaseElement,
@@ -20,11 +20,14 @@ export function createReactiveElement<Source, T extends PrefixedElementTag>(
   attributes: ReactiveElementAttributes | null | undefined,
   children: unknown[],
   appendChild?: AppendReactiveChild,
+  scope = new EffectScope(),
 ): ElementPrefixedTagNameMap[T] {
   const element = createBaseElement(tag)
   const append =
     appendChild ??
-    ((parent: DomElement, child: unknown) => appendReactiveChildren(adapter, parent, child))
+    ((parent: DomElement, child: unknown) => appendReactiveChildren(adapter, scope, parent, child))
+
+  scope.addCleanup(() => removeEventHandlers(element))
 
   const appendChildren = (value: unknown): void => {
     if (Array.isArray(value)) {
@@ -45,21 +48,21 @@ export function createReactiveElement<Source, T extends PrefixedElementTag>(
       }
 
       if (name === 'class' && value) {
-        handleReactiveClassAttribute(adapter, element, value)
+        handleReactiveClassAttribute(adapter, scope, element, value)
         continue
       }
 
       if (name === 'style' && value) {
-        handleReactiveStyleAttribute(adapter, element, value)
+        handleReactiveStyleAttribute(adapter, scope, element, value)
         continue
       }
 
       if (name === 'data' && value) {
-        handleReactiveDataAttribute(adapter, element, value)
+        handleReactiveDataAttribute(adapter, scope, element, value)
         continue
       }
 
-      handleReactiveAttribute(adapter, element, name, value)
+      handleReactiveAttribute(adapter, scope, element, name, value)
     }
   }
 
@@ -80,6 +83,7 @@ export function childValueToNodes(value: unknown): Node[] {
 
 function handleReactiveAttribute<Source>(
   adapter: ReactivityAdapter<Source>,
+  scope: EffectScope,
   element: DomElement,
   key: string | symbol,
   value: unknown,
@@ -102,11 +106,12 @@ function handleReactiveAttribute<Source>(
     return
   }
 
-  adapter.effect(() => applyAttribute(adapter.get(value)))
+  scope.effect(adapter, () => applyAttribute(adapter.get(value)))
 }
 
 function handleReactiveClassAttribute<Source>(
   adapter: ReactivityAdapter<Source>,
+  scope: EffectScope,
   element: DomElement,
   value: unknown,
 ): void {
@@ -122,7 +127,7 @@ function handleReactiveClassAttribute<Source>(
   }
 
   if (adapter.isReactive(value)) {
-    adapter.effect(() => {
+    scope.effect(adapter, () => {
       const nextValue = adapter.get(value)
       element.classList = ''
       if (isClassAttribute(nextValue)) handleClassAttribute(element, nextValue)
@@ -133,7 +138,7 @@ function handleReactiveClassAttribute<Source>(
   if (!isRecord(value)) return
 
   for (const className of Object.keys(value)) {
-    adapter.effect(() => {
+    scope.effect(adapter, () => {
       const classValue = getReactiveValue(adapter, value[className])
       element.classList.toggle(className, classValue === true)
     })
@@ -168,6 +173,7 @@ function handleReactiveEventHandlerAttribute(
 
 function handleReactiveStyleAttribute<Source>(
   adapter: ReactivityAdapter<Source>,
+  scope: EffectScope,
   element: DomElement,
   value: unknown,
 ): void {
@@ -177,14 +183,14 @@ function handleReactiveStyleAttribute<Source>(
   }
 
   if (adapter.isReactive(value)) {
-    adapter.effect(() => applyStyleValue(element, adapter.get(value)))
+    scope.effect(adapter, () => applyStyleValue(element, adapter.get(value)))
     return
   }
 
   if (!isRecord(value)) return
 
   for (const key of Object.keys(value)) {
-    adapter.effect(() => {
+    scope.effect(adapter, () => {
       Reflect.set(element.style, key, getReactiveValue(adapter, value[key]))
     })
   }
@@ -192,13 +198,14 @@ function handleReactiveStyleAttribute<Source>(
 
 function handleReactiveDataAttribute<Source>(
   adapter: ReactivityAdapter<Source>,
+  scope: EffectScope,
   element: DomElement,
   value: unknown,
 ): void {
   if (!isRecord(value)) return
 
   for (const key of Object.keys(value)) {
-    adapter.effect(() => {
+    scope.effect(adapter, () => {
       const dataValue = getReactiveValue(adapter, value[key])
 
       if (dataValue === true) element.dataset[key] = ''
@@ -210,12 +217,13 @@ function handleReactiveDataAttribute<Source>(
 
 export function appendReactiveChildren<Source>(
   adapter: ReactivityAdapter<Source>,
+  scope: EffectScope,
   element: DomElement,
   children: unknown,
-  toNodes: (value: unknown) => Node[] = childValueToNodes,
+  toNodes: (value: unknown, scope: EffectScope) => Node[] = childValueToNodes,
 ): void {
   if (!adapter.isReactive(children)) {
-    toNodes(children).forEach((node) => element.appendChild(node))
+    toNodes(children, scope).forEach((node) => element.appendChild(node))
     return
   }
 
@@ -227,10 +235,13 @@ export function appendReactiveChildren<Source>(
   }
 
   const nodes: Node[] = []
+  let contentScope: EffectScope | undefined
 
-  adapter.effect(() => {
+  scope.effect(adapter, () => {
+    contentScope?.dispose()
+    contentScope = scope.child()
     const value = adapter.get(children)
-    const newNodes = toNodes(value)
+    const newNodes = toNodes(value, contentScope)
     if (newNodes.length === 0) newNodes.push(getPlaceholder())
 
     let lastInsertedNode: Node | null = null
@@ -279,6 +290,17 @@ export function appendReactiveChildren<Source>(
       }
     }
   })
+}
+
+function removeEventHandlers(element: DomElement): void {
+  const eventHandlers = elementsEventHandlers.get(element)
+  if (!eventHandlers) return
+
+  for (const [key, handler] of eventHandlers) {
+    element.removeEventListener(key.slice(2).toLowerCase(), handler as EventListener)
+  }
+
+  elementsEventHandlers.delete(element)
 }
 
 function applyStyleValue(element: DomElement, value: unknown): void {

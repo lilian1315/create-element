@@ -119,4 +119,155 @@ describe('reactive virtual tree mount', () => {
     child.value = vueH('strong', null, 'ready')
     expect(target.innerHTML).toBe('<p title="content">value: <strong>ready</strong></p>')
   })
+
+  const cleanupCases = [
+    {
+      name: 'alien-signals',
+      setup() {
+        const count = alienSignal(1)
+        const target = document.createElement('main')
+        const dispose = mountAlien(target, alienH('p', null, count))
+
+        return {
+          dispose,
+          element: target.firstElementChild,
+          target,
+          update: () => count(2),
+        }
+      },
+    },
+    {
+      name: 'alien-deepsignals',
+      setup() {
+        const count = alienDeepSignal(1)
+        const target = document.createElement('main')
+        const dispose = mountAlienDeep(target, alienDeepH('p', null, count))
+
+        return {
+          dispose,
+          element: target.firstElementChild,
+          target,
+          update: () => count.set(2),
+        }
+      },
+    },
+    {
+      name: 'faisceau',
+      setup() {
+        const count = faisceauSignal(1)
+        const target = document.createElement('main')
+        const dispose = mountFaisceau(target, faisceauH('p', null, count))
+
+        return {
+          dispose,
+          element: target.firstElementChild,
+          target,
+          update: () => count.set(2),
+        }
+      },
+    },
+    {
+      name: 'Preact Signals',
+      setup() {
+        const count = preactSignal(1)
+        const target = document.createElement('main')
+        const dispose = mountPreact(target, preactH('p', null, count))
+
+        return {
+          dispose,
+          element: target.firstElementChild,
+          target,
+          update: () => {
+            count.value = 2
+          },
+        }
+      },
+    },
+    {
+      name: 'Vue reactivity',
+      setup() {
+        const count = shallowRef(1)
+        const target = document.createElement('main')
+        const dispose = mountVue(target, vueH('p', null, count))
+
+        return {
+          dispose,
+          element: target.firstElementChild,
+          target,
+          update: () => {
+            count.value = 2
+          },
+        }
+      },
+    },
+  ]
+
+  for (const cleanupCase of cleanupCases) {
+    it(`disposes ${cleanupCase.name} effects`, () => {
+      const { dispose, element, target, update } = cleanupCase.setup()
+
+      dispose()
+      expect(target.innerHTML).toBe('')
+
+      update()
+      expect(element?.textContent).toBe('1')
+
+      dispose()
+      expect(target.innerHTML).toBe('')
+    })
+  }
+
+  it('disposes the previous tree when mounting again', () => {
+    const firstCount = preactSignal(1)
+    const target = document.createElement('main')
+    const disposeFirst = mountPreact(target, preactH('p', null, firstCount))
+    const firstElement = target.firstElementChild
+    const disposeSecond = mountPreact(target, preactH('strong', null, 'second'))
+
+    firstCount.value = 2
+    expect(firstElement?.textContent).toBe('1')
+    expect(target.innerHTML).toBe('<strong>second</strong>')
+
+    disposeFirst()
+    expect(target.innerHTML).toBe('<strong>second</strong>')
+
+    disposeSecond()
+    expect(target.innerHTML).toBe('')
+  })
+
+  it('disposes effects in a replaced reactive subtree', () => {
+    const count = shallowRef(1)
+    const child = shallowRef<VueVNodeChild>(vueH('span', null, count))
+    const target = document.createElement('main')
+    const dispose = mountVue(target, vueH('p', null, child))
+    const replacedElement = target.querySelector('span')
+
+    child.value = 'done'
+    count.value = 2
+
+    expect(replacedElement?.textContent).toBe('1')
+    expect(target.innerHTML).toBe('<p>done</p>')
+    dispose()
+  })
+
+  it('removes event listeners when disposing a tree', () => {
+    let calls = 0
+    const target = document.createElement('main')
+    const dispose = mountVue(
+      target,
+      vueH('button', {
+        onClick: () => {
+          calls++
+        },
+      }),
+    )
+    const button = target.querySelector('button')
+
+    button?.click()
+    expect(calls).toBe(1)
+
+    dispose()
+    button?.click()
+    expect(calls).toBe(1)
+  })
 })
