@@ -22,6 +22,20 @@ const interfacesByName = new Map<string, ts.InterfaceDeclaration>()
 for (const iface of interfaces) {
   if (!interfacesByName.has(iface.name.text)) interfacesByName.set(iface.name.text, iface)
 }
+
+function getTagNameMap(interfaceName: string): Record<string, string> {
+  const iface = interfacesByName.get(interfaceName)
+  if (!iface) throw new Error(`${interfaceName} was not found in @types/web`)
+
+  return Object.fromEntries(
+    iface.members.flatMap((member) => {
+      if (!ts.isPropertySignature(member) || !ts.isStringLiteral(member.name) || !member.type) {
+        return []
+      }
+      return [[member.name.text, member.type.getText(sourceFile)]]
+    }),
+  )
+}
 const primaryInterfaceNames = new Set<string>()
 const selectedInterfaceNames = new Set<string>()
 const recursiveExtendsCache = new Map<string, Set<string>>()
@@ -155,3 +169,33 @@ const output = ts.createPrinter({ newLine: newLineKind }).printFile(generatedSou
 console.log('Saving types...')
 if (!existsSync('./generated')) mkdirSync('./generated')
 writeFileSync('./generated/index.d.ts', output)
+
+const htmlElementTagNameMap = {
+  ...getTagNameMap('HTMLElementTagNameMap'),
+  ...getTagNameMap('HTMLElementDeprecatedTagNameMap'),
+}
+const svgElementTagNameMap = getTagNameMap('SVGElementTagNameMap')
+const mathMLElementTagNameMap = getTagNameMap('MathMLElementTagNameMap')
+const elementTagNameMap: Record<string, string> = { ...htmlElementTagNameMap }
+
+for (const [tag, type] of Object.entries(svgElementTagNameMap)) {
+  elementTagNameMap[tag === 'svg' ? tag : `svg:${tag}`] = type
+}
+for (const [tag, type] of Object.entries(mathMLElementTagNameMap)) {
+  elementTagNameMap[tag === 'math' ? tag : `math:${tag}`] = type
+}
+
+const runtimeMapSource = `// Generated from @types/web. Do not edit manually.
+export const htmlElementTagNameMap = ${JSON.stringify(htmlElementTagNameMap, null, 2)}
+export const svgElementTagNameMap = ${JSON.stringify(svgElementTagNameMap, null, 2)}
+export const mathMLElementTagNameMap = ${JSON.stringify(mathMLElementTagNameMap, null, 2)}
+export const elementTagNameMap = ${JSON.stringify(elementTagNameMap, null, 2)}
+`
+const runtimeMapTypes = `export const htmlElementTagNameMap: Readonly<Record<string, string>>
+export const svgElementTagNameMap: Readonly<Record<string, string>>
+export const mathMLElementTagNameMap: Readonly<Record<string, string>>
+export const elementTagNameMap: Readonly<Record<string, string>>
+`
+
+writeFileSync('./generated/element-tag-name-map.js', runtimeMapSource.replaceAll('\n', EOL))
+writeFileSync('./generated/element-tag-name-map.d.ts', runtimeMapTypes.replaceAll('\n', EOL))

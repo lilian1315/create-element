@@ -1,0 +1,38 @@
+{
+  "name": "@lilian1315/oxlint-plugin",
+  "version": "0.0.1",
+  "description": "Oxlint rules for type-safe DOM JSX created by @lilian1315/create-element.",
+  "keywords": [
+    "create-element",
+    "dom",
+    "jsx",
+    "oxlint"
+  ],
+  "license": "MIT",
+  "author": "lilian1315",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lilian1315/create-element.git"
+  },
+  "files": [
+    "README.md",
+    "dist/**/*"
+  ],
+  "type": "module",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "test": "node --test tests/*.spec.mjs"
+  },
+  "dependencies": {
+    "@lilian1315/elements-writable-properties-types": "workspace:*",
+    "@oxlint/plugins": "^1.79.0"
+  },
+  "devDependencies": {
+    "vite-plus": "catalog:"
+  }
+}

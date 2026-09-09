@@ -4,9 +4,10 @@
   "version": "0.0.10",
   "license": "MIT",
   "exports": {
-    ".": "./generated/index.d.ts"
+    ".": "./generated/index.d.ts",
+    "./element-tag-name-map": "./generated/element-tag-name-map.js"
   },
   "publish": {
-    "include": ["generated/index.d.ts", "README.md"]
+    "include": ["generated/*.d.ts", "generated/*.js", "README.md"]
   }
 }

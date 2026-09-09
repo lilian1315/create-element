@@ -35,8 +35,8 @@ void test('built reactive server entry renders a snapshot without a DOM implemen
 })
 
 void test('built public entries expose only their intended runtime APIs', async (context) => {
-  await assertExports(context, packageName, ['createElement', 'h'])
-  await assertJsxRuntimeExports(context, packageName)
+  await assertExports(context, packageName, ['asDom', 'createElement', 'h'])
+  await assertJsxRuntimeExports(context, packageName, true)
   await assertExports(context, `${packageName}/virtual`, [
     'createElementFromVNode',
     'createVNode',
@@ -48,7 +48,7 @@ void test('built public entries expose only their intended runtime APIs', async 
 
   for (const adapter of adapters) {
     await assertExports(context, `${packageName}/${adapter}`, ['createElement', 'h'])
-    await assertJsxRuntimeExports(context, `${packageName}/${adapter}`)
+    await assertJsxRuntimeExports(context, `${packageName}/${adapter}`, true)
     await assertExports(context, `${packageName}/${adapter}/virtual`, [
       'createElementFromVNode',
       'createVNode',
@@ -60,8 +60,9 @@ void test('built public entries expose only their intended runtime APIs', async 
   }
 })
 
-async function assertJsxRuntimeExports(context, entry) {
+async function assertJsxRuntimeExports(context, entry, includeAsDom = false) {
   const expected = ['Fragment', 'jsx', 'jsxDEV', 'jsxs']
+  if (includeAsDom) expected.push('asDom')
   await assertExports(context, `${entry}/jsx-runtime`, expected)
   await assertExports(context, `${entry}/jsx-dev-runtime`, expected)
 }

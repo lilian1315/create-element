@@ -40,10 +40,16 @@ import { computed } from '@preact/signals-core'
 
 import { childValueToNodes } from '../reactive-element'
 import { getReactiveValue } from '../reactivity'
-import type { DomElement, PrefixedElementTag, Prettify } from '../types'
+import type { DomElement, ElementPrefixedTagNameMap, PrefixedElementTag, Prettify } from '../types'
 import { h } from './index'
 import { reactivityAdapter } from './reactivity'
 import type { Children, ElementAttributesTagNameMap } from './types'
+
+export function asDom<T extends PrefixedElementTag>(
+  element: JSX.Element,
+): ElementPrefixedTagNameMap[T] {
+  return element as ElementPrefixedTagNameMap[T]
+}
 
 /**
  * Component used to group children without introducing an extra DOM node when using JSX.

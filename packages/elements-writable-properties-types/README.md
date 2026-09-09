@@ -22,6 +22,20 @@ type InputProps = DOMTypes.HTMLElementTagNameMap['input']
 // { value: string; checked: boolean; placeholder: string; ... }
 ```
 
+The package also exports the generated DOM interface names used by tooling:
+
+```typescript
+import {
+  elementTagNameMap,
+  htmlElementTagNameMap,
+  mathMLElementTagNameMap,
+  svgElementTagNameMap,
+} from '@lilian1315/elements-writable-properties-types/element-tag-name-map'
+
+elementTagNameMap.div // 'HTMLDivElement'
+elementTagNameMap['svg:path'] // 'SVGPathElement'
+```
+
 ## Regenerating
 
 The types are generated from `@types/web` using the TypeScript 6 compiler API:

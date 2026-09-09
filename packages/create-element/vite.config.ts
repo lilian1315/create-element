@@ -8,7 +8,14 @@ export default defineConfig({
     platform: 'browser',
     exports: true,
     deps: {
-      neverBundle: ['alien-deepsignals', 'alien-signals', '@preact/signals-core', 'faisceau'],
+      resolveDepSubpath: true,
+      neverBundle: [
+        'alien-deepsignals',
+        'alien-signals',
+        '@preact/signals-core',
+        '@lilian1315/elements-writable-properties-types',
+        'faisceau',
+      ],
     },
     dts: true,
     unbundle: true,

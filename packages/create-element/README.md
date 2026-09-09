@@ -225,6 +225,33 @@ For reactive JSX, set `jsxImportSource` to the adapter path:
 | @preact/signals-core | `@lilian1315/create-element/preact-signals`    |
 | @vue/reactivity      | `@lilian1315/create-element/vue-reactivity`    |
 
+## Precise JSX element types
+
+TypeScript assigns `JSX.Element` to every JSX expression, even when this runtime creates a more
+specific DOM element. Use `asDom` to state the concrete type:
+
+```tsx
+import { asDom } from '@lilian1315/create-element'
+
+const container = asDom<'div'>(<div />)
+const path = asDom<'svg:path'>(<svg:path />)
+```
+
+The accompanying Oxlint plugin verifies that the explicit type argument matches the intrinsic JSX
+tag. It also checks direct assertions such as `<div /> as HTMLDivElement` and can fix mismatches.
+
+```json
+{
+  "jsPlugins": ["@lilian1315/oxlint-plugin"],
+  "rules": {
+    "create-element/valid-jsx-element-type-assertion": "error"
+  }
+}
+```
+
+The rule is syntax-based. Type aliases and qualified type names are ignored because Oxlint JS
+plugins do not expose TypeScript type information.
+
 ## Reactive Support (Optional)
 
 Each reactive adapter wraps `createElement` so that signal/computed values in attributes, styles, datasets, and children are automatically tracked and updated in the DOM.

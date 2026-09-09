@@ -34,10 +34,17 @@ import type {
   Children,
   DomElement,
   ElementAttributesTagNameMap,
+  ElementPrefixedTagNameMap,
   PrefixedElementTag,
   Prettify,
 } from './types'
 import { childrenToNodes } from './utils'
+
+export function asDom<T extends PrefixedElementTag>(
+  element: JSX.Element,
+): ElementPrefixedTagNameMap[T] {
+  return element as ElementPrefixedTagNameMap[T]
+}
 
 /**
  * Component used to group children without introducing an extra DOM node when using JSX.

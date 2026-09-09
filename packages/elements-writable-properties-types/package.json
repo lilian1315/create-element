@@ -9,13 +9,19 @@
   },
   "files": [
     "README.md",
-    "generated/index.d.ts"
+    "generated/index.d.ts",
+    "generated/element-tag-name-map.d.ts",
+    "generated/element-tag-name-map.js"
   ],
   "type": "module",
   "main": "",
   "types": "generated/index.d.ts",
   "exports": {
     ".": "./generated/index.d.ts",
+    "./element-tag-name-map": {
+      "types": "./generated/element-tag-name-map.d.ts",
+      "default": "./generated/element-tag-name-map.js"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {

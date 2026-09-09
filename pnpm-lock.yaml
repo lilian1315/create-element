@@ -163,7 +163,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)'
       vite-plus:
         specifier: 'catalog:'
-        version: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
+        version: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
       yaml:
         specifier: ^2.8.3
         version: 2.8.3
@@ -184,7 +184,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)'
       vite-plus:
         specifier: 'catalog:'
-        version: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
+        version: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
 
   examples/vite-ssr:
     devDependencies:
@@ -205,7 +205,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)'
       vite-plus:
         specifier: 'catalog:'
-        version: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
+        version: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
 
   packages/create-element:
     dependencies:
@@ -258,6 +258,19 @@ importers:
       cli-progress:
         specifier: ^3.12.0
         version: 3.12.0
+
+  packages/oxlint-plugin:
+    dependencies:
+      '@lilian1315/elements-writable-properties-types':
+        specifier: workspace:*
+        version: link:../elements-writable-properties-types
+      '@oxlint/plugins':
+        specifier: ^1.79.0
+        version: 1.79.0
+    devDependencies:
+      vite-plus:
+        specifier: 'catalog:'
+        version: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
 
 packages:
 
@@ -2665,7 +2678,7 @@ snapshots:
       '@oxfmt/binding-win32-arm64-msvc': 0.64.0
       '@oxfmt/binding-win32-ia32-msvc': 0.64.0
       '@oxfmt/binding-win32-x64-msvc': 0.64.0
-      vite-plus: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
+      vite-plus: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
 
   oxlint-tsgolint@7.0.2001:
     optionalDependencies:
@@ -2698,7 +2711,7 @@ snapshots:
       '@oxlint/binding-win32-ia32-msvc': 1.79.0
       '@oxlint/binding-win32-x64-msvc': 1.79.0
       oxlint-tsgolint: 7.0.2001
-      vite-plus: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
+      vite-plus: 0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)
 
   package-manager-detector@1.6.0: {}
 
@@ -2856,7 +2869,7 @@ snapshots:
       db0: 0.3.4
       ofetch: 2.0.0-alpha.3
 
-  vite-plus@0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3):
+  vite-plus@0.3.0(@types/node@26.4.1)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(@voidzero-dev/vite-plus-core@0.3.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3):
     dependencies:
       '@oxc-project/types': 0.146.0
       '@oxlint/plugins': 1.79.0

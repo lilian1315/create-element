@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite-plus'
 
-const ignorePatterns = ['**/generated/**', 'examples/**']
+const ignorePatterns = ['**/generated/**']
 
 export default defineConfig({
   staged: {
@@ -9,6 +9,10 @@ export default defineConfig({
   },
   lint: {
     ignorePatterns,
+    jsPlugins: ['./packages/oxlint-plugin/src/index.ts'],
+    rules: {
+      'create-element/valid-jsx-element-type-assertion': 'error',
+    },
     options: {
       typeAware: true,
       typeCheck: true,
