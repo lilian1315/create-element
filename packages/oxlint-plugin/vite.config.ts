@@ -7,7 +7,7 @@ export default defineConfig({
     platform: 'node',
     exports: true,
     deps: {
-      neverBundle: ['@lilian1315/elements-writable-properties-types', '@oxlint/plugins'],
+      neverBundle: true,
     },
     dts: true,
     unbundle: true,

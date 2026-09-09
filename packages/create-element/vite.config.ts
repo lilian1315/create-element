@@ -9,13 +9,7 @@ export default defineConfig({
     exports: true,
     deps: {
       resolveDepSubpath: true,
-      neverBundle: [
-        'alien-deepsignals',
-        'alien-signals',
-        '@preact/signals-core',
-        '@lilian1315/elements-writable-properties-types',
-        'faisceau',
-      ],
+      neverBundle: true,
     },
     dts: true,
     unbundle: true,
