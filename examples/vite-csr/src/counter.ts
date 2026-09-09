@@ -1,6 +1,5 @@
-import { ref } from '@vue/reactivity'
-
 import { h } from '@lilian1315/create-element/vue-reactivity'
+import { ref } from '@vue/reactivity'
 
 export function createCounter() {
   const count = ref(0)

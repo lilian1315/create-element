@@ -1,6 +1,5 @@
-import { shallowRef } from '@vue/reactivity'
-
 import { h } from '@lilian1315/create-element/vue-reactivity/virtual'
+import { shallowRef } from '@vue/reactivity'
 
 export function createCounter() {
   const count = shallowRef(0)

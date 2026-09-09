@@ -1,9 +1,10 @@
 import './style.css'
+import { asDom } from '@lilian1315/create-element/vue-reactivity/jsx-runtime'
+
 import heroImg from './assets/hero.png'
 import typescriptLogo from './assets/typescript.svg'
 import viteLogo from './assets/vite.svg'
 import { createCounter } from './counter.ts'
-import { asDom } from '@lilian1315/create-element/vue-reactivity/jsx-runtime'
 
 const app = document.querySelector('#app')
 
@@ -13,14 +14,14 @@ const content = asDom<'main'>(
   <main>
     <div class="hero">
       <img src={heroImg} class="base" width={170} height={179} />
-      <img src={typescriptLogo} class="framework" alt="TypeScript logo"/>
+      <img src={typescriptLogo} class="framework" alt="TypeScript logo" />
       <img src={viteLogo} class="vite" alt="Vite logo" />
     </div>
     <p class="eyebrow">CSR · Vue reactivity</p>
     <h1>Created in the browser</h1>
     <p>The counter updates the DOM directly from a Vue ref.</p>
     {createCounter()}
-  </main>
+  </main>,
 )
 
 app.replaceChildren(content)
