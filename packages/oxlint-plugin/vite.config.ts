@@ -6,9 +6,6 @@ export default defineConfig({
     target: 'es2022',
     platform: 'node',
     exports: true,
-    deps: {
-      neverBundle: true,
-    },
     dts: true,
     unbundle: true,
   },

@@ -7,10 +7,6 @@ export default defineConfig({
     target: 'es6',
     platform: 'browser',
     exports: true,
-    deps: {
-      resolveDepSubpath: true,
-      neverBundle: true,
-    },
     dts: true,
     unbundle: true,
   },
