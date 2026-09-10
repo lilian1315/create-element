@@ -20,7 +20,7 @@ jobs:
         with:
           cache: true
           run-install: true
-      - run: vp check
       - run: vpr build
+      - run: vp check
       - run: vpx jsr publish
       - run: vp pm publish --filter @lilian1315/* --no-git-checks --access public
