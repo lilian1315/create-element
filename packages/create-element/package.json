@@ -66,10 +66,10 @@
   },
   "scripts": {
     "build": "vp pack",
-    "coverage": "vp test run --coverage",
     "dev": "vp pack -w",
-    "test": "vp test",
-    "test:node": "node --test tests-node/*.spec.mjs"
+    "coverage": "vp test run --project browser --coverage",
+    "test": "vp test run --project browser",
+    "test:exports": "vpr _test:exports"
   },
   "dependencies": {
     "@lilian1315/elements-writable-properties-types": "workspace:*"

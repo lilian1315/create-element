@@ -3,6 +3,7 @@ on:
   push:
     tags:
       - '@lilian1315/create-element@*.*.*'
+      - '@lilian1315/oxlint-plugin-create-element@*.*.*'
       - '@lilian1315/elements-writable-properties-types@*.*.*'
   workflow_dispatch: # Allows manual triggering of the workflow.
 
@@ -19,7 +20,7 @@ jobs:
         with:
           cache: true
           run-install: true
-      - run: vp run check
-      - run: vp run build:core
+      - run: vp check
+      - run: vpr build
       - run: vpx jsr publish
-      - run: vpx pnpm publish --filter @lilian1315/* --no-git-checks --access public
+      - run: vp pm publish --filter @lilian1315/* --no-git-checks --access public

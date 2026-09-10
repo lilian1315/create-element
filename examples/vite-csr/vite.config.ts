@@ -6,4 +6,10 @@ export default defineConfig({
       throwIfNamespace: false,
     },
   },
+  lint: {
+    jsPlugins: ['@lilian1315/oxlint-plugin-create-element'],
+    rules: {
+      'create-element/valid-jsx-element-type-assertion': 'error',
+    },
+  },
 })

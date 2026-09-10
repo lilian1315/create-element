@@ -149,6 +149,9 @@ importers:
 
   .:
     devDependencies:
+      '@lilian1315/oxlint-plugin-create-element':
+        specifier: workspace:*
+        version: link:packages/oxlint-plugin
       '@types/node':
         specifier: ^26.4.1
         version: 26.4.1
@@ -173,6 +176,9 @@ importers:
       '@lilian1315/create-element':
         specifier: workspace:*
         version: link:../../packages/create-element
+      '@lilian1315/oxlint-plugin-create-element':
+        specifier: workspace:*
+        version: link:../../packages/oxlint-plugin
       '@vue/reactivity':
         specifier: 'catalog:'
         version: 3.5.28
@@ -191,6 +197,9 @@ importers:
       '@lilian1315/create-element':
         specifier: workspace:*
         version: link:../../packages/create-element
+      '@lilian1315/oxlint-plugin-create-element':
+        specifier: workspace:*
+        version: link:../../packages/oxlint-plugin
       '@vue/reactivity':
         specifier: 'catalog:'
         version: 3.5.28

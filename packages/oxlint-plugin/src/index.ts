@@ -13,7 +13,7 @@ const validJsxElementTypeAssertion: Rule = {
     docs: { description: 'Require JSX DOM element assertions to match their intrinsic tag' },
     fixable: 'code',
     schema: [],
-    messages: { incorrect: '`<{{tag}} />` returns `{{expected}}`, not `{{actual}}`.' },
+    messages: { incorrect: '`<{{tag}}>` returns `<{{expected}}>`, not `<{{actual}}>`.' },
   },
   create(context: Context) {
     function getIntrinsicTag(jsx: ESTree.Node): string | undefined {

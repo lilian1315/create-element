@@ -11,18 +11,45 @@ export default defineConfig({
     unbundle: true,
   },
   test: {
-    exclude: ['tests-node/**'],
-    browser: {
-      enabled: true,
-      provider: playwright(),
-      instances: [{ browser: 'chromium', headless: true }],
-    },
     coverage: {
       provider: 'v8',
       reporter: ['text'],
     },
-    typecheck: {
-      enabled: true,
+
+    projects: [
+      {
+        oxc: {
+          jsx: {
+            throwIfNamespace: false,
+          },
+        },
+        test: {
+          name: 'browser',
+          exclude: ['tests/package-exports.spec.ts'],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            instances: [{ browser: 'chromium', headless: true }],
+          },
+          typecheck: {
+            enabled: true,
+          },
+        },
+      },
+      {
+        test: {
+          name: 'exports',
+          include: ['tests/package-exports.spec.ts'],
+        },
+      },
+    ],
+  },
+  run: {
+    tasks: {
+      '_test:exports': {
+        command: 'vp test run --project exports',
+        dependsOn: ['build'],
+      },
     },
   },
 })

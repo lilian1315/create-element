@@ -1,6 +1,6 @@
 /// <reference types="@types/node" />
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -17,8 +17,13 @@ const workspace = parse(readFileSync(workspacePath, 'utf8'))
 
 const workspacePackages = readdirSync(resolve(root, 'packages'), { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
-  .map((entry) => {
-    const directory = resolve(root, 'packages', entry.name)
+  .map((entry) => resolve(root, 'packages', entry.name))
+  // Only JSR-published packages (with a jsr.json manifest) take part in the deno workspace.
+  .filter(
+    (directory) =>
+      existsSync(resolve(directory, 'package.json')) && existsSync(resolve(directory, 'jsr.json')),
+  )
+  .map((directory) => {
     return {
       manifest: JSON.parse(readFileSync(resolve(directory, 'package.json'), 'utf8')),
       jsr: JSON.parse(readFileSync(resolve(directory, 'jsr.json'), 'utf8')),
@@ -47,8 +52,6 @@ const npmImports = Object.fromEntries(
 )
 
 const expectedConfig = {
-  $schema:
-    'https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json',
   workspace: ['packages/*'],
   imports: { ...workspaceImports, ...npmImports },
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@lilian1315/oxlint-plugin",
+  "name": "@lilian1315/oxlint-plugin-create-element",
   "version": "0.0.1",
   "description": "Oxlint rules for type-safe DOM JSX created by @lilian1315/create-element.",
   "keywords": [

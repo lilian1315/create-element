@@ -41,7 +41,7 @@ elementTagNameMap['svg:path'] // 'SVGPathElement'
 The types are generated from `@types/web` using the TypeScript 6 compiler API:
 
 ```bash
-vp run --filter @lilian1315/elements-writable-properties-types build
+vpr --filter @lilian1315/elements-writable-properties-types build
 ```
 
 ## License

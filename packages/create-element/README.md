@@ -242,7 +242,7 @@ tag. It also checks direct assertions such as `<div /> as HTMLDivElement` and ca
 
 ```json
 {
-  "jsPlugins": ["@lilian1315/oxlint-plugin"],
+  "jsPlugins": ["@lilian1315/oxlint-plugin-create-element"],
   "rules": {
     "create-element/valid-jsx-element-type-assertion": "error"
   }

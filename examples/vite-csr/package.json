@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@lilian1315/create-element": "workspace:*",
+    "@lilian1315/oxlint-plugin-create-element": "workspace:*",
     "@vue/reactivity": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
