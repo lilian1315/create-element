@@ -7,8 +7,7 @@ const typesPkg = '@lilian1315/elements-writable-properties-types'
 
 export default defineConfig({
   staged: {
-    '*': 'vp check --fix',
-    'pnpm-workspace.yaml': 'vpr generate-deno-config',
+    '*': 'vp check --fix && vpr generate-deno-config',
   },
   lint: {
     ignorePatterns,
