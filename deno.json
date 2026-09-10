@@ -1,7 +1,7 @@
 {
   "workspace": ["packages/*"],
   "imports": {
-    "@lilian1315/elements-writable-properties-types": "jsr:@lilian1315/elements-writable-properties-types@^0.0.10",
+    "@lilian1315/elements-writable-properties-types": "jsr:@lilian1315/elements-writable-properties-types@^0.1.1",
     "@preact/signals-core": "npm:@preact/signals-core@1.13.0",
     "@vue/reactivity": "npm:@vue/reactivity@3.5.28",
     "alien-deepsignals": "npm:alien-deepsignals@0.3.1",
