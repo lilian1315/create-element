@@ -26,13 +26,14 @@
   },
   "scripts": {
     "build": "vp pack",
-    "test": "node --test tests/*.spec.mjs"
+    "test": "vp test run"
   },
   "dependencies": {
     "@lilian1315/elements-writable-properties-types": "workspace:*",
     "@oxlint/plugins": "^1.79.0"
   },
   "devDependencies": {
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   }
 }
