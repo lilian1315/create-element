@@ -21,6 +21,24 @@ jobs:
           cache: true
           run-install: true
       - run: vpr build
+      - run: vpr test
+      - run: vpr test:exports
       - run: vp check
-      - run: vpx jsr publish
-      - run: vp pm publish --filter @lilian1315/* --no-git-checks --access public
+      - name: Resolve publish target from tag
+        id: target
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "dir=." >> "$GITHUB_OUTPUT"
+            echo "npm-filter=@lilian1315/*" >> "$GITHUB_OUTPUT"
+          else
+            NAME="${GITHUB_REF_NAME%@*}"
+            DIR=$(grep -l "\"name\": \"$NAME\"" packages/*/package.json | xargs dirname)
+            [ -n "$DIR" ] || { echo "error: unknown package tag '$GITHUB_REF_NAME'"; exit 1; }
+            echo "dir=$DIR" >> "$GITHUB_OUTPUT"
+            echo "npm-filter=$NAME" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish to JSR
+        working-directory: ${{ steps.target.outputs.dir }}
+        run: vpx jsr publish
+      - name: Publish to npm
+        run: vp pm publish --filter '${{ steps.target.outputs.npm-filter }}' --no-git-checks --access public

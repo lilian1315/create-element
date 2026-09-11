@@ -4,6 +4,7 @@ const ignorePatterns = ['**/generated/**']
 const corePkg = '@lilian1315/create-element'
 const pluginPkg = '@lilian1315/oxlint-plugin-create-element'
 const typesPkg = '@lilian1315/elements-writable-properties-types'
+const generateDenoConfig = 'node scripts/generate-deno-config.ts'
 
 export default defineConfig({
   staged: {
@@ -29,14 +30,13 @@ export default defineConfig({
   run: {
     cache: true,
     tasks: {
-      'generate-deno-config': 'node scripts/generate-deno-config.ts',
       '_release:core': {
         command: [
           'vp check',
           `vpr -t ${corePkg}#build`,
           `vpr -t ${corePkg}#test`,
           `vpr -F ${corePkg} test:exports`,
-          `vp exec -F ${corePkg} bumpp -c "release ${corePkg}@" -t ${corePkg}@`,
+          `vp exec -F ${corePkg} bumpp -x "${generateDenoConfig}" -c "release ${corePkg}@" -t ${corePkg}@`,
         ],
       },
       '_release:plugin': {
@@ -44,13 +44,13 @@ export default defineConfig({
           'vp check',
           `vpr -t ${pluginPkg}#build`,
           `vpr -t ${pluginPkg}#test`,
-          `vp exec -F ${pluginPkg} bumpp -c "release ${pluginPkg}@" -t ${pluginPkg}@`,
+          `vp exec -F ${pluginPkg} bumpp -x "${generateDenoConfig}" -c "release ${pluginPkg}@" -t ${pluginPkg}@`,
         ],
       },
       '_release:types': {
         command: [
           'vp check',
-          `vp exec -F ${typesPkg} bumpp -c "release ${typesPkg}@" -t ${typesPkg}@`,
+          `vp exec -F ${typesPkg} bumpp -x "${generateDenoConfig}" -c "release ${typesPkg}@" -t ${typesPkg}@`,
         ],
       },
     },

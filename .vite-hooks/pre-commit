@@ -1,3 +1,1 @@
-vpr generate-deno-config
-git add deno.json
 vp staged
