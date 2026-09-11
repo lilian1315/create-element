@@ -23,7 +23,7 @@ jobs:
       - run: vpr build
       - run: vp exec -F @lilian1315/create-element playwright install --with-deps chromium
       - run: vpr test
-      - run: vpr test:exports
+      - run: vpr -F @lilian1315/create-element test:exports
       - run: vp check
       - name: Resolve publish target from tag
         id: target
