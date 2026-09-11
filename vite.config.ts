@@ -4,7 +4,7 @@ const ignorePatterns = ['**/generated/**']
 const corePkg = '@lilian1315/create-element'
 const pluginPkg = '@lilian1315/oxlint-plugin-create-element'
 const typesPkg = '@lilian1315/elements-writable-properties-types'
-const generateDenoConfig = 'node scripts/generate-deno-config.ts'
+const generateDenoConfig = 'vp node ../../scripts/generate-deno-config.ts'
 
 export default defineConfig({
   staged: {
