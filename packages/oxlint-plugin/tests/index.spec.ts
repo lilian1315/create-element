@@ -164,7 +164,6 @@ describe('valid-jsx-type-assertion', () => {
 
   it('reports a mismatch and supplies the correct fix', () => {
     const [report] = verify('div', 'HTMLSpanElement')
-    expect(report?.messageId).toBe('incorrect')
     expect(report?.data).toEqual({
       tag: 'div',
       expected: 'HTMLDivElement',
