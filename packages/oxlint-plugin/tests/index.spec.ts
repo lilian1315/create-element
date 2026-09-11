@@ -1,5 +1,5 @@
 import type { Context, Diagnostic, ESTree, Fixer, Ranged, Span, Visitor } from '@oxlint/plugins'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 
 import plugin from '../src/index'
 

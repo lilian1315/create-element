@@ -3,6 +3,7 @@ import { playwright } from 'vite-plus/test/browser-playwright'
 
 export default defineConfig({
   pack: {
+    deps: { resolveDepSubpath: true },
     entry: ['src/**/index.ts', 'src/**/jsx-runtime.ts', 'src/**/jsx-dev-runtime.ts'],
     target: 'es6',
     platform: 'browser',
