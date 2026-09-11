@@ -30,7 +30,7 @@ import {
   htmlElementTagNameMap,
   mathMLElementTagNameMap,
   svgElementTagNameMap,
-} from '@lilian1315/elements-writable-properties-types/element-tag-name-map'
+} from '@lilian1315/elements-writable-properties-types/tag-name-map'
 
 elementTagNameMap.div // 'HTMLDivElement'
 elementTagNameMap['svg:path'] // 'SVGPathElement'

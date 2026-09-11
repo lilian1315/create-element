@@ -5,7 +5,7 @@
   "license": "MIT",
   "exports": {
     ".": "./generated/index.d.ts",
-    "./element-tag-name-map": "./generated/element-tag-name-map.js"
+    "./tag-name-map": "./generated/tag-name-map.js"
   },
   "publish": {
     "include": ["generated/*.d.ts", "generated/*.js", "README.md"]

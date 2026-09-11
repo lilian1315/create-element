@@ -4,9 +4,9 @@ import { describe, expect, it } from 'vitest'
 import plugin from '../src/index'
 
 function getCreate(): (context: Context) => Visitor {
-  const rule = plugin.rules['valid-jsx-element-type-assertion']
+  const rule = plugin.rules['valid-jsx-type-assertion']
   if (!rule || !('create' in rule) || 'createOnce' in rule || typeof rule.create !== 'function')
-    throw new Error('rule valid-jsx-element-type-assertion must expose a create method')
+    throw new Error('rule valid-jsx-type-assertion must expose a create method')
   return rule.create
 }
 
@@ -154,7 +154,7 @@ function verifyAsDom(tag: string, assertedType: string): Diagnostic[] {
   return runVisitor((visitor) => visitor.CallExpression?.(asDomCall(tag, assertedType)))
 }
 
-describe('valid-jsx-element-type-assertion', () => {
+describe('valid-jsx-type-assertion', () => {
   it('accepts matching HTML, SVG, and MathML assertions', () => {
     expect(verify('div', 'HTMLDivElement')).toHaveLength(0)
     expect(verify('svg', 'SVGSVGElement')).toHaveLength(0)

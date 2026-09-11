@@ -13,7 +13,7 @@ export default defineConfig({
     ignorePatterns,
     jsPlugins: ['@lilian1315/oxlint-plugin-create-element'],
     rules: {
-      'create-element/valid-jsx-element-type-assertion': 'error',
+      'create-element/valid-jsx-type-assertion': 'error',
     },
     options: {
       typeAware: true,

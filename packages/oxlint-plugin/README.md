@@ -8,7 +8,7 @@ Oxlint rules for validating explicit DOM types used with `@lilian1315/create-ele
 {
   "jsPlugins": ["@lilian1315/oxlint-plugin-create-element"],
   "rules": {
-    "create-element/valid-jsx-element-type-assertion": "error"
+    "create-element/valid-jsx-type-assertion": "error"
   }
 }
 ```

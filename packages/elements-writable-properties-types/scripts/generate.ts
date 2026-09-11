@@ -197,5 +197,5 @@ export const mathMLElementTagNameMap: Readonly<Record<string, string>>
 export const elementTagNameMap: Readonly<Record<string, string>>
 `
 
-writeFileSync('./generated/element-tag-name-map.js', runtimeMapSource.replaceAll('\n', EOL))
-writeFileSync('./generated/element-tag-name-map.d.ts', runtimeMapTypes.replaceAll('\n', EOL))
+writeFileSync('./generated/tag-name-map.js', runtimeMapSource.replaceAll('\n', EOL))
+writeFileSync('./generated/tag-name-map.d.ts', runtimeMapTypes.replaceAll('\n', EOL))

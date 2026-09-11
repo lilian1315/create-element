@@ -42,7 +42,7 @@ Do not hand-edit between the `VITE PLUS` markers above — that section is manag
 
 - `packages/create-element` — core lib. Entrypoints: `src/index.ts` (DOM `h`/`createElement`), `src/virtual/` (vnode/mount), `src/server/` (renderToString), plus 5 reactive adapters (`alien-signals/`, `alien-deepsignals/`, `faisceau/`, `preact-signals/`, `vue-reactivity/`), each with `index` + `virtual/` + `server/` + `jsx-runtime`/`jsx-dev-runtime`. Adapters are thin wrappers over `src/reactive-element.ts` / `reactive-virtual.ts` / `reactive-server.ts` via each adapter's `reactivity.ts` — fix shared logic there, not in all 5 copies.
 - `packages/elements-writable-properties-types` — codegen'd types from `@types/web`. Regenerate: `vpr --filter @lilian1315/elements-writable-properties-types build` (runs `node scripts/generate.ts`, reads `node_modules/@types/web`). Never hand-edit `generated/`; regenerate instead.
-- `packages/oxlint-plugin` — custom rule `create-element/valid-jsx-element-type-assertion` (JSX `as` / `asDom<T>` must match intrinsic tag). Wired in root `vite.config.ts` `lint.jsPlugins`; `typeAware: true, typeCheck: true`.
+- `packages/oxlint-plugin` — custom rule `create-element/valid-jsx-type-assertion` (JSX `as` / `asDom<T>` must match intrinsic tag). Wired in root `vite.config.ts` `lint.jsPlugins`; `typeAware: true, typeCheck: true`.
 
 ## Tests
 

@@ -1,4 +1,4 @@
-import { elementTagNameMap } from '@lilian1315/elements-writable-properties-types/element-tag-name-map'
+import { elementTagNameMap } from '@lilian1315/elements-writable-properties-types/tag-name-map'
 import type { Context, ESTree, Plugin, Rule } from '@oxlint/plugins'
 
 function getJsxTagName(name: ESTree.JSXElementName): string | undefined {
@@ -76,7 +76,7 @@ const validJsxElementTypeAssertion: Rule = {
 
 const plugin: Plugin = {
   meta: { name: 'create-element' },
-  rules: { 'valid-jsx-element-type-assertion': validJsxElementTypeAssertion },
+  rules: { 'valid-jsx-type-assertion': validJsxElementTypeAssertion },
 }
 
 export default plugin
