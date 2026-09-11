@@ -21,6 +21,7 @@ jobs:
           cache: true
           run-install: true
       - run: vpr build
+      - run: vp exec -F @lilian1315/create-element playwright install --with-deps chromium
       - run: vpr test
       - run: vpr test:exports
       - run: vp check
