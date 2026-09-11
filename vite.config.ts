@@ -36,7 +36,7 @@ export default defineConfig({
           `vpr -t ${corePkg}#build`,
           `vpr -t ${corePkg}#test`,
           `vpr -F ${corePkg} test:exports`,
-          `vp exec -F ${corePkg} bumpp -x "${generateDenoConfig}" -c "release ${corePkg}@" -t ${corePkg}@`,
+          `vp exec -F ${corePkg} bumpp --all -x "${generateDenoConfig}" -c "release ${corePkg}@" -t ${corePkg}@`,
         ],
       },
       '_release:plugin': {
@@ -44,13 +44,13 @@ export default defineConfig({
           'vp check',
           `vpr -t ${pluginPkg}#build`,
           `vpr -t ${pluginPkg}#test`,
-          `vp exec -F ${pluginPkg} bumpp -x "${generateDenoConfig}" -c "release ${pluginPkg}@" -t ${pluginPkg}@`,
+          `vp exec -F ${pluginPkg} bumpp --all -x "${generateDenoConfig}" -c "release ${pluginPkg}@" -t ${pluginPkg}@`,
         ],
       },
       '_release:types': {
         command: [
           'vp check',
-          `vp exec -F ${typesPkg} bumpp -x "${generateDenoConfig}" -c "release ${typesPkg}@" -t ${typesPkg}@`,
+          `vp exec -F ${typesPkg} bumpp --all -x "${generateDenoConfig}" -c "release ${typesPkg}@" -t ${typesPkg}@`,
         ],
       },
     },
