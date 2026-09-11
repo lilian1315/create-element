@@ -13,7 +13,10 @@ const validJsxElementTypeAssertion: Rule = {
     docs: { description: 'Require JSX DOM element assertions to match their intrinsic tag' },
     fixable: 'code',
     schema: [],
-    messages: { incorrect: '`<{{tag}}>` returns `<{{expected}}>`, not `<{{actual}}>`.' },
+    messages: {
+      asDom: 'This JSX.Element is a `<{{expected}}>`, not a `<{{actual}}>`.',
+      assertion: 'This JSX.Element is a `{{expected}}`, not a `{{actual}}`.',
+    },
   },
   create(context: Context) {
     function getIntrinsicTag(jsx: ESTree.Node): string | undefined {
@@ -27,10 +30,11 @@ const validJsxElementTypeAssertion: Rule = {
       expected: string,
       actual: string,
       replacement: string,
+      messageId: string,
     ): void {
       context.report({
         node,
-        messageId: 'incorrect',
+        messageId,
         data: { tag, expected, actual },
         fix: (fixer) => fixer.replaceText(node, replacement),
       })
@@ -45,7 +49,7 @@ const validJsxElementTypeAssertion: Rule = {
       const actual = annotation.typeName.name
       if (!expected || actual === expected) return
 
-      report(annotation, tag, expected, actual, expected)
+      report(annotation, tag, expected, actual, expected, 'assertion')
     }
 
     function verifyAsDom(jsx: ESTree.Node, annotation: ESTree.TSType): void {
@@ -57,7 +61,7 @@ const validJsxElementTypeAssertion: Rule = {
       const actual = annotation.literal.value
       if (actual === tag) return
 
-      report(annotation, tag, tag, actual, `'${tag}'`)
+      report(annotation, tag, tag, actual, `'${tag}'`, 'asDom')
     }
 
     return {
