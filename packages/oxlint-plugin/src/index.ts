@@ -74,7 +74,9 @@ const validJsxElementTypeAssertion: Rule = {
   },
 }
 
-export default {
+const plugin: Plugin = {
   meta: { name: 'create-element' },
   rules: { 'valid-jsx-element-type-assertion': validJsxElementTypeAssertion },
-} satisfies Plugin
+}
+
+export default plugin

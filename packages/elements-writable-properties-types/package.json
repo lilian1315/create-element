@@ -18,10 +18,7 @@
   "types": "generated/index.d.ts",
   "exports": {
     ".": "./generated/index.d.ts",
-    "./element-tag-name-map": {
-      "types": "./generated/element-tag-name-map.d.ts",
-      "default": "./generated/element-tag-name-map.js"
-    },
+    "./element-tag-name-map": "./generated/element-tag-name-map.js",
     "./package.json": "./package.json"
   },
   "scripts": {

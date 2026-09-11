@@ -3,9 +3,14 @@ import { describe, expect, it } from 'vitest'
 
 import plugin from '../src/index'
 
-const rule = plugin.rules['valid-jsx-element-type-assertion']
-if (!('create' in rule) || typeof rule.create !== 'function')
-  throw new Error('rule valid-jsx-element-type-assertion must expose a create method')
+function getCreate(): (context: Context) => Visitor {
+  const rule = plugin.rules['valid-jsx-element-type-assertion']
+  if (!rule || !('create' in rule) || 'createOnce' in rule || typeof rule.create !== 'function')
+    throw new Error('rule valid-jsx-element-type-assertion must expose a create method')
+  return rule.create
+}
+
+const create = getCreate()
 
 function span(): Span {
   const position = { line: 1, column: 0 }
@@ -136,7 +141,7 @@ function createContext(report: (report: Diagnostic) => void): Context {
 
 function runVisitor(visit: (visitor: Visitor) => void): Diagnostic[] {
   const reports: Diagnostic[] = []
-  const visitor = rule.create(createContext((report) => reports.push(report)))
+  const visitor = create(createContext((report) => reports.push(report)))
   visit(visitor)
   return reports
 }
