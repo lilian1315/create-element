@@ -11,6 +11,8 @@ import { applyAttributes, createBaseElement, handleChildren } from './utils'
 
 export { asDom } from './jsx-runtime'
 
+export type { ElementAttributesTagNameMap, PrefixedElementTag } from './types'
+
 /**
  * Creates a DOM element (HTML, SVG, or MathML) with type-safe attributes and children handling.
  * @param tag Element tag name, optionally prefixed with `svg:` or `math:` for namespace aware nodes.

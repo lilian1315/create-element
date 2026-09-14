@@ -28,6 +28,10 @@ import type {
 import { reactivityAdapter } from './reactivity'
 import type { Children, ElementAttributesTagNameMap } from './types'
 
+export type { PrefixedElementTag } from '../types'
+
+export type { ElementAttributesTagNameMap } from './types'
+
 /**
  * Creates a DOM element with [faisceau](https://github.com/lilian1315/faisceau) aware attributes, styles, datasets, and innerHTML.
  * @param tag Element tag name including SVG/MathML prefixes.
