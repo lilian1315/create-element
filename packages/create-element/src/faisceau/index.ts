@@ -28,7 +28,7 @@ import type {
 import { reactivityAdapter } from './reactivity'
 import type { Children, ElementAttributesTagNameMap } from './types'
 
-export type { PrefixedElementTag } from '../types'
+export type { ElementPrefixedTagNameMap, PrefixedElementTag } from '../types'
 
 export type { ElementAttributesTagNameMap } from './types'
 
