@@ -1,5 +1,5 @@
 import './style.css'
-import { asDom } from '@lilian1315/create-element/vue-reactivity/jsx-runtime'
+import { build } from '@lilian1315/create-element/vue-reactivity/dom'
 
 import heroImg from './assets/hero.png'
 import typescriptLogo from './assets/typescript.svg'
@@ -10,7 +10,7 @@ const app = document.querySelector('#app')
 
 if (!app) throw new Error('Missing #app element')
 
-const content = asDom<'main'>(
+const content = build<'main'>(
   <main>
     <div class="hero">
       <img src={heroImg} class="base" width={170} height={179} />

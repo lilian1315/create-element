@@ -7,4 +7,5 @@
  * @module
  */
 
-export * from './jsx-runtime'
+export { Fragment, jsx, jsxDEV, jsxs } from './jsx-runtime'
+export type { JSX } from './jsx-runtime'

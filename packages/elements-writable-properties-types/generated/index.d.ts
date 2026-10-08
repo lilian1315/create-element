@@ -4150,3 +4150,168 @@ export namespace DOMTypes {
         "semantics": MathMLElement;
     }
 }
+
+type WritableHTMLElementType<Element> =
+    Element extends HTMLAnchorElement ? DOMTypes.HTMLAnchorElement :
+    Element extends HTMLAreaElement ? DOMTypes.HTMLAreaElement :
+    Element extends HTMLAudioElement ? DOMTypes.HTMLAudioElement :
+    Element extends HTMLBodyElement ? DOMTypes.HTMLBodyElement :
+    Element extends HTMLButtonElement ? DOMTypes.HTMLButtonElement :
+    Element extends HTMLFrameSetElement ? DOMTypes.HTMLFrameSetElement :
+    Element extends HTMLInputElement ? DOMTypes.HTMLInputElement :
+    Element extends HTMLLinkElement ? DOMTypes.HTMLLinkElement :
+    Element extends HTMLStyleElement ? DOMTypes.HTMLStyleElement :
+    Element extends HTMLTableDataCellElement ? DOMTypes.HTMLTableDataCellElement :
+    Element extends HTMLTableHeaderCellElement ? DOMTypes.HTMLTableHeaderCellElement :
+    Element extends HTMLVideoElement ? DOMTypes.HTMLVideoElement :
+    Element extends HTMLBaseElement ? DOMTypes.HTMLBaseElement :
+    Element extends HTMLBRElement ? DOMTypes.HTMLBRElement :
+    Element extends HTMLCanvasElement ? DOMTypes.HTMLCanvasElement :
+    Element extends HTMLDataElement ? DOMTypes.HTMLDataElement :
+    Element extends HTMLDataListElement ? DOMTypes.HTMLDataListElement :
+    Element extends HTMLDetailsElement ? DOMTypes.HTMLDetailsElement :
+    Element extends HTMLDialogElement ? DOMTypes.HTMLDialogElement :
+    Element extends HTMLDirectoryElement ? DOMTypes.HTMLDirectoryElement :
+    Element extends HTMLDivElement ? DOMTypes.HTMLDivElement :
+    Element extends HTMLDListElement ? DOMTypes.HTMLDListElement :
+    Element extends HTMLEmbedElement ? DOMTypes.HTMLEmbedElement :
+    Element extends HTMLFieldSetElement ? DOMTypes.HTMLFieldSetElement :
+    Element extends HTMLFontElement ? DOMTypes.HTMLFontElement :
+    Element extends HTMLFormElement ? DOMTypes.HTMLFormElement :
+    Element extends HTMLFrameElement ? DOMTypes.HTMLFrameElement :
+    Element extends HTMLHeadElement ? DOMTypes.HTMLHeadElement :
+    Element extends HTMLHeadingElement ? DOMTypes.HTMLHeadingElement :
+    Element extends HTMLHRElement ? DOMTypes.HTMLHRElement :
+    Element extends HTMLHtmlElement ? DOMTypes.HTMLHtmlElement :
+    Element extends HTMLIFrameElement ? DOMTypes.HTMLIFrameElement :
+    Element extends HTMLImageElement ? DOMTypes.HTMLImageElement :
+    Element extends HTMLLabelElement ? DOMTypes.HTMLLabelElement :
+    Element extends HTMLLegendElement ? DOMTypes.HTMLLegendElement :
+    Element extends HTMLLIElement ? DOMTypes.HTMLLIElement :
+    Element extends HTMLMapElement ? DOMTypes.HTMLMapElement :
+    Element extends HTMLMarqueeElement ? DOMTypes.HTMLMarqueeElement :
+    Element extends HTMLMediaElement ? DOMTypes.HTMLMediaElement :
+    Element extends HTMLMenuElement ? DOMTypes.HTMLMenuElement :
+    Element extends HTMLMetaElement ? DOMTypes.HTMLMetaElement :
+    Element extends HTMLMeterElement ? DOMTypes.HTMLMeterElement :
+    Element extends HTMLModElement ? DOMTypes.HTMLModElement :
+    Element extends HTMLObjectElement ? DOMTypes.HTMLObjectElement :
+    Element extends HTMLOListElement ? DOMTypes.HTMLOListElement :
+    Element extends HTMLOptGroupElement ? DOMTypes.HTMLOptGroupElement :
+    Element extends HTMLOptionElement ? DOMTypes.HTMLOptionElement :
+    Element extends HTMLOutputElement ? DOMTypes.HTMLOutputElement :
+    Element extends HTMLParagraphElement ? DOMTypes.HTMLParagraphElement :
+    Element extends HTMLParamElement ? DOMTypes.HTMLParamElement :
+    Element extends HTMLPictureElement ? DOMTypes.HTMLPictureElement :
+    Element extends HTMLPreElement ? DOMTypes.HTMLPreElement :
+    Element extends HTMLProgressElement ? DOMTypes.HTMLProgressElement :
+    Element extends HTMLQuoteElement ? DOMTypes.HTMLQuoteElement :
+    Element extends HTMLScriptElement ? DOMTypes.HTMLScriptElement :
+    Element extends HTMLSelectElement ? DOMTypes.HTMLSelectElement :
+    Element extends HTMLSlotElement ? DOMTypes.HTMLSlotElement :
+    Element extends HTMLSourceElement ? DOMTypes.HTMLSourceElement :
+    Element extends HTMLSpanElement ? DOMTypes.HTMLSpanElement :
+    Element extends HTMLTableCaptionElement ? DOMTypes.HTMLTableCaptionElement :
+    Element extends HTMLTableCellElement ? DOMTypes.HTMLTableCellElement :
+    Element extends HTMLTableColElement ? DOMTypes.HTMLTableColElement :
+    Element extends HTMLTableElement ? DOMTypes.HTMLTableElement :
+    Element extends HTMLTableRowElement ? DOMTypes.HTMLTableRowElement :
+    Element extends HTMLTableSectionElement ? DOMTypes.HTMLTableSectionElement :
+    Element extends HTMLTemplateElement ? DOMTypes.HTMLTemplateElement :
+    Element extends HTMLTextAreaElement ? DOMTypes.HTMLTextAreaElement :
+    Element extends HTMLTimeElement ? DOMTypes.HTMLTimeElement :
+    Element extends HTMLTitleElement ? DOMTypes.HTMLTitleElement :
+    Element extends HTMLTrackElement ? DOMTypes.HTMLTrackElement :
+    Element extends HTMLUListElement ? DOMTypes.HTMLUListElement :
+    Element extends HTMLUnknownElement ? DOMTypes.HTMLUnknownElement :
+    Element extends HTMLElement ? DOMTypes.HTMLElement :
+    never;
+
+type WritableSVGElementType<Element> =
+    Element extends SVGPolygonElement ? DOMTypes.SVGPolygonElement :
+    Element extends SVGPolylineElement ? DOMTypes.SVGPolylineElement :
+    Element extends SVGSVGElement ? DOMTypes.SVGSVGElement :
+    Element extends SVGTextElement ? DOMTypes.SVGTextElement :
+    Element extends SVGTextPathElement ? DOMTypes.SVGTextPathElement :
+    Element extends SVGTSpanElement ? DOMTypes.SVGTSpanElement :
+    Element extends SVGAElement ? DOMTypes.SVGAElement :
+    Element extends SVGCircleElement ? DOMTypes.SVGCircleElement :
+    Element extends SVGEllipseElement ? DOMTypes.SVGEllipseElement :
+    Element extends SVGImageElement ? DOMTypes.SVGImageElement :
+    Element extends SVGLineElement ? DOMTypes.SVGLineElement :
+    Element extends SVGPathElement ? DOMTypes.SVGPathElement :
+    Element extends SVGRectElement ? DOMTypes.SVGRectElement :
+    Element extends SVGTextPositioningElement ? DOMTypes.SVGTextPositioningElement :
+    Element extends SVGUseElement ? DOMTypes.SVGUseElement :
+    Element extends SVGAnimateElement ? DOMTypes.SVGAnimateElement :
+    Element extends SVGAnimateMotionElement ? DOMTypes.SVGAnimateMotionElement :
+    Element extends SVGAnimateTransformElement ? DOMTypes.SVGAnimateTransformElement :
+    Element extends SVGDefsElement ? DOMTypes.SVGDefsElement :
+    Element extends SVGFEImageElement ? DOMTypes.SVGFEImageElement :
+    Element extends SVGForeignObjectElement ? DOMTypes.SVGForeignObjectElement :
+    Element extends SVGGElement ? DOMTypes.SVGGElement :
+    Element extends SVGGeometryElement ? DOMTypes.SVGGeometryElement :
+    Element extends SVGLinearGradientElement ? DOMTypes.SVGLinearGradientElement :
+    Element extends SVGPatternElement ? DOMTypes.SVGPatternElement :
+    Element extends SVGRadialGradientElement ? DOMTypes.SVGRadialGradientElement :
+    Element extends SVGSetElement ? DOMTypes.SVGSetElement :
+    Element extends SVGSwitchElement ? DOMTypes.SVGSwitchElement :
+    Element extends SVGTextContentElement ? DOMTypes.SVGTextContentElement :
+    Element extends SVGAnimationElement ? DOMTypes.SVGAnimationElement :
+    Element extends SVGFEBlendElement ? DOMTypes.SVGFEBlendElement :
+    Element extends SVGFEColorMatrixElement ? DOMTypes.SVGFEColorMatrixElement :
+    Element extends SVGFEComponentTransferElement ? DOMTypes.SVGFEComponentTransferElement :
+    Element extends SVGFECompositeElement ? DOMTypes.SVGFECompositeElement :
+    Element extends SVGFEConvolveMatrixElement ? DOMTypes.SVGFEConvolveMatrixElement :
+    Element extends SVGFEDiffuseLightingElement ? DOMTypes.SVGFEDiffuseLightingElement :
+    Element extends SVGFEDisplacementMapElement ? DOMTypes.SVGFEDisplacementMapElement :
+    Element extends SVGFEDropShadowElement ? DOMTypes.SVGFEDropShadowElement :
+    Element extends SVGFEFloodElement ? DOMTypes.SVGFEFloodElement :
+    Element extends SVGFEFuncAElement ? DOMTypes.SVGFEFuncAElement :
+    Element extends SVGFEFuncBElement ? DOMTypes.SVGFEFuncBElement :
+    Element extends SVGFEFuncGElement ? DOMTypes.SVGFEFuncGElement :
+    Element extends SVGFEFuncRElement ? DOMTypes.SVGFEFuncRElement :
+    Element extends SVGFEGaussianBlurElement ? DOMTypes.SVGFEGaussianBlurElement :
+    Element extends SVGFEMergeElement ? DOMTypes.SVGFEMergeElement :
+    Element extends SVGFEMorphologyElement ? DOMTypes.SVGFEMorphologyElement :
+    Element extends SVGFEOffsetElement ? DOMTypes.SVGFEOffsetElement :
+    Element extends SVGFESpecularLightingElement ? DOMTypes.SVGFESpecularLightingElement :
+    Element extends SVGFETileElement ? DOMTypes.SVGFETileElement :
+    Element extends SVGFETurbulenceElement ? DOMTypes.SVGFETurbulenceElement :
+    Element extends SVGGradientElement ? DOMTypes.SVGGradientElement :
+    Element extends SVGGraphicsElement ? DOMTypes.SVGGraphicsElement :
+    Element extends SVGMarkerElement ? DOMTypes.SVGMarkerElement :
+    Element extends SVGMPathElement ? DOMTypes.SVGMPathElement :
+    Element extends SVGScriptElement ? DOMTypes.SVGScriptElement :
+    Element extends SVGStyleElement ? DOMTypes.SVGStyleElement :
+    Element extends SVGSymbolElement ? DOMTypes.SVGSymbolElement :
+    Element extends SVGViewElement ? DOMTypes.SVGViewElement :
+    Element extends SVGClipPathElement ? DOMTypes.SVGClipPathElement :
+    Element extends SVGComponentTransferFunctionElement ? DOMTypes.SVGComponentTransferFunctionElement :
+    Element extends SVGDescElement ? DOMTypes.SVGDescElement :
+    Element extends SVGFEDistantLightElement ? DOMTypes.SVGFEDistantLightElement :
+    Element extends SVGFEMergeNodeElement ? DOMTypes.SVGFEMergeNodeElement :
+    Element extends SVGFEPointLightElement ? DOMTypes.SVGFEPointLightElement :
+    Element extends SVGFESpotLightElement ? DOMTypes.SVGFESpotLightElement :
+    Element extends SVGFilterElement ? DOMTypes.SVGFilterElement :
+    Element extends SVGMaskElement ? DOMTypes.SVGMaskElement :
+    Element extends SVGMetadataElement ? DOMTypes.SVGMetadataElement :
+    Element extends SVGStopElement ? DOMTypes.SVGStopElement :
+    Element extends SVGTitleElement ? DOMTypes.SVGTitleElement :
+    Element extends SVGElement ? DOMTypes.SVGElement :
+    never;
+
+type WritableMathMLElementType<Element> =
+    Element extends MathMLElement ? DOMTypes.MathMLElement :
+    never;
+
+/**
+ * Maps a native DOM element or subclass to its generated writable properties.
+ * Matching is structural: indistinguishable interfaces use the first matching
+ * branch. Unions distribute over their members; unsupported types resolve to never.
+ */
+export type WritableDOMType<Element extends HTMLElement | SVGElement | MathMLElement> =
+    Element extends HTMLElement ? WritableHTMLElementType<Element> :
+    Element extends SVGElement ? WritableSVGElementType<Element> :
+    Element extends MathMLElement ? WritableMathMLElementType<Element> :
+    never;

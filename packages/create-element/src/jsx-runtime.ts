@@ -1,92 +1,30 @@
-/**
- * JSX runtime for @lilian1315/create-element - provides JSX support for type-safe DOM element creation.
- *
- * This module implements the JSX runtime interface allowing you to use JSX syntax with TypeScript.
- * Configure your tsconfig.json with:
- * ```json
- * {
- *   "compilerOptions": {
- *     "jsx": "react-jsx",
- *     "jsxImportSource": "@lilian1315/create-element"
- *   }
- * }
- * ```
- *
- * @example
- * ```tsx
- * function App() {
- *   return (
- *     <div class="container">
- *       <h1>My App</h1>
- *       <button onclick={() => console.log('clicked')}>
- *         Click me
- *       </button>
- *     </div>
- *   )
- * }
- * ```
- *
- * @module
- */
-
-import { h } from './index'
 import type {
-  Children,
-  DomElement,
-  ElementAttributesTagNameMap,
-  ElementPrefixedTagNameMap,
+  Component,
   PrefixedElementTag,
-  Prettify,
+  VNodeChild,
+  VNodePropsMap,
+  VNode,
+  VNodeType,
 } from './types'
-import { childrenToNodes } from './utils'
+import { createVNodeObject } from './vnode'
 
-export function asDom<T extends PrefixedElementTag>(
-  element: JSX.Element,
-): ElementPrefixedTagNameMap[T] {
-  return element as ElementPrefixedTagNameMap[T]
+/** Shared JSX implementation used by every integration. */
+export function jsx(type: VNodeType, props: object | null, key?: unknown): VNode {
+  return createVNodeObject(type, props, key)
 }
 
-/**
- * Component used to group children without introducing an extra DOM node when using JSX.
- */
-export const Fragment: JSX.ElementClass = ({ children }: { children?: Children | Children[] }) => {
-  return childrenToNodes(Array.isArray(children) ? children.flat() : children)
-}
-
-/**
- * JSX factory
- */
-export function jsx(
-  type: PrefixedElementTag | JSX.ElementClass,
-  props: JSX.IntrinsicAttributes,
-  __key: unknown,
-  __isStaticChildren: unknown,
-  __source: unknown,
-  __self: unknown,
-): JSX.Element {
-  if (typeof type === 'function') return type(props)
-  return h(type, props)
-}
-
-/**
- * Alias of {@link jsx} used when JSX compilers emit batched static children helpers.
- */
 export const jsxs = jsx
-
-/**
- * Development-time alias of {@link jsx} used by tooling that differentiates prod/dev JSX runtimes.
- */
 export const jsxDEV = jsx
+export const Fragment: Component<{ children?: VNodeChild }> = (props) => props.children
 
 export namespace JSX {
-  export type Fragment = Node[]
-  export type Element = DomElement | Fragment
-  export type ElementClass = (props: IntrinsicAttributes) => Element
+  export type Element = VNode
+  export type ElementType = PrefixedElementTag | Component<never>
+  export interface ElementChildrenAttribute {
+    children: unknown
+  }
   export interface IntrinsicAttributes {
-    children?: Children | Children[]
-    [key: string | symbol]: unknown
+    key?: string | number
   }
-  export type IntrinsicElements = {
-    [T in PrefixedElementTag]: Prettify<ElementAttributesTagNameMap[T]>
-  }
+  export type IntrinsicElements = VNodePropsMap
 }

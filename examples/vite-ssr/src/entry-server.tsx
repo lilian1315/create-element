@@ -14,7 +14,6 @@ export default {
           <img src={heroImg} class="base" width={170} height={179} />
           <img src={typescriptLogo} class="framework" alt="TypeScript logo" />
           <img src={viteLogo} class="vite" alt="Vite logo" />
-          <a hr></a>
         </div>
         <p class="eyebrow">SSR · Vue reactivity</p>
         <h1>Rendered on the server</h1>

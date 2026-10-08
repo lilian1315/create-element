@@ -81,7 +81,8 @@ for (const iface of interfaces) {
   if (
     !rootInterfaceNames.has(iface.name.text) &&
     !inheritedNames.has('HTMLElement') &&
-    !inheritedNames.has('SVGElement')
+    !inheritedNames.has('SVGElement') &&
+    !inheritedNames.has('MathMLElement')
   ) {
     continue
   }
@@ -166,9 +167,50 @@ const generatedSourceFile = ts.factory.updateSourceFile(
 const newLineKind = EOL === '\r\n' ? ts.NewLineKind.CarriageReturnLineFeed : ts.NewLineKind.LineFeed
 const output = ts.createPrinter({ newLine: newLineKind }).printFile(generatedSourceFile)
 
+// Test descendants before their ancestors so a specific element does not fall
+// through to its base interface. Names make unrelated interfaces deterministic.
+const elementInterfaceNames = [...primaryInterfaceNames]
+  .filter((name) => {
+    const ancestors = getRecursiveExtends(name)
+    return (
+      ['HTMLElement', 'SVGElement', 'MathMLElement'].includes(name) ||
+      ['HTMLElement', 'SVGElement', 'MathMLElement'].some((root) => ancestors.has(root))
+    )
+  })
+  .sort((left, right) => {
+    const depthDifference = getRecursiveExtends(right).size - getRecursiveExtends(left).size
+    return depthDifference || left.localeCompare(right, 'en')
+  })
+
+const writableDOMTypeBranches = ['HTMLElement', 'SVGElement', 'MathMLElement']
+  .map((root) => {
+    const names = elementInterfaceNames.filter(
+      (name) => name === root || getRecursiveExtends(name).has(root),
+    )
+    return `type Writable${root}Type<Element> =
+${names.map((name) => `    Element extends ${name} ? DOMTypes.${name} :`).join('\n')}
+    never;
+`
+  })
+  .join('\n')
+
+const writableDOMType = `
+${writableDOMTypeBranches}
+/**
+ * Maps a native DOM element or subclass to its generated writable properties.
+ * Matching is structural: indistinguishable interfaces use the first matching
+ * branch. Unions distribute over their members; unsupported types resolve to never.
+ */
+export type WritableDOMType<Element extends HTMLElement | SVGElement | MathMLElement> =
+    Element extends HTMLElement ? WritableHTMLElementType<Element> :
+    Element extends SVGElement ? WritableSVGElementType<Element> :
+    Element extends MathMLElement ? WritableMathMLElementType<Element> :
+    never;
+`
+
 console.log('Saving types...')
 if (!existsSync('./generated')) mkdirSync('./generated')
-writeFileSync('./generated/index.d.ts', output)
+writeFileSync('./generated/index.d.ts', output + writableDOMType.replaceAll('\n', EOL))
 
 const htmlElementTagNameMap = {
   ...getTagNameMap('HTMLElementTagNameMap'),

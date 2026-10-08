@@ -4,14 +4,14 @@
 [![jsr](https://jsr.io/badges/@lilian1315/create-element)](https://jsr.io/@lilian1315/create-element)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Type-safe `document.createElement` wrapper with JSX support and optional reactive library integrations for building DOM elements.
+Type-safe deferred trees with JSX, DOM rendering, SSR, and native signal integrations.
 
 ## Packages
 
-| Package                                                                                           | Description                                                                   |
-| ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [`@lilian1315/create-element`](./packages/create-element)                                         | Core library — type-safe element creation, JSX runtime, and reactive adapters |
-| [`@lilian1315/elements-writable-properties-types`](./packages/elements-writable-properties-types) | Auto-generated TypeScript types for writable DOM element properties           |
+| Package                                                                                           | Description                                                         |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [`@lilian1315/create-element`](./packages/create-element)                                         | Tree descriptions, DOM rendering, SSR, JSX, and signal integrations |
+| [`@lilian1315/elements-writable-properties-types`](./packages/elements-writable-properties-types) | Auto-generated TypeScript types for writable DOM element properties |
 
 ## Quick Start
 
@@ -21,18 +21,26 @@ pnpm add @lilian1315/create-element
 
 ```typescript
 import { h } from '@lilian1315/create-element'
+import { build } from '@lilian1315/create-element/dom'
+import { dispose } from '@lilian1315/create-element/dom'
 
-const app = h('div', { class: 'container' }, [
-  h('h1', null, 'Hello World!'),
-  h('button', { onclick: () => alert('Clicked!') }, 'Click me'),
-])
+const app = build(
+  h('div', {
+    class: 'container',
+    children: [
+      h('h1', { children: 'Hello World!' }),
+      h('button', { onclick: () => alert('Clicked!'), children: 'Click me' }),
+    ],
+  }),
+)
 
 document.body.appendChild(app)
+// Later: dispose(app)
 ```
 
 ## Features
 
-- **Type-safe** — full TypeScript support with autocompletion for element attributes
+- **Type-safe** — tag-aware props and refs, and DOM return types for direct `h` roots
 - **HTML, SVG, and MathML** — create any DOM element with namespace-aware prefixes (`svg:circle`, `math:mi`)
 - **JSX** — use JSX syntax via standard `react-jsx` transform
 - **Reactive adapters** — optional first-class integrations with popular signal libraries:
@@ -49,9 +57,10 @@ See the full [API documentation and usage guide](./packages/create-element/READM
 ## Development
 
 ```bash
-pnpm install
-pnpm -r build
-pnpm -r test
+vp install
+vp check
+vpr build
+vpr test
 ```
 
 ## License

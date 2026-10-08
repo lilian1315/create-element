@@ -96,11 +96,11 @@ function jsxAssertion(tag: string, assertedType: string): ESTree.TSAsExpression 
   return assertion
 }
 
-function asDomCall(tag: string, assertedType: string): ESTree.CallExpression {
+function buildCall(tag: string, assertedType: string): ESTree.CallExpression {
   const element = jsxElement(tag)
   const callee: ESTree.IdentifierReference = {
     type: 'Identifier',
-    name: 'asDom',
+    name: 'build',
     ...span(),
     parent: program,
   }
@@ -150,8 +150,8 @@ function verify(tag: string, assertedType: string): Diagnostic[] {
   return runVisitor((visitor) => visitor.TSAsExpression?.(jsxAssertion(tag, assertedType)))
 }
 
-function verifyAsDom(tag: string, assertedType: string): Diagnostic[] {
-  return runVisitor((visitor) => visitor.CallExpression?.(asDomCall(tag, assertedType)))
+function verifyBuild(tag: string, assertedType: string): Diagnostic[] {
+  return runVisitor((visitor) => visitor.CallExpression?.(buildCall(tag, assertedType)))
 }
 
 describe('valid-jsx-type-assertion', () => {
@@ -176,9 +176,9 @@ describe('valid-jsx-type-assertion', () => {
     expect(report?.fix?.(fixer)).toMatchObject({ text: 'HTMLDivElement' })
   })
 
-  it('checks the explicit type argument passed to asDom', () => {
-    expect(verifyAsDom('button', 'button')).toHaveLength(0)
-    expect(verifyAsDom('button', 'div')[0]?.data?.expected).toBe('button')
+  it('checks the explicit type argument passed to build', () => {
+    expect(verifyBuild('button', 'button')).toHaveLength(0)
+    expect(verifyBuild('button', 'div')[0]?.data?.expected).toBe('button')
   })
 
   it('ignores tags which are not part of the runtime intrinsic element map', () => {

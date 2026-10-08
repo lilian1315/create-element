@@ -14,7 +14,7 @@ const validJsxElementTypeAssertion: Rule = {
     fixable: 'code',
     schema: [],
     messages: {
-      asDom: 'This JSX.Element is a `<{{expected}}>`, not a `<{{actual}}>`.',
+      build: 'This JSX.Element is a `<{{expected}}>`, not a `<{{actual}}>`.',
       assertion: 'This JSX.Element is a `{{expected}}`, not a `{{actual}}`.',
     },
   },
@@ -52,7 +52,7 @@ const validJsxElementTypeAssertion: Rule = {
       report(annotation, tag, expected, actual, expected, 'assertion')
     }
 
-    function verifyAsDom(jsx: ESTree.Node, annotation: ESTree.TSType): void {
+    function verifyBuild(jsx: ESTree.Node, annotation: ESTree.TSType): void {
       const tag = getIntrinsicTag(jsx)
       if (!tag || !elementTagNameMap[tag] || annotation.type !== 'TSLiteralType') return
       if (annotation.literal.type !== 'Literal' || typeof annotation.literal.value !== 'string')
@@ -61,7 +61,7 @@ const validJsxElementTypeAssertion: Rule = {
       const actual = annotation.literal.value
       if (actual === tag) return
 
-      report(annotation, tag, tag, actual, `'${tag}'`, 'asDom')
+      report(annotation, tag, tag, actual, `'${tag}'`, 'build')
     }
 
     return {
@@ -69,10 +69,10 @@ const validJsxElementTypeAssertion: Rule = {
         verifyAssertion(node.expression, node.typeAnnotation)
       },
       CallExpression(node) {
-        if (node.callee.type !== 'Identifier' || node.callee.name !== 'asDom') return
+        if (node.callee.type !== 'Identifier' || node.callee.name !== 'build') return
         const typeArguments = node.typeArguments
         if (typeArguments?.params.length !== 1 || node.arguments.length !== 1) return
-        verifyAsDom(node.arguments[0], typeArguments.params[0])
+        verifyBuild(node.arguments[0], typeArguments.params[0])
       },
     }
   },

@@ -22,6 +22,20 @@ type InputProps = DOMTypes.HTMLElementTagNameMap['input']
 // { value: string; checked: boolean; placeholder: string; ... }
 ```
 
+Map a native element type directly to its writable interface:
+
+```typescript
+import type { WritableDOMType } from '@lilian1315/elements-writable-properties-types'
+
+type AnchorProps = WritableDOMType<HTMLAnchorElement> // DOMTypes.HTMLAnchorElement
+type InputProps = WritableDOMType<HTMLInputElement> // DOMTypes.HTMLInputElement
+```
+
+`WritableDOMType` checks specific interfaces before their base interfaces, supports
+subclasses, and distributes over unions. Unsupported types resolve to `never`.
+Matching follows TypeScript's structural typing: interfaces with identical shapes
+cannot be distinguished by name and use the first matching generated branch.
+
 The package also exports the generated DOM interface names used by tooling:
 
 ```typescript

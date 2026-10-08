@@ -13,5 +13,7 @@ Oxlint rules for validating explicit DOM types used with `@lilian1315/create-ele
 }
 ```
 
-The rule validates `asDom<'div'>(<div />)` and direct assertions such as
-`<div /> as HTMLDivElement`. Mismatches are automatically fixable.
+The rule validates `build<'div'>(<div />)` and direct assertions such as
+`<div /> as HTMLDivElement`. Mismatches are automatically fixable. It checks
+literal intrinsic JSX roots; it cannot determine the root of a variable or
+user component.

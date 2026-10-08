@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["es2020", "dom"],
+    "types": ["vite/client"],
     "moduleDetection": "force",
     "module": "preserve",
     "moduleResolution": "bundler",
@@ -13,7 +14,8 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests", "scripts"]
 }
