@@ -6,11 +6,11 @@ import type {
   VNode,
   VNodeType,
 } from './types'
-import { createVNodeObject } from './vnode'
+import { createVNode } from './vnode'
 
 /** Shared JSX implementation used by every integration. */
 export function jsx(type: VNodeType, props: object | null, key?: unknown): VNode {
-  return createVNodeObject(type, props, key)
+  return createVNode(type, props, key)
 }
 
 export const jsxs = jsx

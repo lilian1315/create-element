@@ -16,7 +16,7 @@ export default defineConfig({
     plugins: [
       // Fold before chunk splitting so plain entries retain no reactive primitives.
       replacePlugin(
-        { 'reactivity.REACTIVE_ENABLED': String(!!integration) },
+        { 'reactivity.REACTIVE_ENABLED': typeof integration === 'string' ? 'true' : 'false' },
         { preventAssignment: true, sourcemap: true },
       ),
       specializeReactivity(integration),

@@ -81,20 +81,24 @@ const exportCases: Array<[string, string[]]> = [
 ]
 
 describe('built package exports (no DOM implementation)', () => {
-  it.each(['', ...adapters])('%s shares the VNode brand across built entries', async (adapter) => {
-    const entry = adapter ? `${packageName}/${adapter}` : packageName
-    const { h } = await import(entry)
-    const { jsx } = await import(`${entry}/jsx-runtime`)
-    const { jsxDEV } = await import(`${entry}/jsx-dev-runtime`)
-    const { renderToString } = await import(`${entry}/server`)
+  it.each(['', ...adapters])(
+    '%s shares the VNode brand across built entries',
+    { timeout: 10_000 },
+    async (adapter) => {
+      const entry = adapter ? `${packageName}/${adapter}` : packageName
+      const { h } = await import(entry)
+      const { jsx } = await import(`${entry}/jsx-runtime`)
+      const { jsxDEV } = await import(`${entry}/jsx-dev-runtime`)
+      const { renderToString } = await import(`${entry}/server`)
 
-    expect(renderToString(h('main', { children: jsx('span', { children: 'jsx' }) }))).toBe(
-      '<main><span>jsx</span></main>',
-    )
-    expect(renderToString(jsxDEV('main', { children: h('span', { children: 'h' }) }))).toBe(
-      '<main><span>h</span></main>',
-    )
-  })
+      expect(renderToString(h('main', { children: jsx('span', { children: 'jsx' }) }))).toBe(
+        '<main><span>jsx</span></main>',
+      )
+      expect(renderToString(jsxDEV('main', { children: h('span', { children: 'h' }) }))).toBe(
+        '<main><span>h</span></main>',
+      )
+    },
+  )
 
   it.each(['index', 'dom/index', 'server/index'])(
     '%s removes reactive primitives from the plain build',

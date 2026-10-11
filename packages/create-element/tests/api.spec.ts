@@ -9,18 +9,23 @@ describe('deferred tree API', () => {
   it('does not create DOM or execute components until rendering', () => {
     const component = vi.fn(() => h('button', { children: 'save' }))
     const tree = jsx(component, {})
+
     expect(component).not.toHaveBeenCalled()
-    const button = build(tree)
-    expect(button.outerHTML).toBe('<button>save</button>')
+    const frag = build(tree)
+    expect(frag.firstElementChild?.outerHTML).toBe('<button>save</button>')
     expect(component).toHaveBeenCalledOnce()
   })
 
-  it('infers a direct intrinsic root and rejects other build roots', () => {
+  it('builds a single element root from a VNode', () => {
     const button: HTMLButtonElement = build(h('button', { children: 'ok' }))
     expect(button).toBeInstanceOf(HTMLButtonElement)
-    expect(() => build(jsx(() => [h('i'), h('b')], {}))).toThrow('exactly one element')
-    expect(() => build(jsx(() => null, {}))).toThrow('exactly one element')
-    expect(() => build(jsx(Fragment, { children: h('span') }))).toThrow('Fragment root')
+  })
+
+  it('`build` a document fragment from a JSX fragment', () => {
+    const fragment = build(jsx(Fragment as any, { children: h('span') }))
+    expect(fragment).toBeInstanceOf(DocumentFragment)
+    expect(fragment.childElementCount).toBe(1)
+    expect(fragment.firstElementChild).toBeInstanceOf(HTMLSpanElement)
   })
 
   it('binds props without erasing absent props or children', () => {
@@ -55,18 +60,6 @@ describe('deferred tree API', () => {
     expect(element.hasAttribute('data-removed')).toBe(false)
     stop()
     expect(element.style.color).toBe('red')
-  })
-
-  it('refuses conflicting content fields before changing the DOM', () => {
-    const element = document.createElement('div')
-    element.textContent = 'old'
-    // @ts-expect-error deliberately invalid props to exercise the runtime guard
-    expect(() => bind(element, { children: 'new', innerHTML: 'raw' })).toThrow(
-      'children and innerHTML',
-    )
-    expect(element.textContent).toBe('old')
-    // @ts-expect-error deliberately invalid props to exercise the runtime guard
-    expect(() => h('div', { children: 'new', innerHTML: 'raw' })).toThrow('children and innerHTML')
   })
 
   it('cleans a ref supplied through bind', () => {
@@ -136,6 +129,12 @@ describe('deferred tree API', () => {
       ],
     })
     expect(renderToString(tree)).toContain('<option value="b" selected>B</option>')
+  })
+
+  it('does not map the unsupported className prop to class', () => {
+    expect(renderToString(jsx('div', { className: 'legacy' }))).toBe(
+      '<div className="legacy"></div>',
+    )
   })
 
   it('keeps DOM and SSR data semantics aligned', () => {

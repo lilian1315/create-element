@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vite-plus/test'
 
-import { h, isVNode } from '../src/vnode'
+import { h } from '../src/index'
+import { isVNode } from '../src/vnode'
 
 describe('VNode identity', () => {
   it('recognizes created and spread VNodes', () => {

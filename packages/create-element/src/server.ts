@@ -46,7 +46,6 @@ const enumeratedAttributes = new Set(['draggable', 'spellcheck'])
 
 const htmlAttributeAliases = new Map<string, string>([
   ['acceptCharset', 'accept-charset'],
-  ['className', 'class'],
   ['defaultChecked', 'checked'],
   ['defaultSelected', 'selected'],
   ['defaultValue', 'value'],
@@ -139,7 +138,6 @@ function renderElement(vnode: ElementVNode, context: RenderContext): string {
 
     if (typeof value === 'function' || name.startsWith('on')) continue
 
-    if (name === 'className' && Reflect.has(vnode.props, 'class')) continue
     if (name === 'htmlFor' && Reflect.has(vnode.props, 'for')) continue
 
     if (name === 'data') {
@@ -218,8 +216,7 @@ function normalizeAttributeName(name: string, namespace: Namespace): string {
     return name === 'panose1' ? 'panose-1' : camelCaseToKebabCase(name)
   }
 
-  if (namespace === 'svg') return name === 'className' ? 'class' : name
-  if (namespace === 'math') return name === 'className' ? 'class' : name
+  if (namespace === 'svg' || namespace === 'math') return name
 
   const attributeName = htmlAttributeAliases.get(name) ?? name
   return htmlLowerCase.test(attributeName) ? attributeName.toLowerCase() : attributeName

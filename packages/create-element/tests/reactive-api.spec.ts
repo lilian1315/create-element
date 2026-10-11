@@ -73,7 +73,7 @@ const fixtures: Fixture[] = [
     build: preactBuild,
     dispose: preactDispose,
     ssr: preactSSR,
-    jsx: preactJSX,
+    jsx: preactJSX as typeof jsx,
   },
   {
     name: 'alien-signals',
@@ -86,7 +86,7 @@ const fixtures: Fixture[] = [
     build: alienBuild,
     dispose: alienDispose,
     ssr: alienSSR,
-    jsx: alienJSX,
+    jsx: alienJSX as typeof jsx,
   },
   {
     name: 'alien-deepsignals',
@@ -102,7 +102,7 @@ const fixtures: Fixture[] = [
     build: deepBuild,
     dispose: deepDispose,
     ssr: deepSSR,
-    jsx: deepJSX,
+    jsx: deepJSX as typeof jsx,
   },
   {
     name: 'faisceau',
@@ -115,7 +115,7 @@ const fixtures: Fixture[] = [
     build: faisceauBuild,
     dispose: faisceauDispose,
     ssr: faisceauSSR,
-    jsx: faisceauJSX,
+    jsx: faisceauJSX as typeof jsx,
   },
   {
     name: 'vue-reactivity',
@@ -131,7 +131,7 @@ const fixtures: Fixture[] = [
     build: vueBuild,
     dispose: vueDispose,
     ssr: vueSSR,
-    jsx: vueJSX,
+    jsx: vueJSX as typeof jsx,
   },
 ]
 
@@ -162,7 +162,7 @@ describe.each(fixtures)('$name specialization', (fixture) => {
     }
   })
 
-  it('keeps a managed child alive after moving it out of a disposed parent', () => {
+  it('stops a moved managed child when its former parent is disposed', () => {
     const title = fixture.source('before')
     const parent = fixture.build(fixture.h({ children: fixture.h({ title: title.value }) }))
     const child = parent.firstElementChild as HTMLElement
@@ -170,10 +170,9 @@ describe.each(fixtures)('$name specialization', (fixture) => {
     destination.append(child)
     fixture.dispose(parent)
     title.set('after')
-    expect(child.title).toBe('after')
+    expect(child.title).toBe('before')
     fixture.dispose(destination)
-    title.set('stopped')
-    expect(child.title).toBe('after')
+    expect(child.title).toBe('before')
   })
 
   it('reuses keyed children across native source updates and stops removed bindings', () => {
@@ -253,12 +252,10 @@ describe.each(fixtures)('$name specialization', (fixture) => {
     fixture.dispose(element)
   })
 
-  it('does not mistake an object with a value field for a native source', () => {
+  it('rejects an object with a value field as an unsupported child', () => {
     const fake = { value: 'not a source' }
     const tree = fixture.h({ title: fake, children: fake })
-    const element = fixture.build(tree)
-    expect(element.textContent).toBe('')
-    fixture.dispose(element)
+    expect(() => fixture.build(tree)).toThrow('Unsupported tree child')
   })
 })
 

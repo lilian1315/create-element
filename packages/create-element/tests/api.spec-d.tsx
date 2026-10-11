@@ -1,6 +1,6 @@
 /** @jsxImportSource @lilian1315/create-element/preact-signals */
 
-import { h } from '@lilian1315/create-element/preact-signals'
+import { h, type VNode } from '@lilian1315/create-element/preact-signals'
 import { build } from '@lilian1315/create-element/preact-signals/dom'
 import { bind } from '@lilian1315/create-element/preact-signals/dom'
 import { signal } from '@preact/signals-core'
@@ -21,7 +21,7 @@ const typedRef = (
   />
 )
 
-expectTypeOf(typedRef).toEqualTypeOf<import('../src/types').VNode>()
+expectTypeOf(typedRef).toEqualTypeOf<VNode>()
 
 bind(direct, {
   ref: (button) => {

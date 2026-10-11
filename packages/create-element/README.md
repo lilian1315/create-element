@@ -44,7 +44,7 @@ import { build } from '@lilian1315/create-element/dom'
 const button = build(h('button', { children: ['Save ', 1] }))
 ```
 
-Children may contain text, numbers, ignored booleans and empty values, nested arrays, tree descriptions, native signals for the selected integration, and existing DOM nodes. Existing nodes retain their identity and move when inserted. Prefix nested SVG and MathML tags with `svg:` and `math:`; the root `svg` and `math` tags need no prefix.
+Children may contain text, numbers, empty values, nested arrays, tree descriptions, native signals for the selected integration, and existing DOM nodes. Existing nodes retain their identity and move when inserted. Prefix nested SVG and MathML tags with `svg:` and `math:`; the root `svg` and `math` tags need no prefix.
 
 ## DOM lifecycle
 
@@ -69,7 +69,7 @@ const stop = bind(input, { value, oninput: () => (value.value = input.value) })
 // Later: stop() leaves the last value and removes the managed listener.
 ```
 
-A managed child moved to another parent retains its resources. Cleaning its former parent or mount does not dispose that moved child; dispose it or its current parent when it is no longer needed.
+Manually moving a managed child to another parent does not transfer ownership. When its former render tree removes or disposes it, its effects, listeners, and refs are cleaned up even though the DOM node remains in its new parent.
 
 `bind` leaves absent props and existing children untouched. Passing `children` or `innerHTML` replaces all old children and cleans library resources in the removed subtree. Explicit `children: null` or `children: undefined` empties the element, as does `innerHTML: ''`. `children` and `innerHTML` are mutually exclusive; using both throws before mutation. Treat `innerHTML` as trusted or sanitize it before passing it to the renderer.
 

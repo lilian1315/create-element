@@ -100,8 +100,26 @@ describe('single element binding owner', () => {
   })
 })
 
-describe('ownership follows rendered nodes', () => {
-  it('keeps a moved child alive through reconciliation and disposal of its former parent', () => {
+describe('ownership follows rendered trees', () => {
+  it('disposes a moved child when its former parent is disposed', () => {
+    const title = signal('before')
+    const release = vi.fn()
+    const parent = reactiveBuild(
+      reactiveH('div', { children: reactiveH('button', { title, ref: () => release }) }),
+    )
+    const child = parent.querySelector('button')!
+    const destination = document.createElement('section')
+    destination.append(child)
+    dispose(parent)
+    expect(child.parentNode).toBe(destination)
+    expect(release).toHaveBeenCalledOnce()
+    title.value = 'after'
+    expect(child.title).toBe('before')
+    dispose(destination)
+    expect(release).toHaveBeenCalledOnce()
+  })
+
+  it('disposes a moved child when reconciliation removes it from its former parent', () => {
     const title = signal('before')
     const release = vi.fn()
     const content = signal<VNodeChildValue>(reactiveH('button', { title, ref: () => release }))
@@ -111,17 +129,15 @@ describe('ownership follows rendered nodes', () => {
     destination.append(child)
     content.value = reactiveH('span', { children: 'replacement' })
     expect(child.parentNode).toBe(destination)
-    dispose(parent)
+    expect(release).toHaveBeenCalledOnce()
     title.value = 'after'
-    expect(child.title).toBe('after')
-    expect(release).not.toHaveBeenCalled()
+    expect(child.title).toBe('before')
+    dispose(parent)
     dispose(destination)
     expect(release).toHaveBeenCalledOnce()
-    title.value = 'stopped'
-    expect(child.title).toBe('after')
   })
 
-  it('bind cleanup leaves a moved managed child alive', () => {
+  it('bind cleanup disposes a moved managed child without removing it', () => {
     const title = signal('before')
     const target = document.createElement('div')
     const stop = bind(target, { children: reactiveH('span', { title }) })
@@ -129,12 +145,13 @@ describe('ownership follows rendered nodes', () => {
     const destination = document.createElement('div')
     destination.append(child)
     stop()
+    expect(child.parentNode).toBe(destination)
     title.value = 'after'
-    expect(child.title).toBe('after')
+    expect(child.title).toBe('before')
     dispose(destination)
   })
 
-  it('mount cleanup leaves a moved child alive and still removes its remaining range', () => {
+  it('mount cleanup disposes a moved child and removes its remaining range', () => {
     const title = signal('before')
     const target = document.createElement('div')
     const stop = mount(target, [reactiveH('span', { title }), reactiveH('i')])
@@ -143,8 +160,9 @@ describe('ownership follows rendered nodes', () => {
     destination.append(child)
     stop()
     expect(target.childNodes).toHaveLength(0)
+    expect(child.parentNode).toBe(destination)
     title.value = 'after'
-    expect(child.title).toBe('after')
+    expect(child.title).toBe('before')
     dispose(destination)
   })
 })

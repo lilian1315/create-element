@@ -1,7 +1,6 @@
 import { EffectScope } from './effect-scope'
 import * as reactivity from './reactivity-ops'
-import type { DomElement } from './types'
-import { handleAnyAttribute } from './utils'
+import type { DomElement, ElementBinding, Props, Ref } from './types'
 
 declare global {
   interface Node {
@@ -9,25 +8,8 @@ declare global {
   }
 }
 
-export type Props = Readonly<Record<string | symbol, unknown>>
-type Ref = (element: DomElement) => void | (() => void)
-type PropBinding = { value: unknown; scope: EffectScope; reset: () => void }
-
 // Shared across specialized builds so an element cannot acquire two owners.
 export const bindingSymbol = Symbol.for('@lilian1315/create-element.binding')
-
-export interface ElementBinding {
-  element: DomElement
-  scope: EffectScope
-  bindings: Map<string | symbol, PropBinding>
-  ref?: { value: Ref; scope: EffectScope }
-}
-
-export function assertContentProps(props: Props): void {
-  if (Reflect.has(props, 'children') && Reflect.has(props, 'innerHTML')) {
-    throw new TypeError('children and innerHTML cannot be used together')
-  }
-}
 
 export function createElementBinding(element: DomElement): ElementBinding {
   if (element[bindingSymbol]) {
@@ -57,7 +39,6 @@ export function applyElementProps(
   props: Props,
   applyContent: () => void,
 ): void {
-  assertContentProps(props)
   const { element, bindings } = binding
   for (const [key, previous] of bindings) {
     if (Reflect.has(props, key) && Object.is(previous.value, props[key])) continue
@@ -65,25 +46,10 @@ export function applyElementProps(
     if (!Reflect.has(props, key) || props[key] == null || isStructuredProp(key)) previous.reset()
     bindings.delete(key)
   }
-  const delayed: (string | symbol)[] = []
+  applyContent()
   for (const key of Reflect.ownKeys(props)) {
     if (key === 'children' || key === 'innerHTML' || key === 'ref' || key === 'key') continue
-    if (element instanceof HTMLSelectElement && (key === 'value' || key === 'defaultValue')) {
-      delayed.push(key)
-    } else {
-      bindProp(binding, key, props[key])
-    }
-  }
-  applyContent()
-  for (const key of delayed) {
     bindProp(binding, key, props[key])
-    // Updating options can reset the selection even when its source is unchanged.
-    const value = props[key]
-    handleAnyAttribute(
-      element,
-      'value',
-      reactivity.REACTIVE_ENABLED && reactivity.isReactive(value) ? reactivity.peek(value) : value,
-    )
   }
   if (binding.ref?.value !== props.ref) {
     binding.ref?.scope.dispose()
@@ -109,10 +75,8 @@ function bindProp(binding: ElementBinding, key: string | symbol, value: unknown)
   if (isStructuredProp(key)) {
     reset = installStructuredProp(binding.element, key, value, scope)
   } else {
-    const domKey =
-      key === 'defaultValue' && binding.element instanceof HTMLSelectElement ? 'value' : key
-    installProp(binding.element, domKey, value, scope)
-    reset = () => resetProp(binding.element, domKey)
+    installProp(binding.element, key, value, scope)
+    reset = () => resetProp(binding.element, key)
   }
   binding.bindings.set(key, { value, scope, reset })
 }
@@ -230,9 +194,21 @@ function track(scope: EffectScope, run: () => void): void {
 function setStyle(element: DomElement, name: string, value: unknown): void {
   if (name.startsWith('--')) {
     if (typeof value === 'string' || typeof value === 'number')
-      element.style.setProperty(name, String(value))
+      element.style.setProperty(name, value.toString())
     else element.style.removeProperty(name)
   } else {
     Reflect.set(element.style, name, value ?? '')
+  }
+}
+
+function handleAnyAttribute(element: DomElement, key: string | symbol, value: unknown): void {
+  if (key in element || typeof key === 'symbol') {
+    if ((value === undefined || value === null) && typeof key !== 'symbol') return
+    try {
+      Reflect.set(element, key, value)
+    } catch {}
+  } else if (value !== null && value !== undefined) {
+    // oxlint-disable-next-line typescript/no-base-to-string
+    element.setAttribute(key, String(value))
   }
 }

@@ -1,5 +1,6 @@
 import type { DOMTypes, WritableDOMType } from '@lilian1315/elements-writable-properties-types'
 
+import type { EffectScope } from './effect-scope'
 import type { Source } from './reactivity-ops'
 
 export type DomElement = HTMLElement | SVGElement | MathMLElement
@@ -46,7 +47,7 @@ export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
 
-export type VNodeType = PrefixedElementTag | ((props: never) => unknown)
+export type VNodeType = PrefixedElementTag | Component
 
 export interface VNode<Type extends VNodeType = VNodeType, Props extends object = object> {
   readonly type: Type
@@ -58,15 +59,7 @@ export type ElementVNode = VNode<PrefixedElementTag>
 
 export type ComponentVNode = VNode<Exclude<VNodeType, PrefixedElementTag>>
 
-export type VNodeChildValue =
-  | VNode
-  | Node
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | VNodeChildren
+export type VNodeChildValue = VNode | Node | string | number | null | undefined | VNodeChildren
 
 // The array interface keeps recursive children lazy, including in the plain build.
 export interface VNodeChildren extends ReadonlyArray<VNodeChild> {}
@@ -145,3 +138,63 @@ export type VNodePropsMap = {
 }
 
 export type Component<Props extends object = object> = (props: Props) => VNodeChild
+
+// Source is never only in the plain build.
+// oxlint-disable-next-line typescript/no-redundant-type-constituents
+export type RenderValue = VNode | Source | Node | string | number
+
+interface ChildNodes {
+  first: Node
+  last: Node
+}
+
+export interface ElementState {
+  binding: ElementBinding
+  children: MountedChild[]
+  htmlScope?: EffectScope
+  innerHTML?: unknown
+}
+
+export interface ElementChild extends ChildNodes {
+  kind: 'element'
+  value: ElementVNode
+  first: DomElement
+  last: DomElement
+  state: ElementState
+}
+
+export interface RangeChild extends ChildNodes {
+  kind: 'range'
+  // oxlint-disable-next-line typescript/no-redundant-type-constituents
+  value: ComponentVNode | Source
+  first: Comment
+  last: Comment
+  scope: EffectScope
+  children: MountedChild[]
+}
+
+export interface TextChild extends ChildNodes {
+  kind: 'text'
+  value: string | number
+  first: Text
+  last: Text
+}
+
+export interface OpaqueChild extends ChildNodes {
+  kind: 'opaque'
+  value: Node
+}
+
+export type MountedChild = ElementChild | RangeChild | TextChild | OpaqueChild
+
+export type Props = Readonly<Record<string | symbol, unknown>>
+export type Ref = (element: DomElement) => void | (() => void)
+
+export interface ElementBinding {
+  element: DomElement
+  scope: EffectScope
+  bindings: Map<string | symbol, PropBinding>
+  ref?: { value: Ref; scope: EffectScope }
+}
+
+export type PropBinding = { value: unknown; scope: EffectScope; reset: () => void }

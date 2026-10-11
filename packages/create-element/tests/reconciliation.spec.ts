@@ -143,25 +143,25 @@ describe('reactive child reconciliation', () => {
     const component = ({ label }: { label: string }) =>
       label ? [h('i', { children: label }), h('b', { children: label })] : null
     const content = signal([
-      jsx(component, { key: 'a', label: 'A' }),
-      jsx(component, { key: 'b', label: 'B' }),
+      jsx(component as any, { key: 'a', label: 'A' }),
+      jsx(component as any, { key: 'b', label: 'B' }),
     ])
     const element = build(h('div', { children: content }))
     const [a, aa, b, bb] = [...element.children]
     content.value = [
-      jsx(component, { key: 'b', label: 'B!' }),
-      jsx(component, { key: 'a', label: 'A!' }),
+      jsx(component as any, { key: 'b', label: 'B!' }),
+      jsx(component as any, { key: 'a', label: 'A!' }),
     ]
     expect([...element.children]).toEqual([b, bb, a, aa])
     expect(element.textContent).toBe('B!B!A!A!')
     content.value = [
-      jsx(component, { key: 'b', label: '' }),
-      jsx(component, { key: 'a', label: 'A' }),
+      jsx(component as any, { key: 'b', label: '' }),
+      jsx(component as any, { key: 'a', label: 'A' }),
     ]
     expect([...element.children]).toEqual([a, aa])
     content.value = [
-      jsx(component, { key: 'b', label: 'back' }),
-      jsx(component, { key: 'a', label: 'A' }),
+      jsx(component as any, { key: 'b', label: 'back' }),
+      jsx(component as any, { key: 'a', label: 'A' }),
     ]
     expect(element.textContent).toBe('backbackAA')
     expect(element.children[2]).toBe(a)
@@ -172,7 +172,7 @@ describe('reactive child reconciliation', () => {
     const text = signal('one')
     const fragment = (key: string) =>
       jsx(
-        Fragment,
+        Fragment as any,
         {
           children: [h('span', { children: text }), h('em', { children: key })],
         },
@@ -205,6 +205,21 @@ describe('reactive child reconciliation', () => {
     html.value = '<b>stale</b>'
     expect(section.innerHTML).toBe('<span>managed</span>')
     dispose(element)
+  })
+
+  it('disposes children moved elsewhere when switching to innerHTML', () => {
+    const release = vi.fn()
+    const content = signal(h('section', { children: h('i', { ref: () => release }) }))
+    const element = build(h('div', { children: content }))
+    const child = element.querySelector('i')!
+    const destination = document.createElement('div')
+    destination.append(child)
+    content.value = h('section', { innerHTML: '<b>raw</b>' })
+    expect(release).toHaveBeenCalledOnce()
+    expect(child.parentNode).toBe(destination)
+    expect(element.querySelector('section')?.innerHTML).toBe('<b>raw</b>')
+    dispose(element)
+    expect(release).toHaveBeenCalledOnce()
   })
 
   it('retains opaque DOM nodes and removes only the owned range', () => {

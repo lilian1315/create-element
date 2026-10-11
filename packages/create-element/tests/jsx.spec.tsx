@@ -35,6 +35,6 @@ it('mounts a JSX Fragment but rejects it as a build root', () => {
   expect(target.textContent).toBe('AB')
   stop()
   expect(target.textContent).toBe('')
-  expect(() => build(tree)).toThrow('Fragment root')
+  expect(build(tree)).toBeInstanceOf(DocumentFragment)
   expect(Fragment).toBeTypeOf('function')
 })
