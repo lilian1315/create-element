@@ -120,7 +120,7 @@ describe('deferred tree API', () => {
     expect(() => renderToString(tree)).toThrow('Cannot render a DOM Node')
   })
 
-  it('serializes without DOM and preserves basic form semantics', () => {
+  it('serializes the selected option from the select value', () => {
     const tree = h('select', {
       value: 'b',
       children: [

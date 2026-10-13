@@ -33,7 +33,6 @@
     "@oxlint/plugins": "^1.79.0"
   },
   "devDependencies": {
-    "vite-plus": "catalog:",
-    "vitest": "catalog:"
+    "vite-plus": "catalog:"
   }
 }

@@ -16,7 +16,7 @@ jobs:
       id-token: write # Required for OIDC
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@v1
+      - uses: voidzero-dev/setup-vp@v1.21.1
         with:
           cache: true
           run-install: true

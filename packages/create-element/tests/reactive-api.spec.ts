@@ -289,9 +289,11 @@ describe('reactive content and structured props', () => {
     )
     const element = preactBuild(preactH('div', { children: content }))
     const oldButton = element.querySelector('button') as HTMLButtonElement
+    oldButton.click()
+    expect(clicked).toHaveBeenCalledOnce()
     content.value = preactH('span', { children: 'new' })
     oldButton.click()
-    expect(clicked).not.toHaveBeenCalled()
+    expect(clicked).toHaveBeenCalledOnce()
     preactDispose(element)
   })
 

@@ -23,7 +23,7 @@ it('defers JSX component work and preserves native signal children', () => {
   dispose(button)
 })
 
-it('mounts a JSX Fragment but rejects it as a build root', () => {
+it('mounts a JSX Fragment and builds it as a document fragment', () => {
   const tree = (
     <>
       <span>A</span>
