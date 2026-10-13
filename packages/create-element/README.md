@@ -7,9 +7,9 @@ Describe HTML, SVG, and MathML trees with `h` or JSX, then render them in the br
 ```tsx
 /** @jsxImportSource @lilian1315/create-element/preact-signals */
 
-import { signal } from '@preact/signals-core'
 import { build } from '@lilian1315/create-element/preact-signals/dom'
 import { dispose } from '@lilian1315/create-element/preact-signals/dom'
+import { signal } from '@preact/signals-core'
 
 const count = signal(0)
 const button = build<'button'>(
