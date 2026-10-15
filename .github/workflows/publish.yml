@@ -38,6 +38,9 @@ jobs:
             echo "dir=$DIR" >> "$GITHUB_OUTPUT"
             echo "npm-filter=$NAME" >> "$GITHUB_OUTPUT"
           fi
+      - name: Materialize core package README for publishing
+        # npm omits symlinks. Replace the link without overwriting its root target.
+        run: cp --remove-destination README.md packages/create-element/README.md
       - name: Publish to JSR
         working-directory: ${{ steps.target.outputs.dir }}
         run: vpx jsr publish
