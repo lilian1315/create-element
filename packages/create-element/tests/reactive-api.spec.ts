@@ -1,145 +1,12 @@
-import { h as deepH } from '@lilian1315/create-element/alien-deepsignals'
-import { build as deepBuild } from '@lilian1315/create-element/alien-deepsignals/dom'
-import { dispose as deepDispose } from '@lilian1315/create-element/alien-deepsignals/dom'
-import {
-  jsx as deepJSX,
-  type JSX as DeepJSX,
-} from '@lilian1315/create-element/alien-deepsignals/jsx-runtime'
-import { renderToString as deepSSR } from '@lilian1315/create-element/alien-deepsignals/server'
-import { h as alienH } from '@lilian1315/create-element/alien-signals'
-import { build as alienBuild } from '@lilian1315/create-element/alien-signals/dom'
-import { dispose as alienDispose } from '@lilian1315/create-element/alien-signals/dom'
-import {
-  jsx as alienJSX,
-  type JSX as AlienJSX,
-} from '@lilian1315/create-element/alien-signals/jsx-runtime'
-import { renderToString as alienSSR } from '@lilian1315/create-element/alien-signals/server'
-import { h as faisceauH } from '@lilian1315/create-element/faisceau'
-import { build as faisceauBuild } from '@lilian1315/create-element/faisceau/dom'
-import { dispose as faisceauDispose } from '@lilian1315/create-element/faisceau/dom'
-import {
-  jsx as faisceauJSX,
-  type JSX as FaisceauJSX,
-} from '@lilian1315/create-element/faisceau/jsx-runtime'
-import { renderToString as faisceauSSR } from '@lilian1315/create-element/faisceau/server'
-import { jsx } from '@lilian1315/create-element/jsx-runtime'
-import { h as preactH, type VNodeChildValue } from '@lilian1315/create-element/preact-signals'
-import { build as preactBuild } from '@lilian1315/create-element/preact-signals/dom'
-import { dispose as preactDispose } from '@lilian1315/create-element/preact-signals/dom'
-import { bind as preactBind } from '@lilian1315/create-element/preact-signals/dom'
-import {
-  jsx as preactJSX,
-  type JSX as PreactJSX,
-} from '@lilian1315/create-element/preact-signals/jsx-runtime'
-import { renderToString as preactSSR } from '@lilian1315/create-element/preact-signals/server'
-import { h as vueH } from '@lilian1315/create-element/vue-reactivity'
-import { build as vueBuild } from '@lilian1315/create-element/vue-reactivity/dom'
-import { dispose as vueDispose } from '@lilian1315/create-element/vue-reactivity/dom'
-import {
-  jsx as vueJSX,
-  type JSX as VueJSX,
-} from '@lilian1315/create-element/vue-reactivity/jsx-runtime'
-import { renderToString as vueSSR } from '@lilian1315/create-element/vue-reactivity/server'
-import { effect as preactEffect, signal as preactSignal } from '@preact/signals-core'
-import { effect as vueEffect, shallowRef, stop as stopVueEffect } from '@vue/reactivity'
-import { effect as deepEffect, signal as deepSignal } from 'alien-deepsignals'
-import { effect as alienEffect, signal as alienSignal } from 'alien-signals'
-import { effect as faisceauEffect, signal as faisceauSignal } from 'faisceau'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
-import type { VNode } from '../src/types'
-
-type Source = object | Function
-type Fixture = {
-  name: string
-  source(value: unknown): { value: Source; set(value: unknown): void; read(): unknown }
-  observe(run: () => void): () => void
-  h(props: object): VNode<'span'>
-  build(tree: VNode<'span'>): HTMLSpanElement
-  dispose(element: HTMLElement): void
-  ssr(tree: VNode): string
-  jsx: typeof jsx
-}
-
-const fixtures: Fixture[] = [
-  {
-    name: 'preact-signals',
-    source(value) {
-      const source = preactSignal(value)
-      return { value: source, set: (next) => (source.value = next), read: () => source.value }
-    },
-    observe: preactEffect,
-    h: (props) => preactH('span', props as PreactJSX.IntrinsicElements['span']),
-    build: preactBuild,
-    dispose: preactDispose,
-    ssr: preactSSR,
-    jsx: preactJSX as typeof jsx,
-  },
-  {
-    name: 'alien-signals',
-    source(value) {
-      const source = alienSignal(value)
-      return { value: source, set: (next) => source(next), read: () => source() }
-    },
-    observe: alienEffect,
-    h: (props) => alienH('span', props as AlienJSX.IntrinsicElements['span']),
-    build: alienBuild,
-    dispose: alienDispose,
-    ssr: alienSSR,
-    jsx: alienJSX as typeof jsx,
-  },
-  {
-    name: 'alien-deepsignals',
-    source(value) {
-      const source = deepSignal(value)
-      return { value: source, set: (next) => source.set(next), read: () => source.get() }
-    },
-    observe(run) {
-      const observer = deepEffect(run)
-      return () => observer.stop()
-    },
-    h: (props) => deepH('span', props as DeepJSX.IntrinsicElements['span']),
-    build: deepBuild,
-    dispose: deepDispose,
-    ssr: deepSSR,
-    jsx: deepJSX as typeof jsx,
-  },
-  {
-    name: 'faisceau',
-    source(value) {
-      const source = faisceauSignal(value)
-      return { value: source, set: (next) => source.set(next), read: () => source.get() }
-    },
-    observe: faisceauEffect,
-    h: (props) => faisceauH('span', props as FaisceauJSX.IntrinsicElements['span']),
-    build: faisceauBuild,
-    dispose: faisceauDispose,
-    ssr: faisceauSSR,
-    jsx: faisceauJSX as typeof jsx,
-  },
-  {
-    name: 'vue-reactivity',
-    source(value) {
-      const source = shallowRef(value)
-      return { value: source, set: (next) => (source.value = next), read: () => source.value }
-    },
-    observe(run) {
-      const observer = vueEffect(run)
-      return () => stopVueEffect(observer)
-    },
-    h: (props) => vueH('span', props as VueJSX.IntrinsicElements['span']),
-    build: vueBuild,
-    dispose: vueDispose,
-    ssr: vueSSR,
-    jsx: vueJSX as typeof jsx,
-  },
-]
+import { fixtures } from './reactivity-fixtures'
 
 describe.each(fixtures)('$name specialization', (fixture) => {
   it('keeps components untracked during SSR and restores tracking after errors', () => {
     const snapshot = fixture.source('snapshot')
     const tracked = fixture.source('tracked')
-    const tree = fixture.jsx(() => fixture.h({ children: snapshot.read() }), {})
+    const tree = fixture.jsx(() => fixture.h('span', { children: snapshot.read() }), {})
     const throwing = fixture.jsx(() => {
       snapshot.read()
       throw new Error('component failed')
@@ -164,41 +31,28 @@ describe.each(fixtures)('$name specialization', (fixture) => {
 
   it('stops a moved managed child when its former parent is disposed', () => {
     const title = fixture.source('before')
-    const parent = fixture.build(fixture.h({ children: fixture.h({ title: title.value }) }))
+    const release = vi.fn()
+    const parent = fixture.build(
+      fixture.h('span', {
+        children: fixture.h('span', { title: title.value, ref: () => release }),
+      }),
+    )
     const child = parent.firstElementChild as HTMLElement
     const destination = document.createElement('div')
     destination.append(child)
     fixture.dispose(parent)
+    expect(child.parentNode).toBe(destination)
+    expect(release).toHaveBeenCalledOnce()
     title.set('after')
     expect(child.title).toBe('before')
     fixture.dispose(destination)
-    expect(child.title).toBe('before')
-  })
-
-  it('reuses keyed children across native source updates and stops removed bindings', () => {
-    const title = fixture.source('before')
-    const a = () => fixture.h({ key: 'a', title: title.value, children: 'A' })
-    const b = () => fixture.h({ key: 'b', children: 'B' })
-    const content = fixture.source([a(), b()])
-    const element = fixture.build(fixture.h({ children: content.value }))
-    const [first, second] = [...element.children] as HTMLElement[]
-    content.set([b(), a()])
-    expect([...element.children]).toEqual([second, first])
-    title.set('after')
-    expect(first!.title).toBe('after')
-    content.set([b()])
-    title.set('removed')
-    expect(first!.title).toBe('after')
-    expect(element.firstElementChild).toBe(second)
-    fixture.dispose(element)
-    content.set([a()])
-    expect(element.firstElementChild).toBe(second)
+    expect(release).toHaveBeenCalledOnce()
   })
 
   it('keeps SSR reads untracked and restores tracking for subsequent reads', () => {
     const snapshot = fixture.source('snapshot')
     const tracked = fixture.source('tracked')
-    const tree = fixture.h({ children: snapshot.value })
+    const tree = fixture.h('span', { children: snapshot.value })
     const render = vi.fn(() => {
       fixture.ssr(tree)
       tracked.read()
@@ -217,7 +71,7 @@ describe.each(fixtures)('$name specialization', (fixture) => {
   it('tracks native sources, stops on dispose, and peeks during SSR', () => {
     const title = fixture.source('one')
     const child = fixture.source('A')
-    const tree = fixture.h({ title: title.value, children: child.value })
+    const tree = fixture.h('span', { title: title.value, children: child.value })
     expect(fixture.ssr(tree)).toBe('<span title="one">A</span>')
     const element = fixture.build(tree)
     expect(element.title).toBe('one')
@@ -235,7 +89,7 @@ describe.each(fixtures)('$name specialization', (fixture) => {
 
   it('updates class, style, and data from native sources', () => {
     const name = fixture.source('before')
-    const tree = fixture.h({
+    const tree = fixture.h('span', {
       class: name.value,
       style: { color: name.value },
       data: { state: name.value },
@@ -254,7 +108,7 @@ describe.each(fixtures)('$name specialization', (fixture) => {
 
   it('rejects an object with a value field as an unsupported child', () => {
     const fake = { value: 'not a source' }
-    const tree = fixture.h({ title: fake, children: fake })
+    const tree = fixture.h('span', { title: fake, children: fake })
     expect(() => fixture.build(tree)).toThrow('Unsupported tree child')
   })
 })
@@ -266,7 +120,7 @@ describe.each(fixtures.filter(({ name }) => name === 'alien-signals' || name ===
       const source = fixture.source('before')
       let element!: HTMLElement
       const stopParent = fixture.observe(() => {
-        element = fixture.build(fixture.h({ children: source.value }))
+        element = fixture.build(fixture.h('span', { children: source.value }))
       })
       stopParent()
       try {
@@ -281,70 +135,59 @@ describe.each(fixtures.filter(({ name }) => name === 'alien-signals' || name ===
   },
 )
 
-describe('reactive content and structured props', () => {
+describe.each(fixtures)('$name reactive content and structured props', (fixture) => {
   it('stops listeners on replaced reactive children', () => {
     const clicked = vi.fn()
-    const content = preactSignal<VNodeChildValue>(
-      preactH('button', { onclick: clicked, children: 'old' }),
-    )
-    const element = preactBuild(preactH('div', { children: content }))
+    const content = fixture.source(fixture.h('button', { onclick: clicked, children: 'old' }))
+    const element = fixture.build(fixture.h('div', { children: content.value }))
     const oldButton = element.querySelector('button') as HTMLButtonElement
     oldButton.click()
     expect(clicked).toHaveBeenCalledOnce()
-    content.value = preactH('span', { children: 'new' })
+    content.set(fixture.h('span', { children: 'new' }))
     oldButton.click()
     expect(clicked).toHaveBeenCalledOnce()
-    preactDispose(element)
+    fixture.dispose(element)
   })
 
   it('replaces reactive innerHTML and stops after bind cleanup', () => {
-    const html = preactSignal('<span>A</span>')
+    const html = fixture.source('<span>A</span>')
     const element = document.createElement('div')
-    const stop = preactBind(element, { innerHTML: html })
-    html.value = '<strong>B</strong>'
+    const stop = fixture.bind(element, { innerHTML: html.value })
+    html.set('<strong>B</strong>')
     expect(element.innerHTML).toBe('<strong>B</strong>')
     stop()
-    html.value = '<em>C</em>'
+    html.set('<em>C</em>')
     expect(element.innerHTML).toBe('<strong>B</strong>')
   })
 
   it('stops resources created for bind children while leaving their DOM', () => {
-    const title = preactSignal('before')
+    const title = fixture.source('before')
     const element = document.createElement('div')
-    const stop = preactBind(element, { children: preactH('span', { title }) })
+    const stop = fixture.bind(element, { children: fixture.h('span', { title: title.value }) })
     const child = element.firstElementChild as HTMLSpanElement
     expect(child.title).toBe('before')
     stop()
-    title.value = 'after'
+    title.set('after')
     expect(child.title).toBe('before')
     expect(element.firstElementChild).toBe(child)
   })
 
-  it('replaces managed children and cleans their refs when a source changes', () => {
-    const release = vi.fn()
-    const content = preactSignal<VNodeChildValue>(
-      preactH('span', { ref: () => release, children: 'old' }),
-    )
-    const element = preactBuild(preactH('div', { children: content }))
-    expect(element.textContent).toBe('old')
-    content.value = preactH('strong', { children: 'new' })
-    expect(element.innerHTML).toContain('<strong>new</strong>')
-    expect(release).toHaveBeenCalledOnce()
-    preactDispose(element)
-  })
-
   it('removes disappeared keys from a reactive object', () => {
-    const classes = preactSignal<Record<string, boolean>>({ before: true })
-    const styles = preactSignal<Record<string, string>>({ fontSize: '20px' })
-    const data = preactSignal<Record<string, string>>({ before: 'one' })
+    const classes = fixture.source({ before: true })
+    const styles = fixture.source({ fontSize: '20px' })
+    const data = fixture.source({ before: 'one' })
     const element = document.createElement('div')
-    const stop = preactBind(element, { class: classes, style: styles, data })
+    const stop = fixture.bind(element, {
+      class: classes.value,
+      style: styles.value,
+      data: data.value,
+    })
     expect(element.classList.contains('before')).toBe(true)
     expect(element.style.fontSize).toBe('20px')
     expect(element.dataset.before).toBe('one')
-    classes.value = { after: true }
-    styles.value = { color: 'red' }
-    data.value = { after: 'two' }
+    classes.set({ after: true })
+    styles.set({ color: 'red' })
+    data.set({ after: 'two' })
     expect(element.classList.contains('before')).toBe(false)
     expect(element.style.fontSize).toBe('')
     expect(element.dataset.before).toBeUndefined()

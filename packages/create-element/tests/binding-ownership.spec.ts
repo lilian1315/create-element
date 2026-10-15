@@ -101,24 +101,6 @@ describe('single element binding owner', () => {
 })
 
 describe('ownership follows rendered trees', () => {
-  it('disposes a moved child when its former parent is disposed', () => {
-    const title = signal('before')
-    const release = vi.fn()
-    const parent = reactiveBuild(
-      reactiveH('div', { children: reactiveH('button', { title, ref: () => release }) }),
-    )
-    const child = parent.querySelector('button')!
-    const destination = document.createElement('section')
-    destination.append(child)
-    dispose(parent)
-    expect(child.parentNode).toBe(destination)
-    expect(release).toHaveBeenCalledOnce()
-    title.value = 'after'
-    expect(child.title).toBe('before')
-    dispose(destination)
-    expect(release).toHaveBeenCalledOnce()
-  })
-
   it('disposes a moved child when reconciliation removes it from its former parent', () => {
     const title = signal('before')
     const release = vi.fn()

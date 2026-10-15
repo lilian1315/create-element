@@ -120,17 +120,6 @@ describe('deferred tree API', () => {
     expect(() => renderToString(tree)).toThrow('Cannot render a DOM Node')
   })
 
-  it('serializes the selected option from the select value', () => {
-    const tree = h('select', {
-      value: 'b',
-      children: [
-        h('option', { value: 'a', children: 'A' }),
-        h('option', { value: 'b', children: 'B' }),
-      ],
-    })
-    expect(renderToString(tree)).toContain('<option value="b" selected>B</option>')
-  })
-
   it('does not map the unsupported className prop to class', () => {
     expect(renderToString(jsx('div', { className: 'legacy' }))).toBe(
       '<div className="legacy"></div>',
@@ -161,7 +150,9 @@ describe('deferred tree API', () => {
     })
     const direct = build(tree)
     const parsed = document.createElement('div')
-    parsed.innerHTML = renderToString(tree)
+    const html = renderToString(tree)
+    expect(html).toContain('<option value="b" selected>B</option>')
+    parsed.innerHTML = html
     const fromServer = parsed.firstElementChild as HTMLSelectElement
     expect(direct.value).toBe(fromServer.value)
     expect(direct.selectedIndex).toBe(fromServer.selectedIndex)

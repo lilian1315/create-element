@@ -31,11 +31,6 @@ export default defineConfig({
 
     projects: [
       {
-        oxc: {
-          jsx: {
-            throwIfNamespace: false,
-          },
-        },
         test: {
           name: 'browser',
           exclude: ['tests/package-exports.spec.ts'],
