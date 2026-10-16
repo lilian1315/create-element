@@ -58,6 +58,14 @@ The types are generated from `@types/web` using the TypeScript 6 compiler API:
 vpr --filter @lilian1315/elements-writable-properties-types build
 ```
 
+## Testing
+
+```bash
+vpr --filter @lilian1315/elements-writable-properties-types test
+```
+
+The task regenerates the types, then runs Vitest type tests using `expectTypeOf`. These cover native element mappings, subclasses, unions, invalid inputs, and excluded properties. They also run with the workspace's `vpr test` task.
+
 ## License
 
 MIT

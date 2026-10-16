@@ -34,7 +34,7 @@ Keep repository guidance below the managed `VITE PLUS` section.
 
 For code changes, validate in order:
 
-1. Run `vpr test`; test tasks handle their required builds. The workspace test task includes core browser/type tests, built-export checks, and plugin tests.
+1. Run `vpr test`; test tasks handle their required builds. The workspace test task includes core browser/type tests, built-export checks, generated-type tests, and plugin tests.
 2. Run `vpr check` for formatting, linting, and type checks.
 
 Validation is complete when every applicable command passes; report any failed or blocked command.

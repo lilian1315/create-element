@@ -369,7 +369,7 @@ vpr check
 
 The workspace uses [Vite+](https://viteplus.dev/). Project commands are Vite tasks defined in the root and package `vite.config.ts` files. Run them with `vpr` (short for `vp run`); built-in commands such as `vp build` and `vp test` do not run these tasks. The `prepare` lifecycle script remains in `package.json` to configure commit hooks during installation.
 
-`vpr test` handles required builds through task dependencies; there is no separate build step before testing. It includes core browser tests in Playwright Chromium, type tests against built entries, package-export checks in Node, and plugin rule tests using Oxlint's `RuleTester`. `vpr check` runs formatting, linting, and type checks; `vpr fix` applies formatting and lint fixes.
+`vpr test` handles required builds through task dependencies; there is no separate build step before testing. It includes core browser tests in Playwright Chromium, type tests against built entries, package-export checks in Node, generated DOM type tests, and plugin rule tests using Oxlint's `RuleTester`. `vpr check` runs formatting, linting, and type checks; `vpr fix` applies formatting and lint fixes.
 
 Use `vpr build` when you need build artifacts without running tests. It builds only library packages in dependency order, excluding examples. Core and plugin build tasks also declare their dependency builds, so targeted builds regenerate the writable-property types first.
 
