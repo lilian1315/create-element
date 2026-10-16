@@ -7,6 +7,6 @@ export default defineConfig({
     platform: 'node',
     exports: true,
     dts: true,
-    unbundle: true,
+    minify: true,
   },
 })
