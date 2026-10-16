@@ -28,34 +28,27 @@ release. Add a tool name to select part of the graph. For example, run
 
 # Repo notes (create-element)
 
-Do not hand-edit between the `VITE PLUS` markers above — that section is managed by `vp create` / `vp config`. Put repo guidance below.
+Keep repository guidance below the managed `VITE PLUS` section.
 
-## Commands
+## Validation
 
-- Build: `vpr build` (runs each `packages/*` `build` in workspace dependency order — types first. Never use bare `vpr -r build`: it would also build `examples/*`).
-- Verify: `vp check` (oxlint type-aware + typecheck; CI/publish runs this). Fix: `vp check --fix`.
-- Format style: no semicolons, single quotes, sorted imports (root `vite.config.ts` `fmt`). `**/generated/**` is excluded from lint/fmt.
-- Per-package: `vpr --filter <pkg> <cmd>`, or run `vp …` inside the package dir.
-- Orchestration (`_release:core`, `_release:plugin`, `_release:types`) lives in root `vite.config.ts` `run.tasks`; invoke with `vpr <name>`.
+For code changes, validate in order:
 
-## Packages
+1. Run `vpr test`; test tasks handle their required builds. The workspace test task includes core browser/type tests, built-export checks, and plugin tests.
+2. Run `vpr check` for formatting, linting, and type checks.
 
-- `packages/create-element` — `h`/JSX describe deferred trees. Public paths: base or integration entry (`h`, `build`, types), `/dom` (`bind`, `dispose`, `mount`), `/server` (`renderToString`), and JSX runtimes. Shared sources: `types.ts` (DOM, VNode and binding types), `vnode.ts` (VNode construction and guards), `effect-scope.ts` (effect cleanup), `dom.ts` (public DOM entry), `dom-core.ts` (reconciliation and node ownership), `dom-props.ts` (one binding implementation), and `server.ts` (SSR). Native integrations live in `reactivity-ops/`; `scripts/specialize-reactivity.ts` redirects its plain `index.ts` to `<integration>.ts` for runtime and declarations. Fix shared behavior once; keep native details and generic `Source<T>` in those five small modules. Read `docs/api-refactor-brief.fr.md` when changing API or lifecycle contracts.
-- DOM ownership: one active binding per element, including bindings installed by `build` and `mount`. `bind` rejects an active binding until cleanup or `dispose`. Preserve resources on moved nodes when cleaning their former parent. Keep rendered-node scopes independent of their original parent; use `EffectScope` children for resources within a binding.
-- `packages/elements-writable-properties-types` — codegen'd types from `@types/web`. Regenerate: `vpr --filter @lilian1315/elements-writable-properties-types build` (runs `node scripts/generate.ts`, reads `node_modules/@types/web`). Never hand-edit `generated/`; regenerate instead.
-- `packages/oxlint-plugin` — custom rule `create-element/valid-jsx-type-assertion` (JSX `as` / `build<Tag>` must match the literal intrinsic tag). Wired in root `vite.config.ts` `lint.jsPlugins`; `typeAware: true, typeCheck: true`.
+Validation is complete when every applicable command passes; report any failed or blocked command.
 
-## Tests
+## Task-specific guidance
 
-- All suites: `vpr test` (runs each `packages/*` `test`: core browser + typecheck, plugin node; scriptless packages are skipped). Dist export tests are NOT included — run `vpr --filter @lilian1315/create-element test:exports` (auto-builds `dist/` via task dep).
-- `packages/create-element`: vitest **projects** (`browser`: chromium via playwright + `typecheck.enabled`; `exports`: `tests/package-exports.spec.ts` against `dist/`). Needs Playwright chromium installed (`playwright install --with-deps chromium`). `tests/*.spec.ts(x)` = browser DOM tests, `tests/*.spec-d.ts(x)` = type tests against public built entries. Tests depend on `build`. Single test from package dir: `vp test run --project browser tests/api.spec.ts` after rebuilding.
-- `tests/package-exports.spec.ts` runs with vitest (`vpr --filter @lilian1315/create-element test:exports`, i.e. `vp test run --project exports` + `build` dep) **against `dist/`**; checks public runtime exports, the npm entry inventory and matching declarations, and isolated native dependencies in JS and declarations.
-- `packages/oxlint-plugin-create-element`: plain node tests, `vp test run`.
-- Coverage (core only): `vp test run --coverage --project browser` from `packages/create-element`.
+- **API/JSX:** Read [JSX and components](README.md#jsx-and-components) and [public types](README.md#public-types) before changing tree construction or materialization.
+- **DOM ownership:** Read [DOM lifecycle](README.md#dom-lifecycle) and `packages/create-element/tests/{binding-ownership,reconciliation,reactive-api}.spec.ts` before changing binding or cleanup behavior. Preserve single ownership, idempotent cleanup, and the tested moved-node behavior.
+- **Reactivity:** Read `packages/create-element/scripts/specialize-reactivity.ts` and `packages/create-element/tests/reactivity-fixtures.ts` before changing adapter behavior. Implement shared behavior in core; keep native primitives and `Source<T>` in `packages/create-element/src/reactivity-ops/`.
+- **Core tests:** Follow `packages/create-element/tests/jsx/` for per-adapter TSX runtime/type tests. Use the package's `test` task to build before testing; pass `--project browser` or `--project exports` for focused runs (see [Development](README.md#development)). Tests resolve published `dist/` entries. Browser tests require Playwright Chromium.
+- **Lint rules:** Read `packages/oxlint-plugin/README.md` for the verification contract. Follow `packages/oxlint-plugin/tests/index.spec.ts`: use `RuleTester` from `vite-plus/lint/plugins-dev` with real TSX, message IDs, and fixed output (`null` when unfixable).
+- **Generated types:** Update `packages/elements-writable-properties-types/scripts/generate.ts` or its `@types/web` input, then regenerate with `vpr --filter @lilian1315/elements-writable-properties-types build`. Treat `generated/` as generator output, not hand-maintained source.
+- **Tasks/packaging/releases:** Read [Development](README.md#development), the relevant package's `vite.config.ts`, and `.github/workflows/publish.yml` before changing task dependencies, build outputs, or publishing. Change core exports through `packages/create-element/scripts/entries.ts`; the build regenerates the manifest. Package build tasks declare dependency builds explicitly, so targeted builds and releases also regenerate types. Keep `prepare` in `package.json` as the install lifecycle hook.
 
-## Gotchas
+## Dependencies
 
-- npm publishes the specialized `dist/*.js` and `.d.ts` outputs. Keep `package.json` exports in sync with the named entries in the package's pack config; rebuild before validating consumers or publishing.
-- Deps: versions live in `pnpm-workspace.yaml` `catalog:` with `overrides` pinning `vite`/`vitest`; signal libs are **optional** peerDeps. Add shared deps as `catalog:`, not pinned versions.
-- JSX: consumers use `"jsx": "react-jsx", "jsxImportSource": "@lilian1315/create-element"`; SVG/MathML need `svg:`/`math:` prefixes (bare `svg`/`math` roots excepted).
-- Release: tag `push` of `@lilian1315/create-element@*.*.*` / `@lilian1315/oxlint-plugin-create-element@*.*.*` / `@lilian1315/elements-writable-properties-types@*.*.*` triggers `.github/workflows/publish.yml` (`vpr build` → `vpr test` → export tests → `vp check` → npm publish). Local bump helpers: `vpr release:core`, `vpr release:types`, `vpr release:plugin` (use `bumpp`).
+Add shared versions to `pnpm-workspace.yaml`'s catalog and reference them with `catalog:`. Keep signal libraries as optional peer dependencies. The writable-properties types package remains a separately published workspace dependency.
