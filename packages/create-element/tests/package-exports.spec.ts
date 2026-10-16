@@ -6,16 +6,9 @@ import { fileURLToPath } from 'node:url'
 
 import { describe, expect, it } from 'vite-plus/test'
 
-import { publicExports } from '../scripts/entries'
+import { integrations, publicExports } from '../scripts/entries'
 
 const packageName = '@lilian1315/create-element'
-const adapters = [
-  'alien-deepsignals',
-  'alien-signals',
-  'faisceau',
-  'preact-signals',
-  'vue-reactivity',
-]
 const reactivePackages = new Set([
   'alien-deepsignals',
   'alien-signals',
@@ -59,44 +52,35 @@ async function dependencies(
   return packages
 }
 
-function jsxRuntimeEntries(entry: string): Array<[string, string[]]> {
-  const expected = ['Fragment', 'jsx', 'jsxDEV', 'jsxs']
-  return [
-    [`${entry}/jsx-runtime`, expected],
-    [`${entry}/jsx-dev-runtime`, expected],
-  ]
-}
-
 const exportCases: Array<[string, string[]]> = [
-  [packageName, ['h']],
-  [`${packageName}/dom`, ['bind', 'build', 'dispose', 'mount']],
-  ...jsxRuntimeEntries(packageName),
+  [packageName, ['createVNode']],
+  [`${packageName}/dom`, ['bind', 'build', 'createElement', 'dispose', 'mount']],
+  [`${packageName}/jsx-runtime`, ['Fragment', 'jsx', 'jsxDEV', 'jsxs']],
   [`${packageName}/server`, ['renderToString']],
-  ...adapters.flatMap((adapter): Array<[string, string[]]> => [
-    [`${packageName}/${adapter}`, ['h']],
-    [`${packageName}/${adapter}/dom`, ['bind', 'build', 'dispose', 'mount']],
-    ...jsxRuntimeEntries(`${packageName}/${adapter}`),
+  ...integrations.flatMap((adapter): Array<[string, string[]]> => [
+    [`${packageName}/${adapter}`, ['createVNode']],
+    [`${packageName}/${adapter}/dom`, ['bind', 'build', 'createElement', 'dispose', 'mount']],
+    [`${packageName}/${adapter}/jsx-runtime`, ['Fragment', 'jsx', 'jsxDEV', 'jsxs']],
     [`${packageName}/${adapter}/server`, ['renderToString']],
   ]),
 ]
 
 describe('built package exports (no DOM implementation)', () => {
-  it.each(['', ...adapters])(
+  it.each(['', ...integrations])(
     '%s shares the VNode brand across built entries',
     { timeout: 10_000 },
     async (adapter) => {
       const entry = adapter ? `${packageName}/${adapter}` : packageName
-      const { h } = await import(entry)
-      const { jsx } = await import(`${entry}/jsx-runtime`)
-      const { jsxDEV } = await import(`${entry}/jsx-dev-runtime`)
+      const { createVNode } = await import(entry)
+      const { jsx, jsxDEV } = await import(`${entry}/jsx-runtime`)
       const { renderToString } = await import(`${entry}/server`)
 
-      expect(renderToString(h('main', { children: jsx('span', { children: 'jsx' }) }))).toBe(
-        '<main><span>jsx</span></main>',
-      )
-      expect(renderToString(jsxDEV('main', { children: h('span', { children: 'h' }) }))).toBe(
-        '<main><span>h</span></main>',
-      )
+      expect(
+        renderToString(createVNode('main', { children: jsx('span', { children: 'jsx' }) })),
+      ).toBe('<main><span>jsx</span></main>')
+      expect(
+        renderToString(jsxDEV('main', { children: createVNode('span', { children: 'h' }) })),
+      ).toBe('<main><span>h</span></main>')
     },
   )
 
@@ -115,17 +99,11 @@ describe('built package exports (no DOM implementation)', () => {
     },
   )
 
-  it.each(['', ...adapters])(
+  it.each(['', ...integrations])(
     '%s isolates native dependencies in runtime and declarations',
     async (adapter) => {
       const nativePackage = adapter ? [packageForAdapter[adapter]] : []
-      for (const entry of [
-        'index',
-        'dom/index',
-        'server/index',
-        'jsx-runtime',
-        'jsx-dev-runtime',
-      ]) {
+      for (const entry of ['index', 'dom/index', 'server/index', 'jsx-runtime']) {
         const prefix = adapter ? `${adapter}/` : ''
         expect([...(await dependencies(`${prefix}${entry}.js`))]).toEqual(
           entry === 'index' || entry.startsWith('jsx-') ? [] : nativePackage,
@@ -155,22 +133,25 @@ describe('built package exports (no DOM implementation)', () => {
   it('built server entry renders without a DOM implementation', async () => {
     expect(globalThis.document).toBeUndefined()
 
-    const { h } = await import(packageName)
+    const { createVNode } = await import(packageName)
     const { renderToString } = await import(`${packageName}/server`)
 
     expect(
       renderToString(
-        h('main', { class: 'page', children: h('h1', { children: 'Rendered in Node' }) }),
+        createVNode('main', {
+          class: 'page',
+          children: createVNode('h1', { children: 'Rendered in Node' }),
+        }),
       ),
     ).toBe('<main class="page"><h1>Rendered in Node</h1></main>')
   })
 
   it('built reactive server entry renders a snapshot without a DOM implementation', async () => {
     const { shallowRef } = await import('@vue/reactivity')
-    const { h } = await import(`${packageName}/vue-reactivity`)
+    const { createVNode } = await import(`${packageName}/vue-reactivity`)
     const { renderToString } = await import(`${packageName}/vue-reactivity/server`)
     const count = shallowRef(1)
-    const tree = h('p', { children: ['Count: ', count] })
+    const tree = createVNode('p', { children: ['Count: ', count] })
 
     expect(renderToString(tree)).toBe('<p>Count: 1</p>')
     count.value = 2

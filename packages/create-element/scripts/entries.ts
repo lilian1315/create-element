@@ -9,18 +9,24 @@ export const integrations = [
 
 export const entries = {
   index: 'src/index.ts',
-  'dom/index': 'src/dom.ts',
+  'dom/index': 'src/dom/index.ts',
   'server/index': 'src/server.ts',
   'jsx-runtime': 'src/jsx-runtime.ts',
-  'jsx-dev-runtime': 'src/jsx-dev-runtime.ts',
-} as const
+}
+
+const jsxRe = /\bjsx-runtime$/
 
 export const publicExports = Object.fromEntries(
-  ['', ...integrations].flatMap((integration) =>
-    Object.keys(entries).map((entry) => {
-      const prefix = integration ? integration + '/' : ''
-      const subpath = prefix + (entry === 'index' ? '' : entry.replace(/\/index$/, ''))
-      return [subpath ? './' + subpath.replace(/\/$/, '') : '.', './dist/' + prefix + entry + '.js']
-    }),
-  ),
+  (function* () {
+    for (const integration of ['', ...integrations]) {
+      for (const entry in entries) {
+        const prefix = integration ? integration + '/' : ''
+        const subpath = prefix + (entry === 'index' ? '' : entry.replace(/\/index$/, ''))
+        const key = subpath ? './' + subpath.replace(/\/$/, '') : '.'
+        const value = './dist/' + prefix + entry + '.js'
+        yield [key, value]
+        if (key.match(jsxRe)) yield [key.replace(jsxRe, 'jsx-dev-runtime'), value]
+      }
+    }
+  })(),
 )

@@ -1,4 +1,4 @@
-import { h } from '@lilian1315/create-element'
+import { createVNode as h } from '@lilian1315/create-element'
 import { build } from '@lilian1315/create-element/dom'
 import { bind, dispose, mount } from '@lilian1315/create-element/dom'
 import { Fragment, jsx } from '@lilian1315/create-element/jsx-runtime'

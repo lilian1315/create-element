@@ -1,6 +1,6 @@
-import { EffectScope } from './effect-scope'
-import * as reactivity from './reactivity-ops'
-import type { DomElement, ElementBinding, Props, Ref } from './types'
+import { EffectScope } from '../effect-scope'
+import * as reactivity from '../reactivity-ops'
+import type { DomElement, ElementBinding, Props, Ref } from '../types'
 
 declare global {
   interface Node {

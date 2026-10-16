@@ -1,4 +1,4 @@
-import { h, type VNodeProps } from '@lilian1315/create-element'
+import { createVNode as h, type VNodeProps } from '@lilian1315/create-element'
 import { bind } from '@lilian1315/create-element/dom'
 import { expectTypeOf, it } from 'vite-plus/test'
 

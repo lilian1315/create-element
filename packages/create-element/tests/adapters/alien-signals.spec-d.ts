@@ -1,5 +1,5 @@
 import {
-  h,
+  createVNode as h,
   type Component,
   type VNodeChild,
   type VNodeChildValue,

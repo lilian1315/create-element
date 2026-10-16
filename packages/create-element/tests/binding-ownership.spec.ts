@@ -1,7 +1,10 @@
-import { h } from '@lilian1315/create-element'
+import { createVNode as h } from '@lilian1315/create-element'
 import { build } from '@lilian1315/create-element/dom'
 import { bind as baseBind, dispose as baseDispose } from '@lilian1315/create-element/dom'
-import { h as reactiveH, type VNodeChildValue } from '@lilian1315/create-element/preact-signals'
+import {
+  createVNode as reactiveH,
+  type VNodeChildValue,
+} from '@lilian1315/create-element/preact-signals'
 import { build as reactiveBuild } from '@lilian1315/create-element/preact-signals/dom'
 import { bind, dispose, mount } from '@lilian1315/create-element/preact-signals/dom'
 import { signal } from '@preact/signals-core'

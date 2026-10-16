@@ -37,6 +37,10 @@ type Fixture = {
   observe: (run: () => void) => () => void
   h: <T extends PrefixedElementTag>(tag: T, props?: object) => VNode<T>
   build: <T extends PrefixedElementTag>(tree: VNode<T>) => ElementPrefixedTagNameMap[T]
+  createElement: <T extends PrefixedElementTag>(
+    tag: T,
+    props?: object | null,
+  ) => ElementPrefixedTagNameMap[T]
   bind: (element: DomElement, props: object) => () => void
   mount: (element: DomElement, tree: unknown) => () => void
   dispose: (element: DomElement) => void
@@ -56,10 +60,10 @@ function fixture(
   source: Fixture['source'],
   observe: Fixture['observe'],
 ): Fixture {
-  const { h } = entry as Pick<Fixture, 'h'>
-  const { build, bind, mount, dispose } = dom as Pick<
+  const { createVNode: h } = entry as { createVNode: Fixture['h'] }
+  const { build, bind, mount, dispose, createElement } = dom as Pick<
     Fixture,
-    'build' | 'bind' | 'mount' | 'dispose'
+    'build' | 'bind' | 'mount' | 'dispose' | 'createElement'
   >
   const { jsx, Fragment } = runtime as Pick<Fixture, 'jsx' | 'Fragment'>
   const { renderToString } = server as { renderToString: Fixture['ssr'] }
@@ -67,6 +71,7 @@ function fixture(
     name,
     h,
     build,
+    createElement,
     bind,
     mount,
     dispose,

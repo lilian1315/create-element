@@ -1,6 +1,5 @@
-import { applyElementProps, createElementBinding, bindingSymbol } from './dom-props'
-import { EffectScope } from './effect-scope'
-import * as reactivity from './reactivity-ops'
+import { EffectScope } from '../effect-scope'
+import * as reactivity from '../reactivity-ops'
 import type {
   Component,
   DomElement,
@@ -14,10 +13,11 @@ import type {
   RenderValue,
   RangeChild,
   Props,
-} from './types'
-import { isComponentVNode, isElementVNode, isVNode } from './vnode'
+} from '../types'
+import { isComponentVNode, isElementVNode, isVNode } from '../vnode'
+import { applyElementProps, createElementBinding, bindingSymbol } from './props'
 
-export type { VNodeChild, VNodeProps, VNode } from './types'
+export type { VNodeChild, VNodeProps, VNode } from '../types'
 
 /** Applies props to an unbound element without resetting absent properties. */
 export function bind<T extends DomElement>(element: T, props: VNodeProps<NoInfer<T>>): () => void {
@@ -93,6 +93,16 @@ export function build(tree: VNode | VNode<Component>): DomElement | DocumentFrag
     for (const child of fragment.childNodes) disposeTree(child)
     throw error
   }
+}
+
+export function createElement<T extends PrefixedElementTag>(
+  type: T,
+  props?: VNodeProps<NoInfer<ElementPrefixedTagNameMap[T]>> | null,
+): ElementPrefixedTagNameMap[T] {
+  const element = createBaseElement(type)
+  if (!props) return element
+  bind(element, props)
+  return element
 }
 
 const nodeScopes = new WeakMap<Node, Set<EffectScope>>()
