@@ -18,7 +18,6 @@ Deferred trees and server rendering are available separately under `/virtual`.
 - [Server rendering](#server-rendering)
 - [Public types](#public-types)
 - [Entrypoints and specialization](#entrypoints-and-specialization)
-- [Migration](#migration)
 - [Packages](#packages)
 - [Development](#development)
 
@@ -313,22 +312,6 @@ Set `jsxImportSource` to the root/integration path for DOM JSX, or append `/virt
 JSX runtime functions are compiler targets, not a hand-written creation API. Use TSX or `createElement`/`createVNode` directly; the runtime's `JSX` namespace defines consumer-facing JSX types and validation.
 
 Following [Formisch's build-time specialization](https://formisch.dev/blog/one-core-six-frameworks/), the integrations share binding and reconciliation code. `packages/create-element/scripts/specialize-reactivity.ts` selects native primitives and source declarations at build time. `packages/create-element/scripts/entries.ts` defines the npm exports; the build updates the manifest. npm publishes specialized JavaScript and matching declarations from `dist/`.
-
-## Migration
-
-This is a breaking entrypoint and JSX change:
-
-| Previous usage                                       | DOM-first usage                                                                |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Root `createVNode`                                   | Import it from `/virtual`                                                      |
-| `/dom` imports of `createElement`, `bind`, `dispose` | Import from the root                                                           |
-| `/dom` imports of `build`, `mount`                   | Import from `/virtual/dom`                                                     |
-| `/server`                                            | `/virtual/server`                                                              |
-| Default JSX used as VNodes                           | Set `jsxImportSource` to the matching `/virtual` path                          |
-| Default JSX followed by `build`                      | Append the DOM node directly, or opt into virtual JSX                          |
-| Root virtual prop and child types                    | Use `ElementProps` and shared `Child`, or virtual `VNodeProps` from `/virtual` |
-
-The same changes apply beneath each integration suffix. `/dom` and `/server` are no longer public entrypoints.
 
 ## Packages
 
