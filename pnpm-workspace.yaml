@@ -1,16 +1,16 @@
 catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@1.1.0
-  vite-plus: 1.1.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.3.0
+  vite-plus: 1.3.0
   '@preact/signals-core': ^1.14.4
   '@vue/reactivity': ^3.5.44
   alien-deepsignals: ^0.3.1
   alien-signals: ^3.2.1
   faisceau: ^0.3.2
-  vitest: 5.0.3
+  vitest: 5.0.5
   typescript: 7.0.2
   playwright: ^1.64.1
-  '@vitest/browser-playwright': 5.0.3
-  '@vitest/coverage-v8': 5.0.3
+  '@vitest/browser-playwright': 5.0.5
+  '@vitest/coverage-v8': 5.0.5
   '@types/node': ^24.19.2
 overrides:
   vite@*: 'catalog:'
@@ -25,3 +25,14 @@ peerDependencyRules:
 packages:
   - 'packages/*'
   - 'examples/*'
+minimumReleaseAgeExclude:
+  - '@voidzero-dev/vite-plus-core@1.3.0'
+  - '@voidzero-dev/vite-plus-darwin-arm64@1.3.0'
+  - '@voidzero-dev/vite-plus-darwin-x64@1.3.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-gnu@1.3.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-musl@1.3.0'
+  - '@voidzero-dev/vite-plus-linux-x64-gnu@1.3.0'
+  - '@voidzero-dev/vite-plus-linux-x64-musl@1.3.0'
+  - '@voidzero-dev/vite-plus-win32-arm64-msvc@1.3.0'
+  - '@voidzero-dev/vite-plus-win32-x64-msvc@1.3.0'
+  - vite-plus@1.3.0
