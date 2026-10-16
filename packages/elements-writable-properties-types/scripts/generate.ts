@@ -1,5 +1,4 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { EOL } from 'node:os'
 
 import ts from '@typescript/typescript6'
 import { SingleBar } from 'cli-progress'
@@ -164,8 +163,7 @@ const generatedSourceFile = ts.factory.updateSourceFile(
   false,
   [],
 )
-const newLineKind = EOL === '\r\n' ? ts.NewLineKind.CarriageReturnLineFeed : ts.NewLineKind.LineFeed
-const output = ts.createPrinter({ newLine: newLineKind }).printFile(generatedSourceFile)
+const output = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed }).printFile(generatedSourceFile)
 
 // Test descendants before their ancestors so a specific element does not fall
 // through to its base interface. Names make unrelated interfaces deterministic.
@@ -210,7 +208,7 @@ export type WritableDOMType<Element extends HTMLElement | SVGElement | MathMLEle
 
 console.log('Saving types...')
 if (!existsSync('./generated')) mkdirSync('./generated')
-writeFileSync('./generated/index.d.ts', output + writableDOMType.replaceAll('\n', EOL))
+writeFileSync('./generated/index.d.ts', output + writableDOMType)
 
 const htmlElementTagNameMap = {
   ...getTagNameMap('HTMLElementTagNameMap'),
@@ -239,5 +237,5 @@ export const mathMLElementTagNameMap: Readonly<Record<string, string>>
 export const elementTagNameMap: Readonly<Record<string, string>>
 `
 
-writeFileSync('./generated/tag-name-map.js', runtimeMapSource.replaceAll('\n', EOL))
-writeFileSync('./generated/tag-name-map.d.ts', runtimeMapTypes.replaceAll('\n', EOL))
+writeFileSync('./generated/tag-name-map.js', runtimeMapSource)
+writeFileSync('./generated/tag-name-map.d.ts', runtimeMapTypes)
