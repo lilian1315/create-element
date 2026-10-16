@@ -29,28 +29,21 @@ export default defineConfig({
   run: {
     cache: true,
     tasks: {
-      '_release:core': {
-        command: [
-          'vp check',
-          `vpr -t ${corePkg}#build`,
-          `vpr -t ${corePkg}#test`,
-          `vpr -F ${corePkg} test:exports`,
-          `vp exec -F ${corePkg} bumpp --all -c "release ${corePkg}@" -t ${corePkg}@`,
-        ],
+      check: 'vp check',
+      fix: 'vp check --fix',
+      build: "vpr -F './packages/*' build",
+      test: "vpr -F './packages/*' test",
+      'release:core': {
+        command: `vp exec -F ${corePkg} bumpp --all -c "release ${corePkg}@" -t ${corePkg}@`,
+        dependsOn: ['check', `${corePkg}#build`, `${corePkg}#test`],
       },
-      '_release:plugin': {
-        command: [
-          'vp check',
-          `vpr -t ${pluginPkg}#build`,
-          `vpr -t ${pluginPkg}#test`,
-          `vp exec -F ${pluginPkg} bumpp --all -c "release ${pluginPkg}@" -t ${pluginPkg}@`,
-        ],
+      'release:plugin': {
+        command: `vp exec -F ${pluginPkg} bumpp --all -c "release ${pluginPkg}@" -t ${pluginPkg}@`,
+        dependsOn: ['check', `${pluginPkg}#build`, `${pluginPkg}#test`],
       },
-      '_release:types': {
-        command: [
-          'vp check',
-          `vp exec -F ${typesPkg} bumpp --all -c "release ${typesPkg}@" -t ${typesPkg}@`,
-        ],
+      'release:types': {
+        command: `vp exec -F ${typesPkg} bumpp --all -c "release ${typesPkg}@" -t ${typesPkg}@`,
+        dependsOn: ['check'],
       },
     },
   },

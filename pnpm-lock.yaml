@@ -128,6 +128,9 @@ catalogs:
     faisceau:
       specifier: ^0.3.2
       version: 0.3.2
+    playwright:
+      specifier: '*'
+      version: 1.59.1
     typescript:
       specifier: 7.0.2
       version: 7.0.2
@@ -161,6 +164,9 @@ importers:
       node:
         specifier: runtime:24.21.0
         version: runtime:24.21.0
+      playwright:
+        specifier: 'catalog:'
+        version: 1.59.1
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -244,7 +250,7 @@ importers:
         specifier: 'catalog:'
         version: 0.3.2
       playwright:
-        specifier: '*'
+        specifier: 'catalog:'
         version: 1.59.1
       vitest:
         specifier: 'catalog:'

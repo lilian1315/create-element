@@ -56,14 +56,23 @@ export default defineConfig({
   },
   run: {
     tasks: {
-      '_test:browser': {
-        command: 'vp test run --project browser',
+      build: {
+        command: 'vp pack',
+        dependsOn: ['generate-exports', { task: 'build', from: 'dependencies' }],
+      },
+      dev: {
+        command: 'vp pack -w',
+        dependsOn: ['generate-exports'],
+      },
+      coverage: {
+        command: 'vp test run --project browser --coverage',
         dependsOn: ['build'],
       },
-      '_test:exports': {
-        command: 'vp test run --project exports',
+      test: {
+        command: 'vp test run',
         dependsOn: ['build'],
       },
+      'generate-exports': 'node scripts/generate-exports.ts',
     },
   },
 })

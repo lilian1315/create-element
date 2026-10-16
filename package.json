@@ -1,17 +1,13 @@
 {
   "type": "module",
   "scripts": {
-    "build": "vpr -F './packages/*' build",
-    "test": "vpr -F './packages/*' test",
-    "release:core": "vpr _release:core",
-    "release:plugin": "vpr _release:plugin",
-    "release:types": "vpr _release:types",
     "prepare": "vp config"
   },
   "devDependencies": {
     "@lilian1315/oxlint-plugin-create-element": "workspace:*",
     "@types/node": "^26.4.1",
     "bumpp": "^11.0.1",
+    "playwright": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"

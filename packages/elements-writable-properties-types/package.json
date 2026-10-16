@@ -21,9 +21,6 @@
     "./tag-name-map": "./generated/tag-name-map.js",
     "./package.json": "./package.json"
   },
-  "scripts": {
-    "build": "node scripts/generate.ts"
-  },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
     "@types/node": "^25.6.0",

@@ -9,4 +9,13 @@ export default defineConfig({
     dts: true,
     minify: true,
   },
+  run: {
+    tasks: {
+      build: {
+        command: 'vp pack',
+        dependsOn: [{ task: 'build', from: 'dependencies' }],
+      },
+      test: 'vp test run',
+    },
+  },
 })
