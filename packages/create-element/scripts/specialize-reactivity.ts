@@ -1,4 +1,4 @@
-import { basename, dirname, resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import type { TsdownPlugin } from 'vite-plus/pack'
@@ -38,23 +38,6 @@ export function specializeReactivity(integration?: Integration): TsdownPlugin {
             : match,
       )
       if (specialized !== code) return { code: specialized, map: null }
-    },
-  }
-}
-
-/** JSR consumes the same specialized output and types as npm. */
-export function jsrEntryTypes(): TsdownPlugin {
-  return {
-    name: 'jsr-entry-types',
-    outputOptions(options) {
-      return {
-        ...options,
-        banner(chunk) {
-          if (!chunk.isEntry || !chunk.fileName.endsWith('.js')) return ''
-          const declaration = basename(chunk.fileName).replace(/\.js$/, '.d.ts')
-          return `/* @ts-self-types="./${declaration}" */`
-        },
-      }
     },
   }
 }

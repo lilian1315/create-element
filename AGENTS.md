@@ -36,7 +36,7 @@ Do not hand-edit between the `VITE PLUS` markers above — that section is manag
 - Verify: `vp check` (oxlint type-aware + typecheck; CI/publish runs this). Fix: `vp check --fix`.
 - Format style: no semicolons, single quotes, sorted imports (root `vite.config.ts` `fmt`). `**/generated/**` is excluded from lint/fmt.
 - Per-package: `vpr --filter <pkg> <cmd>`, or run `vp …` inside the package dir.
-- Orchestration (`release:core`, `release:types`, `generate-deno-config`) lives in root `vite.config.ts` `run.tasks`; invoke with `vpr <name>`.
+- Orchestration (`_release:core`, `_release:plugin`, `_release:types`) lives in root `vite.config.ts` `run.tasks`; invoke with `vpr <name>`.
 
 ## Packages
 
@@ -49,14 +49,13 @@ Do not hand-edit between the `VITE PLUS` markers above — that section is manag
 
 - All suites: `vpr test` (runs each `packages/*` `test`: core browser + typecheck, plugin node; scriptless packages are skipped). Dist export tests are NOT included — run `vpr --filter @lilian1315/create-element test:exports` (auto-builds `dist/` via task dep).
 - `packages/create-element`: vitest **projects** (`browser`: chromium via playwright + `typecheck.enabled`; `exports`: `tests/package-exports.spec.ts` against `dist/`). Needs Playwright chromium installed (`playwright install --with-deps chromium`). `tests/*.spec.ts(x)` = browser DOM tests, `tests/*.spec-d.ts(x)` = type tests against public built entries. Tests depend on `build`. Single test from package dir: `vp test run --project browser tests/api.spec.ts` after rebuilding.
-- `tests/package-exports.spec.ts` runs with vitest (`vpr --filter @lilian1315/create-element test:exports`, i.e. `vp test run --project exports` + `build` dep) **against `dist/`**; checks public runtime exports, matching npm/JSR entries, and isolated native dependencies in JS and declarations.
+- `tests/package-exports.spec.ts` runs with vitest (`vpr --filter @lilian1315/create-element test:exports`, i.e. `vp test run --project exports` + `build` dep) **against `dist/`**; checks public runtime exports, the npm entry inventory and matching declarations, and isolated native dependencies in JS and declarations.
 - `packages/oxlint-plugin-create-element`: plain node tests, `vp test run`.
 - Coverage (core only): `vp test run --coverage --project browser` from `packages/create-element`.
 
 ## Gotchas
 
-- Dual publish: npm and JSR both use the specialized `dist/*.js` and `.d.ts` outputs. JSR entries carry `@ts-self-types` banners from `jsrEntryTypes`. Keep `package.json`/`jsr.json` exports and versions in sync with the named entries in the package's pack config; rebuild before validating consumers or publishing.
-- `deno.json` is **generated** by `vpr generate-deno-config` (staged hook regenerates it on `pnpm-workspace.yaml` changes). Never hand-edit.
+- npm publishes the specialized `dist/*.js` and `.d.ts` outputs. Keep `package.json` exports in sync with the named entries in the package's pack config; rebuild before validating consumers or publishing.
 - Deps: versions live in `pnpm-workspace.yaml` `catalog:` with `overrides` pinning `vite`/`vitest`; signal libs are **optional** peerDeps. Add shared deps as `catalog:`, not pinned versions.
 - JSX: consumers use `"jsx": "react-jsx", "jsxImportSource": "@lilian1315/create-element"`; SVG/MathML need `svg:`/`math:` prefixes (bare `svg`/`math` roots excepted).
-- Release: tag `push` of `@lilian1315/create-element@*.*.*` / `@lilian1315/oxlint-plugin-create-element@*.*.*` / `@lilian1315/elements-writable-properties-types@*.*.*` triggers `.github/workflows/publish.yml` (`vp check` → `vpr test` → `vpr build` → `jsr publish` + `pnpm publish`). Local bump helpers: `vpr release:core`, `vpr release:types` (use `bumpp`; plugin: `vpr _release:oxlint-plugin`).
+- Release: tag `push` of `@lilian1315/create-element@*.*.*` / `@lilian1315/oxlint-plugin-create-element@*.*.*` / `@lilian1315/elements-writable-properties-types@*.*.*` triggers `.github/workflows/publish.yml` (`vpr build` → `vpr test` → export tests → `vp check` → npm publish). Local bump helpers: `vpr release:core`, `vpr release:types`, `vpr release:plugin` (use `bumpp`).

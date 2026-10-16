@@ -113,21 +113,15 @@ describe('built package exports (no DOM implementation)', () => {
     },
   )
 
-  it('JSR publishes the same specialized entries with explicit declaration references', async () => {
+  it('publishes the entry inventory with matching declarations', async () => {
     const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
-    const jsr = JSON.parse(await readFile(new URL('../jsr.json', import.meta.url), 'utf8'))
     const { './package.json': _packageJson, ...entries } = manifest.exports
     expect(entries).toEqual(publicExports)
-    expect(jsr.exports).toEqual(entries)
-    expect(jsr.publish.include).toEqual(['dist/**/*.js', 'dist/**/*.d.ts', 'README.md'])
-    expect(jsr.publish.exclude).toContain('!dist')
 
     for (const entry of Object.values(entries) as string[]) {
       const file = fileURLToPath(new URL(`../${entry}`, import.meta.url))
-      const source = await readFile(file, 'utf8')
-      const declaration = source.match(/^\/\* @ts-self-types="(.+)" \*\//)?.[1]
-      expect(declaration).toBeDefined()
-      expect(await readFile(resolve(dirname(file), declaration!), 'utf8')).toContain('export')
+      expect(await readFile(file, 'utf8')).toContain('export')
+      expect(await readFile(file.replace(/\.js$/, '.d.ts'), 'utf8')).toContain('export')
     }
   })
   it('built server entry renders without a DOM implementation', async () => {

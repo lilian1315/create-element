@@ -14,8 +14,7 @@
     "bumpp": "^11.0.1",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plus": "catalog:",
-    "yaml": "^2.8.3"
+    "vite-plus": "catalog:"
   },
   "devEngines": {
     "packageManager": {

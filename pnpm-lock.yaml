@@ -169,10 +169,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)'
       vite-plus:
         specifier: 'catalog:'
-        version: 1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
-      yaml:
-        specifier: ^2.8.3
-        version: 2.8.3
+        version: 1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
 
   examples/vite-csr:
     devDependencies:
@@ -193,7 +190,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)'
       vite-plus:
         specifier: 'catalog:'
-        version: 1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
+        version: 1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
 
   examples/vite-ssr:
     devDependencies:
@@ -217,7 +214,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)'
       vite-plus:
         specifier: 'catalog:'
-        version: 1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
+        version: 1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
 
   packages/create-element:
     dependencies:
@@ -233,7 +230,7 @@ importers:
         version: 5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(playwright@1.59.1)(vitest@5.0.3)
       '@vitest/coverage-v8':
         specifier: 'catalog:'
-        version: 5.0.3(vitest@5.0.3)
+        version: 5.0.3(@vitest/browser@5.0.3)(vitest@5.0.3)
       '@vue/reactivity':
         specifier: 'catalog:'
         version: 3.5.28
@@ -282,7 +279,7 @@ importers:
     devDependencies:
       vite-plus:
         specifier: 'catalog:'
-        version: 1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
+        version: 1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
 
 packages:
 
@@ -2252,7 +2249,7 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/coverage-v8@5.0.3(vitest@5.0.3)':
+  '@vitest/coverage-v8@5.0.3(@vitest/browser@5.0.3)(vitest@5.0.3)':
     dependencies:
       '@bcoe/v8-coverage': 1.0.2
       '@vitest/istanbul-lib-coverage': 1.0.2
@@ -2263,6 +2260,8 @@ snapshots:
       std-env: 4.3.0
       tinyrainbow: 3.1.1
       vitest: 5.0.3(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))
+    optionalDependencies:
+      '@vitest/browser': 5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(vitest@5.0.3)
 
   '@vitest/istanbul-lib-coverage@1.0.2': {}
 
@@ -2645,7 +2644,7 @@ snapshots:
 
   ocache@0.3.0: {}
 
-  oxfmt@0.72.0(vite-plus@1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)):
+  oxfmt@0.72.0(vite-plus@1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)):
     dependencies:
       tinypool: 2.2.0
     optionalDependencies:
@@ -2668,7 +2667,7 @@ snapshots:
       '@oxfmt/binding-win32-arm64-msvc': 0.72.0
       '@oxfmt/binding-win32-ia32-msvc': 0.72.0
       '@oxfmt/binding-win32-x64-msvc': 0.72.0
-      vite-plus: 1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
+      vite-plus: 1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
 
   oxlint-tsgolint@7.0.2003:
     optionalDependencies:
@@ -2679,7 +2678,7 @@ snapshots:
       '@oxlint-tsgolint/win32-arm64': 7.0.2003
       '@oxlint-tsgolint/win32-x64': 7.0.2003
 
-  oxlint@1.87.0(oxlint-tsgolint@7.0.2003)(vite-plus@1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)):
+  oxlint@1.87.0(oxlint-tsgolint@7.0.2003)(vite-plus@1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)):
     optionalDependencies:
       '@oxlint/binding-android-arm-eabi': 1.87.0
       '@oxlint/binding-android-arm64': 1.87.0
@@ -2701,7 +2700,7 @@ snapshots:
       '@oxlint/binding-win32-ia32-msvc': 1.87.0
       '@oxlint/binding-win32-x64-msvc': 1.87.0
       oxlint-tsgolint: 7.0.2003
-      vite-plus: 1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
+      vite-plus: 1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3)
 
   package-manager-detector@1.6.0: {}
 
@@ -2856,7 +2855,7 @@ snapshots:
 
   unstorage@2.0.0-alpha.10: {}
 
-  vite-plus@1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3):
+  vite-plus@1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3):
     dependencies:
       '@oxc-project/types': 0.153.0
       '@oxlint/plugins': 1.79.0
@@ -2867,12 +2866,13 @@ snapshots:
       '@vitest/snapshot': 5.0.3
       '@vitest/spy': 5.0.3
       '@vitest/utils': 5.0.3
-      oxfmt: 0.72.0(vite-plus@1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3))
-      oxlint: 1.87.0(oxlint-tsgolint@7.0.2003)(vite-plus@1.1.0(@types/node@26.4.1)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3))
+      oxfmt: 0.72.0(vite-plus@1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3))
+      oxlint: 1.87.0(oxlint-tsgolint@7.0.2003)(vite-plus@1.1.0(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(jiti@2.6.1)(playwright@1.59.1)(typescript@7.0.2)(yaml@2.8.3))
       oxlint-tsgolint: 7.0.2003
       vite: '@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3)'
       vitest: 5.0.3(@types/node@26.4.1)(@vitest/browser-playwright@5.0.3)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))
     optionalDependencies:
+      '@vitest/browser-playwright': 5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(playwright@1.59.1)(vitest@5.0.3)
       '@voidzero-dev/vite-plus-darwin-arm64': 1.1.0
       '@voidzero-dev/vite-plus-darwin-x64': 1.1.0
       '@voidzero-dev/vite-plus-linux-arm64-gnu': 1.1.0
@@ -2936,7 +2936,7 @@ snapshots:
       '@types/node': 26.4.1
       '@vitest/browser-playwright': 5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(playwright@1.59.1)(vitest@5.0.3)
       '@vitest/browser-preview': 5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.4.1)(jiti@2.6.1)(typescript@7.0.2)(yaml@2.8.3))(vitest@5.0.3)
-      '@vitest/coverage-v8': 5.0.3(vitest@5.0.3)
+      '@vitest/coverage-v8': 5.0.3(@vitest/browser@5.0.3)(vitest@5.0.3)
       '@vitest/ui': 5.0.3(vitest@5.0.3)
     transitivePeerDependencies:
       - msw

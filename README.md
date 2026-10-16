@@ -1,7 +1,6 @@
 # @lilian1315/create-element
 
 [![npm](https://img.shields.io/npm/v/@lilian1315/create-element)](https://npmx.dev/package/@lilian1315/create-element)
-[![jsr](https://jsr.io/badges/@lilian1315/create-element)](https://jsr.io/@lilian1315/create-element)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Describe HTML, SVG, and MathML trees with `h` or JSX, then render them in the browser or on the server. Tree construction does not create DOM nodes, run components, or subscribe to signals.
@@ -330,13 +329,13 @@ The base package and each of `alien-signals`, `alien-deepsignals`, `faisceau`, `
 
 Import `build` from `…/dom` (previously exported from the base or integration entry). The root entry only describes trees and has no DOM renderer dependency.
 
-The public entry inventory in `scripts/entries.ts` drives the build and the npm/JSR export maps. The build regenerates both manifests with `scripts/generate-exports.ts`.
+The public entry inventory in `scripts/entries.ts` drives the build and the npm export map. The build updates `package.json` with `scripts/generate-exports.ts`.
 
 Set `jsxImportSource` to the base path or the integration path in `tsconfig.json`. Each integration uses its own native source detector, reader, effect, and untracked reader.
 
 Following [Formisch's build-time specialization](https://formisch.dev/blog/one-core-six-frameworks/), the JSX, DOM, and SSR entries have one source implementation. `vp pack` compiles those entries for the base package and each integration. The plugin in `scripts/specialize-reactivity.ts` redirects imports of `reactivity-ops/index.ts` to `reactivity-ops/<integration>.ts`, including the `Source` type in the emitted declarations. There is no runtime engine selector and no generated copy of the renderers in `src/`.
 
-Both npm and JSR publish the specialized files in `dist/`; JSR's JavaScript entries reference their declarations with `@ts-self-types`. Run `vpr build` before working on consumers, or `vpr --filter @lilian1315/create-element dev` to rebuild all integrations on changes. `vpr test` builds the package before testing its integrations and published types. Run `vpr --filter @lilian1315/create-element test:exports` to check the published entrypoints and dependency isolation.
+npm publishes the specialized JavaScript files and matching declarations in `dist/`. Run `vpr build` before working on consumers, or `vpr --filter @lilian1315/create-element dev` to rebuild all integrations on changes. `vpr test` builds the package before testing its integrations and published types. Run `vpr --filter @lilian1315/create-element test:exports` to check the published entrypoints and dependency isolation.
 
 ## Troubleshooting
 
@@ -370,7 +369,7 @@ vpr --filter @lilian1315/create-element test:exports
 
 The workspace uses [Vite+](https://viteplus.dev/). `vpr build` builds only library packages in dependency order; `vpr test` runs the core browser/type tests and plugin tests. Browser tests require Playwright Chromium; install it with `vp exec playwright install --with-deps chromium` from `packages/create-element`. Export tests separately validate the built package entrypoints.
 
-The root `README.md` is the documentation source of truth. `packages/create-element/README.md` is a tracked symlink to `../../README.md`. GitHub stores it as a link rather than a separate rendered Markdown file. Because npm omits symlinks, the publish workflow replaces the link with an identical regular file before publishing to npm and JSR. For local packing, materialize the README in a temporary package copy rather than replacing the tracked symlink.
+The root `README.md` is the documentation source of truth. `packages/create-element/README.md` is a tracked symlink to `../../README.md`. GitHub stores it as a link rather than a separate rendered Markdown file. Because npm omits symlinks, the publish workflow replaces the link with an identical regular file before publishing to npm. For local packing, materialize the README in a temporary package copy rather than replacing the tracked symlink.
 
 ## License
 

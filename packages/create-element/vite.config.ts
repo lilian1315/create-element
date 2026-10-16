@@ -4,7 +4,7 @@ import { playwright } from 'vite-plus/test/browser-playwright'
 import { replacePlugin } from 'vite/rolldown/plugins'
 
 import { entries, integrations } from './scripts/entries'
-import { jsrEntryTypes, specializeReactivity } from './scripts/specialize-reactivity'
+import { specializeReactivity } from './scripts/specialize-reactivity'
 
 export default defineConfig({
   pack: [undefined, ...integrations].map((integration): PackUserConfig => ({
@@ -20,7 +20,6 @@ export default defineConfig({
         { preventAssignment: true, sourcemap: true },
       ),
       specializeReactivity(integration),
-      jsrEntryTypes(),
     ],
   })),
   test: {

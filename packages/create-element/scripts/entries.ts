@@ -1,4 +1,4 @@
-/** The public entry inventory shared by the build and npm/JSR manifests. */
+/** The public entry inventory shared by the build and npm manifest. */
 export const integrations = [
   'alien-deepsignals',
   'alien-signals',
