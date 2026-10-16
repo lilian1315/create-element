@@ -1,16 +1,17 @@
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.1.0
   vite-plus: 1.1.0
-  '@preact/signals-core': ^1.13.0
-  '@vue/reactivity': ^3.5.28
+  '@preact/signals-core': ^1.14.4
+  '@vue/reactivity': ^3.5.44
   alien-deepsignals: ^0.3.1
-  alien-signals: ^3.1.2
+  alien-signals: ^3.2.1
   faisceau: ^0.3.2
   vitest: 5.0.3
   typescript: 7.0.2
-  playwright: '*'
+  playwright: ^1.64.1
   '@vitest/browser-playwright': 5.0.3
   '@vitest/coverage-v8': 5.0.3
+  '@types/node': ^24.19.2
 overrides:
   vite@*: 'catalog:'
   vitest@*: 'catalog:'

@@ -5,8 +5,8 @@
   },
   "devDependencies": {
     "@lilian1315/oxlint-plugin-create-element": "workspace:*",
-    "@types/node": "^26.4.1",
-    "bumpp": "^11.0.1",
+    "@types/node": "catalog:",
+    "bumpp": "^11.1.0",
     "playwright": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",

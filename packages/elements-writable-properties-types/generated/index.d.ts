@@ -550,7 +550,7 @@ export namespace DOMTypes {
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLDialogElement/close_event) */
         onclose: ((this: GlobalEventHandlers, ev: Event) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLElement/command_event) */
-        oncommand: ((this: GlobalEventHandlers, ev: Event) => any) | null;
+        oncommand: ((this: GlobalEventHandlers, ev: CommandEvent) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/contextlost_event) */
         oncontextlost: ((this: GlobalEventHandlers, ev: Event) => any) | null;
         /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Element/contextmenu_event) */
@@ -1621,7 +1621,7 @@ export namespace DOMTypes {
          *
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/crossOrigin)
          */
-        crossOrigin: string | null;
+        crossOrigin: "anonymous" | "use-credentials" | null;
         /**
          * The **`decoding`** property of the HTMLImageElement interface provides a hint to the browser as to how it should decode the image. More specifically, whether it should wait for the image to be decoded before presenting other content updates or not. It reflects the <img> element's decoding content attribute.
          *

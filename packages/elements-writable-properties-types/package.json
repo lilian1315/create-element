@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
-    "@types/node": "^25.6.0",
-    "@types/web": "^0.0.356",
+    "@types/node": "catalog:",
+    "@types/web": "^0.0.359",
     "@typescript/typescript6": "^6.0.2",
     "cli-progress": "^3.12.0"
   }
