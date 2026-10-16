@@ -21,7 +21,7 @@ jobs:
           cache: true
           run-install: true
       - run: vpr build
-      - run: vp exec -F @lilian1315/create-element playwright install --with-deps chromium
+      - run: vp exec playwright install --with-deps chromium
       - run: vpr test
       - run: vp check
       - name: Resolve publish target from tag
