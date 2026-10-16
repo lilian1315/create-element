@@ -1,10 +1,10 @@
-import { h } from '@lilian1315/create-element/vue-reactivity'
+import { createVNode } from '@lilian1315/create-element/vue-reactivity'
 import { ref } from '@vue/reactivity'
 
 export function createCounter() {
   const count = ref(0)
 
-  return h('button', {
+  return createVNode('button', {
     class: 'counter',
     type: 'button',
     onclick() {

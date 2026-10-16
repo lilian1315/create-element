@@ -1,4 +1,4 @@
-import { h } from '@lilian1315/create-element/vue-reactivity'
+import { createVNode } from '@lilian1315/create-element/vue-reactivity'
 import { shallowRef } from '@vue/reactivity'
 
 export function createCounter() {
@@ -6,5 +6,5 @@ export function createCounter() {
 
   count.value = 5
 
-  return h('output', { class: 'counter', children: ['Reactive snapshot: ', count] })
+  return createVNode('output', { class: 'counter', children: ['Reactive snapshot: ', count] })
 }
