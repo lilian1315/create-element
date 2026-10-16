@@ -4,9 +4,9 @@ import type {
   Component,
   DomElement,
   ElementPrefixedTagNameMap,
+  ElementProps,
   PrefixedElementTag,
-  VNodeChild,
-  VNodeProps,
+  Child,
   VNode,
   ElementState,
   MountedChild,
@@ -17,10 +17,17 @@ import type {
 import { isComponentVNode, isElementVNode, isVNode } from '../vnode'
 import { applyElementProps, createElementBinding, bindingSymbol } from './props'
 
-export type { VNodeChild, VNodeProps, VNode } from '../types'
+export type { Child, VNodeProps, VNode } from '../types'
 
 /** Applies props to an unbound element without resetting absent properties. */
-export function bind<T extends DomElement>(element: T, props: VNodeProps<NoInfer<T>>): () => void {
+export function bind<T extends DomElement>(
+  element: T,
+  props: ElementProps<NoInfer<T>>,
+): () => void {
+  return bindElement(element, props)
+}
+
+function bindElement(element: DomElement, props: Props): () => void {
   const state = createElementState(element)
   try {
     updateElement(state, props, 'replace')
@@ -32,7 +39,7 @@ export function bind<T extends DomElement>(element: T, props: VNodeProps<NoInfer
 }
 
 /** Replaces a target's content and returns a cleanup for this mount only. */
-export function mount(target: DomElement, tree: VNodeChild): () => void {
+export function mount(target: DomElement, tree: Child): () => void {
   activeMounts.get(target)?.dispose()
   clearChildren(target)
   const scope = new EffectScope()
@@ -72,7 +79,7 @@ export function mount(target: DomElement, tree: VNodeChild): () => void {
   }
 }
 
-/** Materializes a single element root. A component must render exactly one element. */
+/** Materializes an intrinsic root as an element, or a component root as a fragment. */
 export function build<T extends PrefixedElementTag>(tree: VNode<T>): ElementPrefixedTagNameMap[T]
 export function build<T extends PrefixedElementTag>(tree: VNode): ElementPrefixedTagNameMap[T]
 export function build(tree: VNode): DomElement | DocumentFragment
@@ -82,10 +89,12 @@ export function build(tree: VNode | VNode<Component>): DomElement | DocumentFrag
   try {
     reconcile(fragment, null, tree, null, true)
     if (typeof tree.type === 'string') {
-      if (fragment.childNodes.length !== 1 || !(fragment.childNodes[0] instanceof Element)) {
+      const element = fragment.firstChild
+      if (fragment.childNodes.length !== 1 || !(element instanceof Element)) {
         throw new TypeError('build requires exactly one element root if its a single element Vnode')
       }
-      return fragment.childNodes[0] as DomElement
+      // Intrinsic roots are created by createBaseElement, which only creates DomElements.
+      return element as DomElement
     } else {
       return fragment
     }
@@ -95,13 +104,25 @@ export function build(tree: VNode | VNode<Component>): DomElement | DocumentFrag
   }
 }
 
+/** Shared fragment materialization, without virtual build's root restrictions. */
+export function createFragment(children: unknown): DocumentFragment {
+  const fragment = document.createDocumentFragment()
+  try {
+    reconcile(fragment, null, children, null)
+    return fragment
+  } catch (error) {
+    for (const child of fragment.childNodes) disposeTree(child)
+    throw error
+  }
+}
+
 export function createElement<T extends PrefixedElementTag>(
   type: T,
-  props?: VNodeProps<NoInfer<ElementPrefixedTagNameMap[T]>> | null,
+  props?: ElementProps<NoInfer<T>> | null,
 ): ElementPrefixedTagNameMap[T] {
   const element = createBaseElement(type)
   if (!props) return element
-  bind(element, props)
+  bindElement(element, props)
   return element
 }
 
@@ -119,7 +140,7 @@ function attach(node: Node, scope: EffectScope): void {
 }
 
 /** Stops library-owned resources on an element and its current descendants. */
-export const dispose: (element: DomElement) => void = disposeTree
+export const dispose: (node: Node) => void = disposeTree
 
 function disposeTree(node: Node): void {
   for (const child of node.childNodes) disposeTree(child)
@@ -134,7 +155,20 @@ function clearChildren(element: DomElement): void {
 
 function normalize(value: unknown): RenderValue[] {
   const values: unknown[] = Array.isArray(value) ? value.flat(Infinity) : [value]
-  return values.filter((child): child is RenderValue => child !== null && child !== undefined)
+  return values.flatMap((child) => {
+    if (child === null || child === undefined) return []
+    // Inserting a fragment consumes it; track its actual nodes rather than the empty shell.
+    if (child instanceof DocumentFragment) return Array.from(child.childNodes)
+    if (
+      child instanceof Node ||
+      isVNode(child) ||
+      typeof child === 'string' ||
+      typeof child === 'number' ||
+      (reactivity.REACTIVE_ENABLED && reactivity.isReactive(child))
+    )
+      return [child]
+    throw new TypeError('Unsupported tree child')
+  })
 }
 
 function matches(previous: RenderValue, next: RenderValue): boolean {
@@ -232,12 +266,13 @@ function moveNode(parent: Node, node: Node, before: Node | null, reuse: boolean)
   // moveBefore needs an already parented node and matching connectedness.
   if (
     reuse &&
-    (parent as ParentNode).moveBefore &&
+    'moveBefore' in parent &&
+    typeof parent.moveBefore === 'function' &&
     node.parentNode &&
     node.ownerDocument === parent.ownerDocument &&
     node.isConnected === parent.isConnected
   ) {
-    ;(parent as ParentNode).moveBefore(node, before)
+    parent.moveBefore(node, before)
   } else {
     parent.insertBefore(node, before)
   }
@@ -322,7 +357,7 @@ function createChild(value: RenderValue, root: boolean): MountedChild {
     const element = createBaseElement(value.type)
     const state = createElementState(element)
     try {
-      updateElement(state, value.props as Props, 'reconcile')
+      updateElement(state, value.props, 'reconcile')
       return { kind: 'element', value, first: element, last: element, state }
     } catch (error) {
       state.binding.scope.dispose()
@@ -346,19 +381,13 @@ function patchChild(child: MountedChild, value: RenderValue, root: boolean): voi
       if (!isVNode(value) || !isComponentVNode(value)) return
       const parent = child.last.parentNode
       if (!parent || child.first.parentNode !== parent) return
-      child.children = reconcile(
-        parent,
-        child.children,
-        Reflect.apply(value.type, undefined, [value.props]),
-        child.last,
-        root,
-      )
+      child.children = reconcile(parent, child.children, value.type(value.props), child.last, root)
       child.value = value
       break
     }
     case 'element':
       if (!isVNode(value) || !isElementVNode(value)) return
-      updateElement(child.state, value.props as Props, 'reconcile')
+      updateElement(child.state, value.props, 'reconcile')
       child.value = value
       break
     case 'text':

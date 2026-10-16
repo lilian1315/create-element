@@ -2,9 +2,9 @@
 
 Oxlint rules for validating explicit DOM types used with `@lilian1315/create-element` JSX.
 
-JSX expressions erase their intrinsic tag from the expression type. An explicit
-`build<'button'>` generic restores a precise return type, but TypeScript alone does
-not check that the JSX root is actually a button. This plugin catches that mismatch.
+Default JSX creates DOM nodes, while `/virtual` JSX creates deferred VNodes.
+Both erase their intrinsic tag from the shared expression type. This plugin checks
+direct DOM assertions and explicit virtual `build<'button'>` tags against known JSX roots.
 
 ## Installation
 
@@ -39,7 +39,10 @@ intrinsic root, use a `const` initialized from one, or omit the generic.
 ## Examples
 
 ```tsx
-import { build } from '@lilian1315/create-element/dom'
+/** @jsxImportSource @lilian1315/create-element/virtual */
+
+import { build } from '@lilian1315/create-element/virtual/dom'
+import type { JSX } from '@lilian1315/create-element/virtual/jsx-runtime'
 
 // Valid: the explicit type matches the literal root.
 const button = build<'button'>(<button>Save</button>)
@@ -63,5 +66,5 @@ not add runtime validation or infer the rendered root of components. Prefer a
 matching intrinsic root for an explicit `build` tag generic; use `mount` to manage
 component or Fragment roots.
 
-For a direct `createVNode` root, `build(createVNode('button', { children: 'Save' }))` already infers
+For a direct `createVNode` root from `/virtual`, `build(createVNode('button', { children: 'Save' }))` already infers
 `HTMLButtonElement`, so no explicit generic is needed.

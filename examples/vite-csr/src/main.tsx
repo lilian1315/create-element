@@ -1,6 +1,4 @@
 import './style.css'
-import { build } from '@lilian1315/create-element/vue-reactivity/dom'
-
 import heroImg from './assets/hero.png'
 import typescriptLogo from './assets/typescript.svg'
 import viteLogo from './assets/vite.svg'
@@ -10,7 +8,7 @@ const app = document.querySelector('#app')
 
 if (!app) throw new Error('Missing #app element')
 
-const content = build<'main'>(
+const content = (
   <main>
     <div class="hero">
       <img src={heroImg} class="base" width={170} height={179} />
@@ -21,7 +19,7 @@ const content = build<'main'>(
     <h1>Created in the browser</h1>
     <p>The counter updates the DOM directly from a Vue ref.</p>
     {createCounter()}
-  </main>,
+  </main>
 )
 
 app.replaceChildren(content)

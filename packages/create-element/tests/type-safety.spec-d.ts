@@ -1,5 +1,5 @@
-import { createVNode as h, type VNodeProps } from '@lilian1315/create-element'
-import { bind } from '@lilian1315/create-element/dom'
+import { bind, type ElementProps } from '@lilian1315/create-element'
+import { createVNode as h } from '@lilian1315/create-element/virtual'
 import { expectTypeOf, it } from 'vite-plus/test'
 
 it('checks content exclusivity and h arguments', () => {
@@ -14,9 +14,9 @@ it('checks content exclusivity and h arguments', () => {
 
 it('checks writable element properties and explicit element types', () => {
   const input = document.createElement('input')
-  const props: VNodeProps<'input'> = { value: 'typed', checked: true }
-  expectTypeOf<VNodeProps<HTMLInputElement>>().toEqualTypeOf<VNodeProps<'input'>>()
-  expectTypeOf<VNodeProps<SVGCircleElement>>().toEqualTypeOf<VNodeProps<'svg:circle'>>()
+  const props: ElementProps<'input'> = { value: 'typed', checked: true }
+  expectTypeOf<ElementProps<HTMLInputElement>>().toEqualTypeOf<ElementProps<'input'>>()
+  expectTypeOf<ElementProps<SVGCircleElement>>().toEqualTypeOf<ElementProps<'svg:circle'>>()
   expectTypeOf<typeof bind<HTMLInputElement>>().toBeCallableWith(input, props)
   expectTypeOf<typeof bind<HTMLInputElement>>().toBeCallableWith(
     // @ts-expect-error an explicit input type requires an input element

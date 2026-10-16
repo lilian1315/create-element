@@ -53,15 +53,19 @@ async function dependencies(
 }
 
 const exportCases: Array<[string, string[]]> = [
-  [packageName, ['createVNode']],
-  [`${packageName}/dom`, ['bind', 'build', 'createElement', 'dispose', 'mount']],
+  [packageName, ['bind', 'createElement', 'dispose']],
+  [`${packageName}/virtual`, ['createVNode']],
+  [`${packageName}/virtual/dom`, ['build', 'mount']],
   [`${packageName}/jsx-runtime`, ['Fragment', 'jsx', 'jsxDEV', 'jsxs']],
-  [`${packageName}/server`, ['renderToString']],
+  [`${packageName}/virtual/jsx-runtime`, ['Fragment', 'jsx', 'jsxDEV', 'jsxs']],
+  [`${packageName}/virtual/server`, ['renderToString']],
   ...integrations.flatMap((adapter): Array<[string, string[]]> => [
-    [`${packageName}/${adapter}`, ['createVNode']],
-    [`${packageName}/${adapter}/dom`, ['bind', 'build', 'createElement', 'dispose', 'mount']],
+    [`${packageName}/${adapter}`, ['bind', 'createElement', 'dispose']],
+    [`${packageName}/${adapter}/virtual`, ['createVNode']],
+    [`${packageName}/${adapter}/virtual/dom`, ['build', 'mount']],
     [`${packageName}/${adapter}/jsx-runtime`, ['Fragment', 'jsx', 'jsxDEV', 'jsxs']],
-    [`${packageName}/${adapter}/server`, ['renderToString']],
+    [`${packageName}/${adapter}/virtual/jsx-runtime`, ['Fragment', 'jsx', 'jsxDEV', 'jsxs']],
+    [`${packageName}/${adapter}/virtual/server`, ['renderToString']],
   ]),
 ]
 
@@ -71,9 +75,9 @@ describe('built package exports (no DOM implementation)', () => {
     { timeout: 10_000 },
     async (adapter) => {
       const entry = adapter ? `${packageName}/${adapter}` : packageName
-      const { createVNode } = await import(entry)
-      const { jsx, jsxDEV } = await import(`${entry}/jsx-runtime`)
-      const { renderToString } = await import(`${entry}/server`)
+      const { createVNode } = await import(`${entry}/virtual`)
+      const { jsx, jsxDEV } = await import(`${entry}/virtual/jsx-runtime`)
+      const { renderToString } = await import(`${entry}/virtual/server`)
 
       expect(
         renderToString(createVNode('main', { children: jsx('span', { children: 'jsx' }) })),
@@ -84,7 +88,7 @@ describe('built package exports (no DOM implementation)', () => {
     },
   )
 
-  it.each(['index', 'dom/index', 'server/index'])(
+  it.each(['index', 'jsx-runtime', 'virtual/index', 'virtual/dom/index', 'virtual/server/index'])(
     '%s removes reactive primitives from the plain build',
     async (entry) => {
       const files = new Set<string>()
@@ -103,10 +107,17 @@ describe('built package exports (no DOM implementation)', () => {
     '%s isolates native dependencies in runtime and declarations',
     async (adapter) => {
       const nativePackage = adapter ? [packageForAdapter[adapter]] : []
-      for (const entry of ['index', 'dom/index', 'server/index', 'jsx-runtime']) {
+      for (const entry of [
+        'index',
+        'jsx-runtime',
+        'virtual/index',
+        'virtual/dom/index',
+        'virtual/server/index',
+        'virtual/jsx-runtime',
+      ]) {
         const prefix = adapter ? `${adapter}/` : ''
         expect([...(await dependencies(`${prefix}${entry}.js`))]).toEqual(
-          entry === 'index' || entry.startsWith('jsx-') ? [] : nativePackage,
+          entry === 'virtual/index' || entry === 'virtual/jsx-runtime' ? [] : nativePackage,
         )
         expect([...(await dependencies(`${prefix}${entry}.d.ts`, true))]).toEqual(nativePackage)
       }
@@ -118,7 +129,7 @@ describe('built package exports (no DOM implementation)', () => {
     const { './package.json': _packageJson, ...entries } = manifest.exports
     expect(entries).toEqual(publicExports)
 
-    for (const entry of Object.values(entries) as string[]) {
+    for (const entry of Object.values(publicExports)) {
       const file = fileURLToPath(new URL(`../${entry}`, import.meta.url))
       expect(await readFile(file, 'utf8')).toContain('export')
       expect(await readFile(file.replace(/\.js$/, '.d.ts'), 'utf8')).toContain('export')
@@ -127,8 +138,8 @@ describe('built package exports (no DOM implementation)', () => {
   it('built server entry renders without a DOM implementation', async () => {
     expect(globalThis.document).toBeUndefined()
 
-    const { createVNode } = await import(packageName)
-    const { renderToString } = await import(`${packageName}/server`)
+    const { createVNode } = await import(`${packageName}/virtual`)
+    const { renderToString } = await import(`${packageName}/virtual/server`)
 
     expect(
       renderToString(
@@ -142,8 +153,8 @@ describe('built package exports (no DOM implementation)', () => {
 
   it('built reactive server entry renders a snapshot without a DOM implementation', async () => {
     const { shallowRef } = await import('@vue/reactivity')
-    const { createVNode } = await import(`${packageName}/vue-reactivity`)
-    const { renderToString } = await import(`${packageName}/vue-reactivity/server`)
+    const { createVNode } = await import(`${packageName}/vue-reactivity/virtual`)
+    const { renderToString } = await import(`${packageName}/vue-reactivity/virtual/server`)
     const count = shallowRef(1)
     const tree = createVNode('p', { children: ['Count: ', count] })
 

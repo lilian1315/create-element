@@ -1,20 +1,13 @@
-import type { PrefixedElementTag, VNode, VNodeProps } from './types'
-import { createVNode as _createVNode } from './vnode'
+export { bind, createElement, dispose } from './dom'
 export type {
-  Component,
+  Child,
+  ChildValue,
+  Children,
+  DOMComponent as Component,
   DomElement,
+  ElementProps,
+  ElementPropsMap,
   ElementPrefixedTagNameMap,
   MaybeSource,
   PrefixedElementTag,
-  VNodeChild,
-  VNodeChildValue,
-  VNodeChildren,
-  VNodeProps,
-  VNodePropsMap,
-  VNode,
 } from './types'
-
-export const createVNode: <T extends PrefixedElementTag>(
-  type: T,
-  props?: VNodeProps<T> | null,
-) => VNode<T> = _createVNode

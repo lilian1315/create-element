@@ -1,4 +1,4 @@
-import { createElement } from '@lilian1315/create-element/dom'
+import { createElement } from '@lilian1315/create-element'
 import { expectTypeOf, it } from 'vite-plus/test'
 
 it('infers concrete createElement results and validates props', () => {

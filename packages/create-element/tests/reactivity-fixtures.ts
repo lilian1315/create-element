@@ -1,27 +1,32 @@
-import * as deep from '@lilian1315/create-element/alien-deepsignals'
-import * as deepDOM from '@lilian1315/create-element/alien-deepsignals/dom'
-import * as deepJSX from '@lilian1315/create-element/alien-deepsignals/jsx-runtime'
-import * as deepServer from '@lilian1315/create-element/alien-deepsignals/server'
-import * as alien from '@lilian1315/create-element/alien-signals'
-import * as alienDOM from '@lilian1315/create-element/alien-signals/dom'
-import * as alienJSX from '@lilian1315/create-element/alien-signals/jsx-runtime'
-import * as alienServer from '@lilian1315/create-element/alien-signals/server'
-import * as faisceau from '@lilian1315/create-element/faisceau'
-import * as faisceauDOM from '@lilian1315/create-element/faisceau/dom'
-import * as faisceauJSX from '@lilian1315/create-element/faisceau/jsx-runtime'
-import * as faisceauServer from '@lilian1315/create-element/faisceau/server'
+import * as deepLive from '@lilian1315/create-element/alien-deepsignals'
+import * as deep from '@lilian1315/create-element/alien-deepsignals/virtual'
+import * as deepDOM from '@lilian1315/create-element/alien-deepsignals/virtual/dom'
+import * as deepJSX from '@lilian1315/create-element/alien-deepsignals/virtual/jsx-runtime'
+import * as deepServer from '@lilian1315/create-element/alien-deepsignals/virtual/server'
+import * as alienLive from '@lilian1315/create-element/alien-signals'
+import * as alien from '@lilian1315/create-element/alien-signals/virtual'
+import * as alienDOM from '@lilian1315/create-element/alien-signals/virtual/dom'
+import * as alienJSX from '@lilian1315/create-element/alien-signals/virtual/jsx-runtime'
+import * as alienServer from '@lilian1315/create-element/alien-signals/virtual/server'
+import * as faisceauLive from '@lilian1315/create-element/faisceau'
+import * as faisceau from '@lilian1315/create-element/faisceau/virtual'
+import * as faisceauDOM from '@lilian1315/create-element/faisceau/virtual/dom'
+import * as faisceauJSX from '@lilian1315/create-element/faisceau/virtual/jsx-runtime'
+import * as faisceauServer from '@lilian1315/create-element/faisceau/virtual/server'
+import * as preactLive from '@lilian1315/create-element/preact-signals'
+import * as preact from '@lilian1315/create-element/preact-signals/virtual'
+import * as preactDOM from '@lilian1315/create-element/preact-signals/virtual/dom'
+import * as preactJSX from '@lilian1315/create-element/preact-signals/virtual/jsx-runtime'
+import * as preactServer from '@lilian1315/create-element/preact-signals/virtual/server'
 import type {
   Fragment as plainFragment,
   jsx as plainJSX,
-} from '@lilian1315/create-element/jsx-runtime'
-import * as preact from '@lilian1315/create-element/preact-signals'
-import * as preactDOM from '@lilian1315/create-element/preact-signals/dom'
-import * as preactJSX from '@lilian1315/create-element/preact-signals/jsx-runtime'
-import * as preactServer from '@lilian1315/create-element/preact-signals/server'
-import * as vue from '@lilian1315/create-element/vue-reactivity'
-import * as vueDOM from '@lilian1315/create-element/vue-reactivity/dom'
-import * as vueJSX from '@lilian1315/create-element/vue-reactivity/jsx-runtime'
-import * as vueServer from '@lilian1315/create-element/vue-reactivity/server'
+} from '@lilian1315/create-element/virtual/jsx-runtime'
+import * as vueLive from '@lilian1315/create-element/vue-reactivity'
+import * as vue from '@lilian1315/create-element/vue-reactivity/virtual'
+import * as vueDOM from '@lilian1315/create-element/vue-reactivity/virtual/dom'
+import * as vueJSX from '@lilian1315/create-element/vue-reactivity/virtual/jsx-runtime'
+import * as vueServer from '@lilian1315/create-element/vue-reactivity/virtual/server'
 import { effect as preactEffect, signal as preactSignal } from '@preact/signals-core'
 import { effect as vueEffect, shallowRef, stop as stopVueEffect } from '@vue/reactivity'
 import { effect as deepEffect, signal as deepSignal } from 'alien-deepsignals'
@@ -87,7 +92,7 @@ export const fixtures = [
   fixture(
     'preact-signals',
     preact,
-    preactDOM,
+    { ...preactLive, ...preactDOM },
     preactJSX,
     preactServer,
     (value) => {
@@ -99,7 +104,7 @@ export const fixtures = [
   fixture(
     'alien-signals',
     alien,
-    alienDOM,
+    { ...alienLive, ...alienDOM },
     alienJSX,
     alienServer,
     (value) => {
@@ -111,7 +116,7 @@ export const fixtures = [
   fixture(
     'alien-deepsignals',
     deep,
-    deepDOM,
+    { ...deepLive, ...deepDOM },
     deepJSX,
     deepServer,
     (value) => {
@@ -126,7 +131,7 @@ export const fixtures = [
   fixture(
     'faisceau',
     faisceau,
-    faisceauDOM,
+    { ...faisceauLive, ...faisceauDOM },
     faisceauJSX,
     faisceauServer,
     (value) => {
@@ -138,7 +143,7 @@ export const fixtures = [
   fixture(
     'vue-reactivity',
     vue,
-    vueDOM,
+    { ...vueLive, ...vueDOM },
     vueJSX,
     vueServer,
     (value) => {

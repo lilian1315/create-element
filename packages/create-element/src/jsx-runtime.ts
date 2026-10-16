@@ -1,30 +1,33 @@
-import type {
-  Component,
-  PrefixedElementTag,
-  VNodeChild,
-  VNodePropsMap,
-  VNode,
-  VNodeType,
-} from './types'
-import { createVNode } from './vnode'
+import { createElement, createFragment } from './dom'
+import type { Child, ElementPropsMap, JSXComponent, PrefixedElementTag, Props } from './types'
 
-/** Shared JSX implementation used by every integration. */
-export function jsx(type: VNodeType, props: object | null, key?: unknown): VNode {
-  return createVNode(type, props, key)
+/** Groups children into a live, consumable DOM fragment. */
+export function Fragment(props: { children?: Child }): DocumentFragment {
+  return createFragment(props.children)
+}
+
+/** Creates an intrinsic element or executes a DOM component immediately. */
+export function jsx(
+  type: PrefixedElementTag | JSXComponent,
+  props: Props | null,
+  _key?: unknown,
+): Node {
+  if (typeof type === 'string') return createElement(type, props)
+  const result = type(props ?? {})
+  return result instanceof Node ? result : createFragment(result)
 }
 
 export const jsxs = jsx
 export const jsxDEV = jsx
-export const Fragment: Component<{ children?: VNodeChild }> = (props) => props.children
 
 export namespace JSX {
-  export type Element = VNode
-  export type ElementType = PrefixedElementTag | Component<never>
+  export type Element = Node
+  export type ElementType = PrefixedElementTag | JSXComponent
   export interface ElementChildrenAttribute {
     children: unknown
   }
   export interface IntrinsicAttributes {
     key?: string | number
   }
-  export type IntrinsicElements = VNodePropsMap
+  export type IntrinsicElements = ElementPropsMap
 }

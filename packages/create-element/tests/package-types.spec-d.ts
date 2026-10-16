@@ -1,28 +1,18 @@
-import { createVNode as deepH } from '@lilian1315/create-element/alien-deepsignals'
-import {
-  build as deepBuild,
-  createElement as deepCreate,
-} from '@lilian1315/create-element/alien-deepsignals/dom'
-import { createVNode as alienH } from '@lilian1315/create-element/alien-signals'
-import {
-  build as alienBuild,
-  createElement as alienCreate,
-} from '@lilian1315/create-element/alien-signals/dom'
-import { createVNode as faisceauH } from '@lilian1315/create-element/faisceau'
-import {
-  build as faisceauBuild,
-  createElement as faisceauCreate,
-} from '@lilian1315/create-element/faisceau/dom'
-import { createVNode as preactH } from '@lilian1315/create-element/preact-signals'
-import {
-  build as preactBuild,
-  createElement as preactCreate,
-} from '@lilian1315/create-element/preact-signals/dom'
-import { createVNode as vueH } from '@lilian1315/create-element/vue-reactivity'
-import {
-  build as vueBuild,
-  createElement as vueCreate,
-} from '@lilian1315/create-element/vue-reactivity/dom'
+import { createElement as deepCreate } from '@lilian1315/create-element/alien-deepsignals'
+import { createVNode as deepH } from '@lilian1315/create-element/alien-deepsignals/virtual'
+import { build as deepBuild } from '@lilian1315/create-element/alien-deepsignals/virtual/dom'
+import { createElement as alienCreate } from '@lilian1315/create-element/alien-signals'
+import { createVNode as alienH } from '@lilian1315/create-element/alien-signals/virtual'
+import { build as alienBuild } from '@lilian1315/create-element/alien-signals/virtual/dom'
+import { createElement as faisceauCreate } from '@lilian1315/create-element/faisceau'
+import { createVNode as faisceauH } from '@lilian1315/create-element/faisceau/virtual'
+import { build as faisceauBuild } from '@lilian1315/create-element/faisceau/virtual/dom'
+import { createElement as preactCreate } from '@lilian1315/create-element/preact-signals'
+import { createVNode as preactH } from '@lilian1315/create-element/preact-signals/virtual'
+import { build as preactBuild } from '@lilian1315/create-element/preact-signals/virtual/dom'
+import { createElement as vueCreate } from '@lilian1315/create-element/vue-reactivity'
+import { createVNode as vueH } from '@lilian1315/create-element/vue-reactivity/virtual'
+import { build as vueBuild } from '@lilian1315/create-element/vue-reactivity/virtual/dom'
 import { signal as preactSignal } from '@preact/signals-core'
 import { shallowRef } from '@vue/reactivity'
 import { signal as deepSignal } from 'alien-deepsignals'

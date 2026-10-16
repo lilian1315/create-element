@@ -1,14 +1,17 @@
-import { createVNode as h } from '@lilian1315/create-element'
-import { build } from '@lilian1315/create-element/dom'
-import { bind as baseBind, dispose as baseDispose } from '@lilian1315/create-element/dom'
+import { bind as baseBind, dispose as baseDispose } from '@lilian1315/create-element'
+import { bind, createElement, dispose } from '@lilian1315/create-element/preact-signals'
 import {
   createVNode as reactiveH,
-  type VNodeChildValue,
-} from '@lilian1315/create-element/preact-signals'
-import { build as reactiveBuild } from '@lilian1315/create-element/preact-signals/dom'
-import { bind, dispose, mount } from '@lilian1315/create-element/preact-signals/dom'
+  type ChildValue,
+} from '@lilian1315/create-element/preact-signals/virtual'
+import {
+  build as reactiveBuild,
+  mount,
+} from '@lilian1315/create-element/preact-signals/virtual/dom'
+import { createVNode as h } from '@lilian1315/create-element/virtual'
+import { build } from '@lilian1315/create-element/virtual/dom'
 import { signal } from '@preact/signals-core'
-import { describe, expect, it, vi } from 'vite-plus/test'
+import { assert, describe, expect, it, vi } from 'vite-plus/test'
 
 describe('single element binding owner', () => {
   it.each([
@@ -69,14 +72,14 @@ describe('single element binding owner', () => {
     stop()
   })
 
-  it('uses identical initialization and cleanup for build and bind', () => {
+  it('uses identical initialization and cleanup for createElement and bind', () => {
     for (const materialize of [
       (props: Parameters<typeof bind<HTMLSelectElement>>[1]) => {
         const element = document.createElement('select')
         return { element, stop: bind(element, props) }
       },
       (props: Parameters<typeof bind<HTMLSelectElement>>[1]) => {
-        const element = reactiveBuild(reactiveH('select', props))
+        const element = createElement('select', props)
         return { element, stop: () => dispose(element) }
       },
     ]) {
@@ -85,7 +88,10 @@ describe('single element binding owner', () => {
       let observed = ''
       const { element, stop } = materialize({
         value: selection,
-        children: [reactiveH('option', { value: 'a' }), reactiveH('option', { value: 'b' })],
+        children: [
+          createElement('option', { value: 'a' }),
+          createElement('option', { value: 'b' }),
+        ],
         ref: (select) => {
           observed = select.value
           return release
@@ -107,7 +113,7 @@ describe('ownership follows rendered trees', () => {
   it('disposes a moved child when reconciliation removes it from its former parent', () => {
     const title = signal('before')
     const release = vi.fn()
-    const content = signal<VNodeChildValue>(reactiveH('button', { title, ref: () => release }))
+    const content = signal<ChildValue>(reactiveH('button', { title, ref: () => release }))
     const parent = reactiveBuild(reactiveH('div', { children: content }))
     const child = parent.querySelector('button')!
     const destination = document.createElement('section')
@@ -125,8 +131,9 @@ describe('ownership follows rendered trees', () => {
   it('bind cleanup disposes a moved managed child without removing it', () => {
     const title = signal('before')
     const target = document.createElement('div')
-    const stop = bind(target, { children: reactiveH('span', { title }) })
-    const child = target.firstElementChild as HTMLSpanElement
+    const stop = bind(target, { children: createElement('span', { title }) })
+    const child = target.firstElementChild
+    assert.instanceOf(child, HTMLSpanElement)
     const destination = document.createElement('div')
     destination.append(child)
     stop()

@@ -1,50 +1,95 @@
 /** @jsxImportSource @lilian1315/create-element/vue-reactivity */
 
-import { build, dispose, mount } from '@lilian1315/create-element/vue-reactivity/dom'
+import { dispose } from '@lilian1315/create-element/vue-reactivity'
+import { createVNode } from '@lilian1315/create-element/vue-reactivity/virtual'
+import { build } from '@lilian1315/create-element/vue-reactivity/virtual/dom'
 import { shallowRef } from '@vue/reactivity'
-import { expect, it } from 'vite-plus/test'
+import { assert, expect, it, vi } from 'vite-plus/test'
 
-it('defers components and updates native signal children', () => {
+it('keeps mixed DOM and virtual children reactive with single cleanup', () => {
+  const count = shallowRef(1)
+  const release = vi.fn()
+  const child = <button ref={() => release}>{count}</button>
+  const parent = <main>{createVNode('section', { children: [child, count] })}</main>
+  const outer = build(createVNode('div', { children: parent }))
+  expect(outer.firstChild?.firstChild?.firstChild).toBe(child)
+  count.value = 2
+  expect(outer.textContent).toBe('22')
+  dispose(outer)
+  dispose(outer)
+  count.value = 3
+  expect(outer.textContent).toBe('22')
+  expect(release).toHaveBeenCalledOnce()
+})
+
+it('executes components immediately and updates native props and children', () => {
+  const title = shallowRef('save')
   const count = shallowRef(1)
   let calls = 0
-  const Counter = () => {
+  const Counter = ({ label }: { label: string }) => {
     calls++
-    return <button>Count: {count}</button>
+    return (
+      <button title={title}>
+        {label}: {count}
+      </button>
+    )
   }
-  const tree = <Counter />
-  expect(calls).toBe(0)
-  const fragment = build(tree)
+  const button = <Counter label="Count" />
+  assert.instanceOf(button, HTMLButtonElement)
+  expect(button).toBeInstanceOf(HTMLButtonElement)
   expect(calls).toBe(1)
-  expect(fragment.textContent).toBe('Count: 1')
+  expect(button.title).toBe('save')
+  expect(button.textContent).toBe('Count: 1')
+  title.value = 'updated'
   count.value = 2
-  expect(fragment.textContent).toBe('Count: 2')
-  dispose(fragment.firstElementChild as HTMLButtonElement)
+  expect(button.title).toBe('updated')
+  expect(button.textContent).toBe('Count: 2')
+  expect(calls).toBe(1)
+  dispose(button)
   count.value = 3
-  expect(fragment.textContent).toBe('Count: 2')
+  title.value = 'disposed'
+  expect(button.textContent).toBe('Count: 2')
+  expect(button.title).toBe('updated')
 })
 
-it('mounts fragments and builds them as document fragments', () => {
-  const tree = (
+it('keeps reactive fragment ranges alive after insertion and cleans them on disposal', () => {
+  const count = shallowRef(1)
+  const release = vi.fn()
+  const fragment = (
     <>
-      <span>A</span>
-      <span>B</span>
+      <span ref={() => release}>A</span>
+      <>{count}</>
     </>
   )
-  const target = document.createElement('main')
-  const stop = mount(target, tree)
-  expect(target.textContent).toBe('AB')
-  stop()
-  expect(target.textContent).toBe('')
-  const fragment = build(tree)
+  const parent = <div>{fragment}</div>
   expect(fragment).toBeInstanceOf(DocumentFragment)
-  expect(fragment.textContent).toBe('AB')
-  for (const child of fragment.children) dispose(child as HTMLSpanElement)
+  expect(parent.textContent).toBe('A1')
+  count.value = 2
+  expect(parent.textContent).toBe('A2')
+  dispose(parent)
+  count.value = 3
+  expect(parent.textContent).toBe('A2')
+  expect(release).toHaveBeenCalledOnce()
+  const detached = <>{count}</>
+  dispose(detached)
+  count.value = 4
+  expect(detached.textContent).toBe('3')
 })
 
-it('renders native signal props and children', () => {
-  const title = shallowRef('save')
-  const button = build<'button'>(<button title={title}>{shallowRef(1)}</button>)
-  expect(button.title).toBe('save')
-  expect(button.textContent).toBe('1')
-  dispose(button)
+it('replaces consumed document fragments without retaining stale children', () => {
+  const content = shallowRef(
+    <>
+      <span>A</span>
+    </>,
+  )
+  const parent = <div>{content}</div>
+  expect(parent.textContent).toBe('A')
+  content.value = (
+    <>
+      <span>B</span>
+      <span>C</span>
+    </>
+  )
+  expect(parent.textContent).toBe('BC')
+  dispose(parent)
 })

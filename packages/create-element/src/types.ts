@@ -47,11 +47,14 @@ export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
 
-export type VNodeType = PrefixedElementTag | Component
+// JSX checks each component's actual props; this method signature accepts their
+// different prop shapes while still requiring a supported child return value.
+export type JSXComponent = { render(props: object): Child }['render']
+export type VNodeType = PrefixedElementTag | JSXComponent
 
-export interface VNode<Type extends VNodeType = VNodeType, Props extends object = object> {
+export interface VNode<Type extends VNodeType = VNodeType, Properties extends object = Props> {
   readonly type: Type
-  readonly props: Props
+  readonly props: Properties
   readonly key: string | number | null
 }
 
@@ -59,14 +62,15 @@ export type ElementVNode = VNode<PrefixedElementTag>
 
 export type ComponentVNode = VNode<Exclude<VNodeType, PrefixedElementTag>>
 
-export type VNodeChildValue = VNode | Node | string | number | null | undefined | VNodeChildren
+export type ChildValue = VNode | Node | string | number | null | undefined | Children
 
 // The array interface keeps recursive children lazy, including in the plain build.
-export interface VNodeChildren extends ReadonlyArray<VNodeChild> {}
+export interface Children extends ReadonlyArray<Child> {}
 
 // Source is replaced by a native generic type in each specialized build.
 // oxlint-disable-next-line typescript/no-redundant-type-constituents
-export type VNodeChild = VNodeChildValue | Source<VNodeChildValue>
+export type Child = ChildValue | Source<ChildValue>
+export type DOMComponent<Props extends object = object> = (props: Props) => Child
 
 // oxlint-disable-next-line typescript/no-redundant-type-constituents
 export type MaybeSource<Value> = Value | Source<Value>
@@ -83,12 +87,12 @@ type StyleValue =
     })
 type DataValue = Record<string, MaybeSource<string | boolean | null | undefined>>
 
-type ContentProps =
+type ContentProps<Child> =
   | {
       /**
        * Adds child nodes to the element. When this attribute is used, `innerHTML` must not be provided.
        */
-      children?: VNodeChild
+      children?: Child
       /**
        * Not compatible with `children`.
        */
@@ -121,7 +125,7 @@ type SpecialProps<Element extends DomElement> = {
   ref?: (element: Element) => void | (() => void)
 }
 
-export type VNodeProps<T extends PrefixedElementTag | DomElement> = Prettify<
+type ElementProperties<T extends PrefixedElementTag | DomElement> = Prettify<
   ReactiveAttributes<
     T extends PrefixedElementTag
       ? BaseElementAttributesTagNameMap[T]
@@ -130,14 +134,19 @@ export type VNodeProps<T extends PrefixedElementTag | DomElement> = Prettify<
     SpecialProps<
       T extends PrefixedElementTag ? ElementPrefixedTagNameMap[T] : Extract<T, DomElement>
     >
-> &
-  ContentProps
+>
+
+export type ElementProps<T extends PrefixedElementTag | DomElement> = ElementProperties<T> &
+  ContentProps<Child>
+export type ElementPropsMap = { [T in PrefixedElementTag]: ElementProps<T> }
+export type VNodeProps<T extends PrefixedElementTag | DomElement> = ElementProperties<T> &
+  ContentProps<Child>
 
 export type VNodePropsMap = {
   [T in PrefixedElementTag]: VNodeProps<T>
 }
 
-export type Component<Props extends object = object> = (props: Props) => VNodeChild
+export type Component<Props extends object = object> = (props: Props) => Child
 
 // Source is never only in the plain build.
 // oxlint-disable-next-line typescript/no-redundant-type-constituents

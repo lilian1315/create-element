@@ -7,7 +7,7 @@
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "@lilian1315/create-element/vue-reactivity",
+    "jsxImportSource": "@lilian1315/create-element/vue-reactivity/virtual",
 
     /* Bundler mode */
     "moduleResolution": "bundler",

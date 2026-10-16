@@ -3,29 +3,22 @@
 [![npm](https://img.shields.io/npm/v/@lilian1315/create-element)](https://npmx.dev/package/@lilian1315/create-element)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Describe HTML, SVG, and MathML trees with `createVNode` or JSX, then render them in the browser or on the server. Tree construction does not create DOM nodes, run components, or subscribe to signals.
+Create real HTML, SVG, and MathML nodes with typed properties, JSX, and optional native signals. The default API creates DOM immediately: no virtual tree, renderer, or `build` step is required.
 
-## Features
-
-- **Type-safe** — tag-aware props and refs, and DOM return types for direct `createVNode` roots
-- **HTML, SVG, and MathML** — namespace-aware prefixes (`svg:circle`, `math:mi`)
-- **JSX** — use JSX syntax via the standard `react-jsx` transform
-- **DOM and SSR** — render the same tree descriptions in the browser or on the server
-- **Optional native reactivity** — integrations for alien-signals, alien-deepsignals, faisceau, Preact Signals, and Vue Reactivity
+Deferred trees and server rendering are available separately under `/virtual`.
 
 ## Contents
 
 - [Quick start](#quick-start)
-- [Browser](#browser)
 - [JSX and components](#jsx-and-components)
 - [Signal integrations](#signal-integrations)
 - [DOM lifecycle](#dom-lifecycle)
 - [Props and refs](#props-and-refs)
-- [Reactive children and keyed lists](#reactive-children-and-keyed-lists)
+- [Virtual trees](#virtual-trees)
 - [Server rendering](#server-rendering)
 - [Public types](#public-types)
 - [Entrypoints and specialization](#entrypoints-and-specialization)
-- [Troubleshooting](#troubleshooting)
+- [Migration](#migration)
 - [Packages](#packages)
 - [Development](#development)
 
@@ -36,109 +29,86 @@ pnpm add @lilian1315/create-element
 ```
 
 ```ts
-import { createVNode } from '@lilian1315/create-element'
-import { mount } from '@lilian1315/create-element/dom'
+import { createElement, dispose } from '@lilian1315/create-element'
 
-const unmount = mount(
-  document.body,
-  createVNode('div', {
-    class: 'container',
-    children: [
-      createVNode('h1', { children: 'Hello World!' }),
-      createVNode('button', { onclick: () => alert('Clicked!'), children: 'Click me' }),
-    ],
-  }),
-)
+const button = createElement('button', {
+  class: 'primary',
+  children: 'Save',
+  onclick: () => console.log('Saved'),
+})
 
-// Later: unmount()
+document.body.append(button)
+
+// Later: stop managed listeners/effects, then remove the node.
+dispose(button)
+button.remove()
 ```
 
-`createVNode` describes a tree; `mount` renders it into a container, replacing its existing content. Here, `unmount()` removes the rendered content and its managed click listener, leaving the container in place. No signal library is required. With a signal integration, unmounting also stops reactive subscriptions.
+`button` is an `HTMLButtonElement`. Props, children, event listeners, and refs are initialized before `createElement` returns. Insertion and removal use ordinary DOM methods. No signal library is required.
 
-The base entry works without a signal library. To use a reactive integration, also install its optional peer dependency; for the examples below:
-
-```bash
-pnpm add @preact/signals-core
-```
-
-## Browser
-
-```tsx
-/** @jsxImportSource @lilian1315/create-element/preact-signals */
-
-import { mount } from '@lilian1315/create-element/preact-signals/dom'
-import { signal } from '@preact/signals-core'
-
-const count = signal(0)
-const unmount = mount(
-  document.body,
-  <button
-    class={{ counter: true }}
-    style={{ color: 'red' }}
-    data={{ testId: 'counter' }}
-    onclick={() => count.value++}
-  >
-    Count: {count}
-  </button>,
-)
-
-// When you no longer need the button:
-// unmount()
-```
-
-Pass the signal itself (`count`), not its current value (`count.value`), to keep the child reactive. `unmount()` stops updates, removes the managed listener, and removes the mounted content.
-
-### Creating a detached element with `build`
-
-Use `mount` for rendering into a container with a single cleanup function. Use `build` when you need a detached DOM element and want to manage insertion and removal yourself.
-
-`build(createVNode('button', { children: 'Save' }))` infers `HTMLButtonElement`. JSX erases its intrinsic tag from the expression type, so use `build<'button'>(<button />)` when you need that precise return type. The generic does not perform a runtime check. The Oxlint rule verifies inline intrinsic JSX roots and simple `const` references or aliases, including SVG and MathML tags. It rejects explicit tag generics when the root cannot be verified, such as parameters, function results, and user components; omit the generic in those cases.
-
-`build` accepts one `createVNode`/JSX description. An intrinsic root returns a detached live DOM element; a component or Fragment root returns a `DocumentFragment`. Appending that fragment moves its children into the target. Prefer `mount` for component or Fragment roots so that you have one cleanup function for the entire rendered range. Reserve explicit tag generics such as `build<'button'>` for matching intrinsic roots.
-
-`createVNode` accepts intrinsic tag names only. Call reusable functions directly, such as `Counter({ count: 1 })`, or use `<Counter count={1} />` in JSX to defer their execution until rendering.
-
-`createVNode` accepts children only in `props.children`:
-
-```ts
-import { createVNode } from '@lilian1315/create-element'
-import { build } from '@lilian1315/create-element/dom'
-
-const button = build(createVNode('button', { children: ['Save ', 1] }))
-```
-
-Children may contain text, numbers, empty values, nested arrays, tree descriptions, native signals for the selected integration, and existing DOM nodes. Existing nodes retain their identity and move when inserted. Prefix nested SVG and MathML tags with `svg:` and `math:`; the root `svg` and `math` tags need no prefix.
+Children may be DOM nodes, VNodes, strings, numbers, `null`, `undefined`, or nested arrays of these values. Reactive integrations also accept their native sources. A DOM node keeps its identity when inserted; a VNode is materialized by the shared DOM engine.
 
 ## JSX and components
 
-Configure TypeScript's automatic JSX transform, and put JSX in `.tsx` files:
+Configure TypeScript and write JSX in `.tsx` files:
 
 ```json
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@lilian1315/create-element/preact-signals"
+    "jsxImportSource": "@lilian1315/create-element"
   }
 }
 ```
 
-For non-reactive JSX, use `@lilian1315/create-element` instead. A per-file `@jsxImportSource` comment, as in the browser example, overrides this setting.
-
-Components are functions that return children. JSX defers calling them until rendering:
-
 ```tsx
-import type { Component } from '@lilian1315/create-element/preact-signals'
-import { mount } from '@lilian1315/create-element/preact-signals/dom'
+import { dispose } from '@lilian1315/create-element'
 
-const Greeting: Component<{ name: string }> = ({ name }) => <p>Hello, {name}!</p>
+const button = <button onclick={() => console.log('Saved')}>Save</button>
+document.body.append(button)
 
-const unmount = mount(document.body, <Greeting name="Ada" />)
-// Later: unmount()
+// Later: dispose(button)
 ```
 
-There is no React component lifecycle or automatic tracking of reads in a component body. Pass native sources into props or children for updates, and use a computed source for derived trees. Components can return arrays or Fragments for multiple siblings. For conditional children, use `condition ? <p>Ready</p> : null` rather than `condition && <p>Ready</p>`: booleans are not part of the public child type.
+Default JSX returns a DOM `Node`, not a VNode. Intrinsic tags create their corresponding DOM elements. `createElement('button', props)` gives a precise `HTMLButtonElement` return type when needed; JSX expressions have the shared `Node` type. The optional [Oxlint plugin](packages/oxlint-plugin) checks direct assertions such as `<button /> as HTMLButtonElement` against the intrinsic tag.
 
-Namespaces are explicit, even inside a namespaced parent:
+Components execute immediately, once per JSX call, with all their props:
+
+```tsx
+import type { Child, Component } from '@lilian1315/create-element'
+
+const Panel: Component<{ title: string; children?: Child }> = ({ title, children }) => (
+  <section>
+    <h2>{title}</h2>
+    {children}
+  </section>
+)
+
+const panel = (
+  <Panel title="Welcome">
+    <p>Ready.</p>
+  </Panel>
+)
+document.body.append(panel)
+```
+
+A component can return DOM nodes, VNodes, text, arrays, empty values, or supported native sources. Non-node results are materialized as a `DocumentFragment`. Component bodies are not automatically rerun when a signal changes; pass sources into props and children for live updates.
+
+Fragments also create real `DocumentFragment` objects:
+
+```tsx
+const children = (
+  <>
+    <span>A</span>
+    <span>B</span>
+  </>
+)
+const parent = <div>{children}</div>
+```
+
+Inserting a fragment consumes it, just like native DOM insertion. Its children retain their bindings in their new parent. Use the parent for later disposal, or dispose an uninserted fragment directly. A fragment is not a reusable virtual description.
+
+SVG and MathML use explicit namespaces, including inside a namespaced parent:
 
 ```tsx
 const icon = (
@@ -153,9 +123,11 @@ const formula = (
 )
 ```
 
+Bare `svg` and `math` roots are supported; other namespaced tags require `svg:` or `math:` prefixes. For conditional children, use `condition ? <p>Ready</p> : null`; booleans are not supported children.
+
 ## Signal integrations
 
-Choose the entry matching your native source type:
+Choose the entry matching your source library and install its optional peer dependency:
 
 | Entry suffix         | Install alongside this package | Accepted sources              |
 | -------------------- | ------------------------------ | ----------------------------- |
@@ -166,109 +138,122 @@ Choose the entry matching your native source type:
 | `/preact-signals`    | `@preact/signals-core`         | Signals and computed signals  |
 | `/vue-reactivity`    | `@vue/reactivity`              | Refs, including computed refs |
 
-Use that suffix consistently in your `createVNode`/type imports, DOM or server imports, and `jsxImportSource`. Integrations recognize their own native sources, not arbitrary callbacks or another library's signals. There is no runtime adapter registration.
+```tsx
+/** @jsxImportSource @lilian1315/create-element/preact-signals */
 
-Pass sources directly to keep a binding live. Reading a source before passing it produces a snapshot:
-
-```ts
-import { createVNode } from '@lilian1315/create-element/preact-signals'
-import { build } from '@lilian1315/create-element/preact-signals/dom'
+import { dispose } from '@lilian1315/create-element/preact-signals'
 import { computed, signal } from '@preact/signals-core'
 
 const count = signal(0)
 const label = computed(() => `Count: ${count.value}`)
-const button = build(
-  createVNode('button', {
-    title: label,
-    onclick: () => count.value++,
-    children: count,
-  }),
+const button = (
+  <button title={label} onclick={() => count.value++}>
+    {count}
+  </button>
 )
+document.body.append(button)
+
+// Later: dispose(button) stops the subscriptions and managed listener.
 ```
+
+Set `jsxImportSource` to the same integration path, or use a per-file pragma as above. Pass sources themselves, not pre-read values: `children: count` stays live, while `children: count.value` is a snapshot. Integrations recognize their own native sources, not arbitrary callbacks or another library's signals. There is no runtime adapter registration.
+
+For computed, keyed tree reconciliation rather than immediate node creation, use the integration's [virtual entry](#virtual-trees).
 
 ## DOM lifecycle
 
-| Operation                   | Result                                                            |
-| --------------------------- | ----------------------------------------------------------------- |
-| `build(tree)`               | Detached element or fragment with effects and listeners installed |
-| `createElement(tag, props)` | Creates a detached element and binds supplied props immediately   |
-| `bind(element, props)`      | Applies supplied props and returns a cleanup function             |
-| `dispose(element)`          | Stops resources managed on the element and its current subtree    |
-| `mount(target, tree)`       | Replaces target content and returns a cleanup for that mount      |
+| Operation                    | Result                                                          |
+| ---------------------------- | --------------------------------------------------------------- |
+| `createElement(tag, props?)` | Creates a detached element and binds supplied props immediately |
+| `bind(element, props)`       | Initializes an existing unbound element; returns cleanup        |
+| `dispose(node)`              | Stops managed resources on the node and its current subtree     |
 
-`dispose` is idempotent and leaves the element in the DOM. Native `element.remove()` does not dispose it. A `bind` cleanup stops its effects and listeners, leaving the last DOM values in place. Each element has one active binding, whether installed by `build`, `mount`, `bind`, or `createElement` with props. Calling `bind` on an already managed element throws before mutation; call `dispose(element)` or its binding cleanup before binding it again. A shared symbol enforces this rule across integrations. A stale mount cleanup cannot remove a newer mount on the same target.
-
-### Mounting into a container
+`dispose` is idempotent and leaves nodes in place. Native DOM removal does not stop effects or managed listeners. Dispose before removing a managed subtree, or keep the cleanup returned by `bind`:
 
 ```ts
-import { createVNode } from '@lilian1315/create-element'
-import { mount } from '@lilian1315/create-element/dom'
-
-const target = document.createElement('main')
-document.body.append(target)
-const unmount = mount(target, [
-  createVNode('h1', { children: 'Welcome' }),
-  createVNode('p', { children: 'Multiple roots are supported here.' }),
-])
-
-// Later: unmount() removes the mounted range and releases its resources.
-// The target itself remains in the document.
-```
-
-`mount` also accepts text, empty children, Fragments, and native child sources from the selected integration. It replaces existing content; it does not hydrate server-rendered HTML.
-
-### Binding an existing element
-
-Use `bind` to initialize an existing, unbound element:
-
-```ts
-import { bind } from '@lilian1315/create-element/preact-signals/dom'
-import { signal } from '@preact/signals-core'
+import { bind } from '@lilian1315/create-element/vue-reactivity'
+import { shallowRef } from '@vue/reactivity'
 
 const input = document.createElement('input')
-const value = signal('initial')
-const stop = bind(input, { value, oninput: () => (value.value = input.value) })
-// Later: stop() leaves the last value and removes the managed listener.
+const value = shallowRef('initial')
+const stop = bind(input, {
+  value,
+  oninput: () => {
+    value.value = input.value
+  },
+})
+
+// Later: stop() removes subscriptions/listeners but leaves the last DOM values.
 ```
 
-Manually moving a managed child to another parent does not transfer ownership. When its former render tree removes or disposes it, its effects, listeners, and refs are cleaned up even though the DOM node remains in its new parent.
+One active binding owns an element, including bindings installed by `createElement` with props, JSX, and virtual rendering. Binding an already managed element throws before mutation; dispose it or run its previous cleanup first. Ownership is shared across integrations. `createElement('div')` without props creates an unbound element.
 
-`bind` leaves absent props and existing children untouched. Passing `children` or `innerHTML` replaces all old children and cleans library resources in the removed subtree. Explicit `children: null` or `children: undefined` empties the element, as does `innerHTML: ''`. `children` and `innerHTML` are mutually exclusive; using both throws before mutation. Treat `innerHTML` as trusted or sanitize it before passing it to the renderer.
+`bind` preserves absent props and existing children. Supplying `children` or `innerHTML` replaces the old content and cleans managed resources in the removed subtree. Explicit empty children clear the element. Moving a managed child does not transfer ownership: its former binding may clean its resources later, while leaving the node in its new parent.
 
 ## Props and refs
 
-Props use writable DOM property names, such as `htmlFor`, `tabIndex`, `value`, and `checked`. Use `class` rather than `className`, and lowercase event props such as `onclick` and `oninput` rather than React-style `onClick`. Events are native DOM events, not synthetic events.
+Props use writable DOM property names such as `htmlFor`, `tabIndex`, `value`, and `checked`. Use `class`, lowercase native event names such as `onclick`, and native DOM events rather than React-style props or synthetic events.
 
-`class` accepts a string, string array, or object of booleans. Strings and arrays replace the class list; objects update their named classes. `style` accepts a string or property object; a string replaces the inline style, while an object updates its named properties. `data` updates named dataset entries: strings set values, `true` sets an empty attribute, and `false`, `null`, and `undefined` remove entries. Values and object members may be native signals. When a reactive object loses a key, its previously managed contribution is removed. Cleanup leaves the last applied DOM state.
+- `class`: string, string array, or object of booleans. Objects update named classes; strings and arrays replace the class list.
+- `style`: CSS string or property object, including custom properties such as `'--accent'`. Objects update named styles.
+- `data`: dataset entries. Strings set values, `true` sets an empty attribute, and `false`, `null`, or `undefined` remove entries.
+- `ref`: receives the initialized element synchronously and may return a cleanup function. Cleanup runs once when its binding is disposed.
 
-`ref` is a tag typed callback that receives the initialized element synchronously, even when it is detached. It may return a cleanup function, which runs once on binding cleanup, `dispose`, or removal by the renderer. Replacing an element's children does not clean that element's own ref. Refs are not called during SSR. User components must pass a received ref to an intrinsic element themselves.
+Integrations support native sources in properties and structured values. Cleanup leaves the last DOM values in place. `children` and `innerHTML` are mutually exclusive; sanitize untrusted HTML before assigning it.
 
 ```ts
-import { createVNode } from '@lilian1315/create-element'
-import { build, dispose } from '@lilian1315/create-element/dom'
+import { createElement, dispose } from '@lilian1315/create-element'
 
-const panel = build(
-  createVNode('section', {
-    ref: (element) => {
-      const observer = new ResizeObserver(() => {
-        console.log(element.getBoundingClientRect().width)
-      })
-      observer.observe(element)
-      return () => observer.disconnect()
-    },
-  }),
-)
+const panel = createElement('section', {
+  ref: (element) => {
+    const observer = new ResizeObserver(() => console.log(element.clientWidth))
+    observer.observe(element)
+    return () => observer.disconnect()
+  },
+})
+
 document.body.append(panel)
-// Later: dispose(panel) disconnects the observer; panel.remove() removes the node.
+// Later: dispose(panel) disconnects the observer.
 ```
 
-## Reactive children and keyed lists
+## Virtual trees
 
-Reactive children reconcile with their previous tree. Matching elements update in place, and unchanged signal bindings and refs stay active. Unkeyed children match by position and type. For lists that reorder, insert, or remove items, give each sibling a stable, unique string or number `key`, such as `createVNode('li', { key: item.id, children: item.label })`. A matching key and type preserve the DOM node across moves; changing either replaces it. Keys are local to siblings and are never rendered as attributes. Keyed components and fragments preserve their entire DOM range. Reorders use native `moveBefore` when available and applicable, preserving browser state such as focus, and otherwise fall back to `insertBefore`. Calling `mount` again still replaces the target's content.
+Opt into deferred descriptions through `/virtual`. Constructing a VNode does not create DOM, execute components, or subscribe to sources.
+
+The DOM and virtual APIs interoperate: immediate JSX, `createElement`, and `bind` accept VNode children, while virtual DOM rendering accepts existing DOM nodes without cloning them. Mixing representations uses the same binding, reconciliation, and cleanup engine. Only SSR rejects real DOM nodes.
+
+```tsx
+/** @jsxImportSource @lilian1315/create-element/virtual */
+
+import { dispose } from '@lilian1315/create-element'
+import { createVNode } from '@lilian1315/create-element/virtual'
+import { build, mount } from '@lilian1315/create-element/virtual/dom'
+
+const tree = createVNode('button', { children: 'Save' })
+const button = build(tree) // HTMLButtonElement
+document.body.append(button)
+
+const stop = mount(
+  document.body,
+  <main>
+    <p>Welcome</p>
+  </main>,
+)
+// Later: stop() removes the mounted range and releases its resources.
+// Or: dispose(button) stops resources on an independently built node.
+```
+
+`build` materializes an intrinsic root as a DOM element and a component/Fragment root as a `DocumentFragment`. Virtual JSX erases its tag from the expression type; `build<'button'>(<button />)` restores a precise DOM type. The generic performs no runtime validation. The Oxlint plugin verifies literal intrinsic roots and simple `const` aliases; it rejects unverifiable explicit tags, including component and fragment roots. Omit the generic when the root is unknown.
+
+`mount` replaces a target's contents and returns one cleanup for the mounted range. A stale cleanup cannot remove a newer mount. It accepts virtual descriptions, nodes, text, arrays, empty values, and supported native sources. It does not hydrate server HTML.
+
+Virtual `createVNode` accepts intrinsic tag names and children in `props.children`. Virtual components execute during rendering; use JSX to describe them. Import virtual `Component` and shared `Child` types from the matching `/virtual` entry.
+
+For reactive lists, use a computed source of VNodes and stable sibling-local keys:
 
 ```ts
-import { createVNode } from '@lilian1315/create-element/preact-signals'
-import { build } from '@lilian1315/create-element/preact-signals/dom'
+import { createVNode } from '@lilian1315/create-element/preact-signals/virtual'
+import { mount } from '@lilian1315/create-element/preact-signals/virtual/dom'
 import { computed, signal } from '@preact/signals-core'
 
 const items = signal([
@@ -278,85 +263,80 @@ const items = signal([
 const rows = computed(() =>
   items.value.map((item) => createVNode('li', { key: item.id, children: item.label })),
 )
-const list = build(createVNode('ul', { children: rows }))
-document.body.append(list)
-
-items.value = [...items.value].reverse() // Reuses the existing <li> nodes.
-// Later: dispose(list) from the same /dom entry, then list.remove().
+const stop = mount(document.body, createVNode('ul', { children: rows }))
+items.value = [...items.value].reverse()
+// Later: stop()
 ```
 
-Use item identities for keys, not array indices when items can move. Returning a new tree from a computed source lets the renderer reconcile it; repeatedly calling `mount` replaces the whole mount instead.
+Matching keys and types preserve nodes across updates; unkeyed children match by position and type. Keys describe virtual reconciliation, not default DOM JSX identity. Repeated `mount` calls replace the mount rather than patching it.
 
 ## Server rendering
 
-```ts
-import { createVNode } from '@lilian1315/create-element/vue-reactivity'
-import { renderToString } from '@lilian1315/create-element/vue-reactivity/server'
+SSR is part of the virtual API and runs without a DOM implementation:
 
-const html = renderToString(createVNode('p', { children: 'Hello' }))
-// '<p>Hello</p>'
+```tsx
+/** @jsxImportSource @lilian1315/create-element/vue-reactivity/virtual */
+
+import { renderToString } from '@lilian1315/create-element/vue-reactivity/virtual/server'
+import { shallowRef } from '@vue/reactivity'
+
+const count = shallowRef(5)
+const html = renderToString(<output>Count: {count}</output>)
+// '<output>Count: 5</output>'
 ```
 
-The server renderer does not need `document` and runs the entire render untracked, including native signal reads inside components. It restores the caller's tracking state even if rendering throws. It escapes text and attributes, preserves namespace and form rules, and throws if it encounters a real DOM node. `innerHTML` is serialized as supplied. There is no public hydration API yet.
-
-Use the base `/server` entry for plain trees or the matching integration's `/server` entry for native sources. Rendering is synchronous: it reads the current source values without installing subscriptions. Event listeners and ref callbacks are not serialized. To share a tree between browser and server, avoid existing DOM nodes and keep browser-only work inside refs or event handlers.
+Use the base `/virtual/server` entry for plain trees. Rendering is synchronous and untracked: it reads current native source values without installing subscriptions. Text and attributes are escaped; event listeners and refs are omitted. Real DOM nodes are rejected. `innerHTML` is serialized as supplied. There is no public hydration API.
 
 ## Public types
 
-Each base or integration entry exports `Component<Props>`, `VNodeProps<TagOrElement>`, `VNodePropsMap`, `VNodeChild`, `VNodeChildValue`, `VNodeChildren`, `MaybeSource<Value>`, `VNode`, `DomElement`, `PrefixedElementTag`, `ElementPrefixedTagNameMap`. These types use the native source type of that entry. Signal payloads must match their prop or child values; `Signal<unknown>` does not bypass these checks.
+The root and integration entries export `ElementProps<TagOrElement>`, `ElementPropsMap`, `Component<Props>`, `Child`, `ChildValue`, `Children`, `MaybeSource<Value>`, `DomElement`, `PrefixedElementTag`, and `ElementPrefixedTagNameMap`.
 
-`bind` shares `VNodeProps` with `createVNode`, `createElement`, and JSX. `VNodeProps` accepts a tag name or native element type, such as `VNodeProps<'input'>` or `VNodeProps<HTMLInputElement>`. Native elements and subclasses use the generated `WritableDOMType` mapping; refs retain the exact received element type. Custom subclass properties are excluded. Mapping uses TypeScript's structural element types, so structurally identical interfaces cannot be distinguished.
+`ElementProps` powers both `createElement` and `bind`; refs infer the specific element type. Binding a native element or subclass uses the generated `WritableDOMType` mapping, excluding readonly properties, methods, and custom subclass properties. Mapping follows TypeScript's structural typing.
 
-`VNodeChildValue` describes a value rendered by a child source, including arrays whose members may themselves be sources. Use it when a signal can switch between different kinds of children:
-
-```ts
-import { createVNode, type VNodeChildValue } from '@lilian1315/create-element/preact-signals'
-import { signal } from '@preact/signals-core'
-
-const content = signal<VNodeChildValue>(createVNode('span', { children: 'Ready' }))
-content.value = [createVNode('button', { children: 'Continue' }), ' or cancel']
-```
+The corresponding `/virtual` entry exports `VNode`, `VNodeProps<TagOrElement>`, `VNodePropsMap`, and the virtual `Component<Props>` type, plus shared child, element, and source types. `Child`, `ChildValue`, and `Children` are the same types in both APIs. Native source payloads are checked in both APIs; unknown payloads cannot bypass prop or child constraints.
 
 ## Entrypoints and specialization
 
-The base package and each of `alien-signals`, `alien-deepsignals`, `faisceau`, `preact-signals`, and `vue-reactivity` expose the same paths:
+Each base or integration entry exposes this structure:
 
-| Path                                       | Exports                                              |
-| ------------------------------------------ | ---------------------------------------------------- |
-| `@lilian1315/create-element[/integration]` | `createVNode`                                        |
-| `…/dom`                                    | `build`, `createElement`, `bind`, `dispose`, `mount` |
-| `…/server`                                 | `renderToString`                                     |
-| `…/jsx-runtime`, `…/jsx-dev-runtime`       | JSX compiler entries                                 |
+| Path                                                 | Runtime exports                    |
+| ---------------------------------------------------- | ---------------------------------- |
+| `@lilian1315/create-element[/integration]`           | `createElement`, `bind`, `dispose` |
+| `…/jsx-runtime`, `…/jsx-dev-runtime`                 | Immediate DOM JSX                  |
+| `…/virtual`                                          | `createVNode`                      |
+| `…/virtual/dom`                                      | `build`, `mount`                   |
+| `…/virtual/server`                                   | `renderToString`                   |
+| `…/virtual/jsx-runtime`, `…/virtual/jsx-dev-runtime` | Deferred JSX                       |
 
-Import `build` from `…/dom` (previously exported from the base or integration entry). The root entry only describes trees and has no DOM renderer dependency.
+Set `jsxImportSource` to the root/integration path for DOM JSX, or append `/virtual` for deferred JSX. Keep the same native integration throughout a tree. The virtual server entry can be imported and used without `document`; calling the default DOM factories requires a DOM implementation.
 
-The public entry inventory in `packages/create-element/scripts/entries.ts` drives the build and the npm export map. The build updates the core package's `package.json` with `packages/create-element/scripts/generate-exports.ts`.
+JSX runtime functions are compiler targets, not a hand-written creation API. Use TSX or `createElement`/`createVNode` directly; the runtime's `JSX` namespace defines consumer-facing JSX types and validation.
 
-Set `jsxImportSource` to the base path or the integration path in `tsconfig.json`. Each integration uses its own native source detector, reader, effect, and untracked reader.
+Following [Formisch's build-time specialization](https://formisch.dev/blog/one-core-six-frameworks/), the integrations share binding and reconciliation code. `packages/create-element/scripts/specialize-reactivity.ts` selects native primitives and source declarations at build time. `packages/create-element/scripts/entries.ts` defines the npm exports; the build updates the manifest. npm publishes specialized JavaScript and matching declarations from `dist/`.
 
-Following [Formisch's build-time specialization](https://formisch.dev/blog/one-core-six-frameworks/), the JSX, DOM, and SSR entries have one source implementation. `vp pack` compiles those entries for the base package and each integration. The plugin in `packages/create-element/scripts/specialize-reactivity.ts` redirects imports of `reactivity-ops/index.ts` to `reactivity-ops/<integration>.ts`, including the `Source` type in the emitted declarations. There is no runtime engine selector and no generated copy of the renderers in `src/`.
+## Migration
 
-npm publishes the specialized JavaScript files and matching declarations in `dist/`. See [Development](#development) for build, test, and watch tasks.
+This is a breaking entrypoint and JSX change:
 
-## Troubleshooting
+| Previous usage                                       | DOM-first usage                                                                |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Root `createVNode`                                   | Import it from `/virtual`                                                      |
+| `/dom` imports of `createElement`, `bind`, `dispose` | Import from the root                                                           |
+| `/dom` imports of `build`, `mount`                   | Import from `/virtual/dom`                                                     |
+| `/server`                                            | `/virtual/server`                                                              |
+| Default JSX used as VNodes                           | Set `jsxImportSource` to the matching `/virtual` path                          |
+| Default JSX followed by `build`                      | Append the DOM node directly, or opt into virtual JSX                          |
+| Root virtual prop and child types                    | Use `ElementProps` and shared `Child`, or virtual `VNodeProps` from `/virtual` |
 
-| Symptom                                       | What to check                                                                                                                                                                                          |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `build` is not exported from the root         | Import it from `@lilian1315/create-element/dom` or the selected integration's `/dom` entry.                                                                                                            |
-| A signal renders once but does not update     | Pass the source itself, not a pre-read value. Check that JSX and renderer imports use the matching integration.                                                                                        |
-| `bind` reports an active binding              | `build` already binds its result. Dispose it or run the previous binding cleanup before rebinding.                                                                                                     |
-| Updates continue after removing a node        | Native DOM removal does not stop effects. Call `dispose` before removal, or use the cleanup returned by `mount`.                                                                                       |
-| JSX has an imprecise DOM return type          | Use `build<'input'>(<input />)` for a literal intrinsic root. The optional [Oxlint plugin](https://github.com/lilian1315/create-element/tree/main/packages/oxlint-plugin) checks that the tag matches. |
-| A conditional child is rejected by TypeScript | Return `null` for the empty branch instead of `false`.                                                                                                                                                 |
-| SSR throws on a child                         | Real DOM nodes are browser-only; use tree descriptions for shared content.                                                                                                                             |
+The same changes apply beneath each integration suffix. `/dom` and `/server` are no longer public entrypoints.
 
 ## Packages
 
-| Package                                                                                                                                                | Description                                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
-| [`@lilian1315/create-element`](https://github.com/lilian1315/create-element/tree/main/packages/create-element)                                         | Tree descriptions, DOM rendering, SSR, JSX, and signal integrations |
-| [`@lilian1315/elements-writable-properties-types`](https://github.com/lilian1315/create-element/tree/main/packages/elements-writable-properties-types) | Auto-generated TypeScript types for writable DOM element properties |
-| [`@lilian1315/oxlint-plugin-create-element`](https://github.com/lilian1315/create-element/tree/main/packages/oxlint-plugin)                            | Checks explicit DOM types on JSX roots                              |
+| Package                                                                                         | Purpose                                                           |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [`@lilian1315/create-element`](packages/create-element)                                         | DOM creation, JSX, native signals, and optional virtual rendering |
+| [`@lilian1315/elements-writable-properties-types`](packages/elements-writable-properties-types) | Generated writable DOM types and tag maps; separately published   |
+| [`@lilian1315/oxlint-plugin-create-element`](packages/oxlint-plugin)                            | Checks intrinsic DOM assertions and explicit virtual build tags   |
 
 ## Development
 
@@ -367,25 +347,21 @@ vpr test
 vpr check
 ```
 
-The workspace uses [Vite+](https://viteplus.dev/). Project commands are Vite tasks defined in the root and package `vite.config.ts` files. Run them with `vpr` (short for `vp run`); built-in commands such as `vp build` and `vp test` do not run these tasks. The `prepare` lifecycle script remains in `package.json` to configure commit hooks during installation.
+Project commands are [Vite+](https://viteplus.dev/) tasks in root/package `vite.config.ts` files. Use `vpr` (`vp run`), rather than the similarly named built-in `vp build` or `vp test`. The installation lifecycle `prepare` script stays in `package.json` to configure commit hooks.
 
-`vpr test` handles required builds through task dependencies; there is no separate build step before testing. It includes core browser tests in Playwright Chromium, type tests against built entries, package-export checks in Node, generated DOM type tests, and plugin rule tests using Oxlint's `RuleTester`. `vpr check` runs formatting, linting, and type checks; `vpr fix` applies formatting and lint fixes.
-
-Use `vpr build` when you need build artifacts without running tests. It builds only library packages in dependency order, excluding examples. Core and plugin build tasks also declare their dependency builds, so targeted builds regenerate the writable-property types first.
-
-For focused runs, pass arguments through the package's task:
+Test tasks perform their required builds. `vpr test` runs DOM and virtual browser/type tests, Node export checks, generated DOM type tests, and plugin `RuleTester` cases. `vpr check` verifies formatting, lint, and types; `vpr fix` applies fixes. `vpr build` produces library artifacts without tests and excludes examples.
 
 ```bash
-vpr --filter @lilian1315/create-element test --project browser tests/api.spec.ts
+vpr --filter @lilian1315/create-element test --project browser tests/jsx/plain.spec.tsx
 vpr --filter @lilian1315/create-element test --project exports
 vpr --filter @lilian1315/create-element dev
 vpr --filter @lilian1315/create-element coverage
 vpr --filter @lilian1315/oxlint-plugin-create-element test
 ```
 
-The core `test` and `coverage` tasks build first. Its `dev` task runs the packager in watch mode. Release tasks are `vpr release:core`, `vpr release:plugin`, and `vpr release:types`; they run their declared checks before bumping and tagging with `bumpp`. Publishing runs through `.github/workflows/publish.yml` when a package's release tag is pushed.
+Package build tasks include dependency builds, so targeted builds regenerate writable-property types first. Release tasks are `vpr release:core`, `vpr release:plugin`, and `vpr release:types`; their checks precede `bumpp`. Publishing runs through `.github/workflows/publish.yml` when a package tag is pushed.
 
-The root `README.md` is the documentation source of truth. `packages/create-element/README.md` is a tracked symlink to `../../README.md`. GitHub stores it as a link rather than a separate rendered Markdown file. Because npm omits symlinks, the publish workflow replaces the link with an identical regular file before publishing to npm. For local packing, materialize the README in a temporary package copy rather than replacing the tracked symlink.
+This root README is the documentation source of truth. `packages/create-element/README.md` is a tracked symlink to it. npm omits symlinks, so CI materializes an identical regular file in the package before publishing. For local packing, materialize the README in a temporary package copy rather than replacing the tracked symlink.
 
 ## License
 

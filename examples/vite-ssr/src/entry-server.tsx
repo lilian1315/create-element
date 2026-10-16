@@ -1,5 +1,5 @@
 import './entry-server?assets=ssr'
-import { renderToString } from '@lilian1315/create-element/vue-reactivity/server'
+import { renderToString } from '@lilian1315/create-element/vue-reactivity/virtual/server'
 
 import heroImg from './assets/hero.png'
 import typescriptLogo from './assets/typescript.svg'

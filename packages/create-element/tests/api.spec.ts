@@ -1,9 +1,9 @@
-import { createVNode as h } from '@lilian1315/create-element'
-import { build } from '@lilian1315/create-element/dom'
-import { bind, dispose, mount } from '@lilian1315/create-element/dom'
-import { Fragment, jsx } from '@lilian1315/create-element/jsx-runtime'
-import { renderToString } from '@lilian1315/create-element/server'
-import { describe, expect, it, vi } from 'vite-plus/test'
+import { bind, createElement, dispose } from '@lilian1315/create-element'
+import { createVNode as h } from '@lilian1315/create-element/virtual'
+import { build, mount } from '@lilian1315/create-element/virtual/dom'
+import { Fragment, jsx } from '@lilian1315/create-element/virtual/jsx-runtime'
+import { renderToString } from '@lilian1315/create-element/virtual/server'
+import { assert, describe, expect, it, vi } from 'vite-plus/test'
 
 describe('deferred tree API', () => {
   it('does not create DOM or execute components until rendering', () => {
@@ -75,7 +75,7 @@ describe('deferred tree API', () => {
     const cleanup = vi.fn()
     const target = document.createElement('section')
     target.append(build(h('span', { ref: () => cleanup, children: 'old' })))
-    const stop = bind(target, { children: h('strong', { children: 'new' }) })
+    const stop = bind(target, { children: createElement('strong', { children: 'new' }) })
     expect(target.innerHTML).toBe('<strong>new</strong>')
     expect(cleanup).toHaveBeenCalledOnce()
     stop()
@@ -134,7 +134,8 @@ describe('deferred tree API', () => {
     const dom = build(tree)
     const parsed = document.createElement('div')
     parsed.innerHTML = renderToString(tree)
-    const fromServer = parsed.firstElementChild as HTMLDivElement
+    const fromServer = parsed.firstElementChild
+    assert.instanceOf(fromServer, HTMLDivElement)
     for (const name of ['enabled', 'disabled', 'name', 'count']) {
       expect(fromServer.getAttribute(`data-${name}`)).toBe(dom.getAttribute(`data-${name}`))
     }
@@ -153,19 +154,23 @@ describe('deferred tree API', () => {
     const html = renderToString(tree)
     expect(html).toContain('<option value="b" selected>B</option>')
     parsed.innerHTML = html
-    const fromServer = parsed.firstElementChild as HTMLSelectElement
+    const fromServer = parsed.firstElementChild
+    assert.instanceOf(fromServer, HTMLSelectElement)
     expect(direct.value).toBe(fromServer.value)
     expect(direct.selectedIndex).toBe(fromServer.selectedIndex)
 
     const textarea = h('textarea', { value: 'A & B' })
     const directTextarea = build(textarea)
     parsed.innerHTML = renderToString(textarea)
-    expect(directTextarea.value).toBe((parsed.firstElementChild as HTMLTextAreaElement).value)
+    const fromServerTextarea = parsed.firstElementChild
+    assert.instanceOf(fromServerTextarea, HTMLTextAreaElement)
+    expect(directTextarea.value).toBe(fromServerTextarea.value)
 
     const checkbox = h('input', { type: 'checkbox', checked: true, disabled: true })
     const directCheckbox = build(checkbox)
     parsed.innerHTML = renderToString(checkbox)
-    const fromServerCheckbox = parsed.firstElementChild as HTMLInputElement
+    const fromServerCheckbox = parsed.firstElementChild
+    assert.instanceOf(fromServerCheckbox, HTMLInputElement)
     expect(directCheckbox.checked).toBe(fromServerCheckbox.checked)
     expect(directCheckbox.disabled).toBe(fromServerCheckbox.disabled)
   })
@@ -178,7 +183,8 @@ describe('deferred tree API', () => {
     ]) {
       const direct = build(tree)
       parsed.innerHTML = renderToString(tree)
-      const server = parsed.firstElementChild as Element
+      const server = parsed.firstElementChild
+      assert.instanceOf(server, Element)
       expect(direct.namespaceURI).toBe(server.namespaceURI)
       expect(direct.firstElementChild?.namespaceURI).toBe(server.firstElementChild?.namespaceURI)
     }

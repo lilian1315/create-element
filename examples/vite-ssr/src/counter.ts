@@ -1,4 +1,4 @@
-import { createVNode } from '@lilian1315/create-element/vue-reactivity'
+import { createVNode } from '@lilian1315/create-element/vue-reactivity/virtual'
 import { shallowRef } from '@vue/reactivity'
 
 export function createCounter() {

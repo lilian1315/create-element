@@ -9,9 +9,11 @@ export const integrations = [
 
 export const entries = {
   index: 'src/index.ts',
-  'dom/index': 'src/dom/index.ts',
-  'server/index': 'src/server.ts',
   'jsx-runtime': 'src/jsx-runtime.ts',
+  'virtual/index': 'src/virtual/index.ts',
+  'virtual/dom/index': 'src/virtual/dom.ts',
+  'virtual/server/index': 'src/virtual/server.ts',
+  'virtual/jsx-runtime': 'src/virtual/jsx-runtime.ts',
 }
 
 const jsxRe = /\bjsx-runtime$/

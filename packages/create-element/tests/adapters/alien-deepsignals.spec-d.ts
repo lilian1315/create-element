@@ -1,21 +1,22 @@
+import { bind, type ElementProps } from '@lilian1315/create-element/alien-deepsignals'
 import {
   createVNode as h,
   type Component,
-  type VNodeChild,
-  type VNodeChildValue,
+  type Child,
+  type ChildValue,
   type VNodeProps,
-} from '@lilian1315/create-element/alien-deepsignals'
-import { bind, build } from '@lilian1315/create-element/alien-deepsignals/dom'
-import { renderToString } from '@lilian1315/create-element/alien-deepsignals/server'
+} from '@lilian1315/create-element/alien-deepsignals/virtual'
+import { build } from '@lilian1315/create-element/alien-deepsignals/virtual/dom'
+import { renderToString } from '@lilian1315/create-element/alien-deepsignals/virtual/server'
 import { computed, signal } from 'alien-deepsignals'
 import { expectTypeOf, it } from 'vite-plus/test'
 
 it('accepts native sources in props, components, nested children, and SSR', () => {
-  const component: Component<{ children?: VNodeChild }> = ({ children }) => h('div', { children })
+  const component: Component<{ children?: Child }> = ({ children }) => h('div', { children })
   const props: VNodeProps<'input'> = { value: signal('typed'), checked: computed(() => true) }
   expectTypeOf<typeof h<'input'>>().toBeCallableWith('input', props)
   expectTypeOf<typeof component>().toBeCallableWith({ children: signal('child') })
-  const content = signal<VNodeChildValue>([h('span'), signal('nested')])
+  const content = signal<ChildValue>([h('span'), signal('nested')])
   expectTypeOf<typeof h<'div'>>().toBeCallableWith('div', { children: content })
   expectTypeOf<typeof renderToString>().toBeCallableWith(content).returns.toBeString()
   expectTypeOf<typeof h<'button'>>().toBeCallableWith('button', {
@@ -45,7 +46,7 @@ it('rejects invalid native source payloads', () => {
 
 it('binds native sources to elements and subclasses with inferred refs', () => {
   const input = document.createElement('input')
-  const props: VNodeProps<'input'> = { value: signal('typed'), checked: computed(() => true) }
+  const props: ElementProps<'input'> = { value: signal('typed'), checked: computed(() => true) }
   expectTypeOf<typeof bind<HTMLInputElement>>().toBeCallableWith(input, props)
   // @ts-expect-error an explicit element type still checks signal payloads
   expectTypeOf<typeof bind<HTMLInputElement>>().toBeCallableWith(input, { checked: signal('yes') })

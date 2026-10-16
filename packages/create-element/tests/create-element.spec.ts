@@ -1,12 +1,11 @@
-import { createVNode } from '@lilian1315/create-element'
-import { bind, createElement, dispose } from '@lilian1315/create-element/dom'
+import { bind, createElement, dispose } from '@lilian1315/create-element'
 import { describe, expect, it, vi } from 'vite-plus/test'
 
 import { fixtures } from './reactivity-fixtures'
 
-describe.each([{ name: 'plain', createElement, bind, dispose, h: createVNode }, ...fixtures])(
+describe.each([{ name: 'plain', createElement, bind, dispose }, ...fixtures])(
   '$name createElement',
-  ({ createElement, bind, dispose, h }) => {
+  ({ createElement, bind, dispose }) => {
     it('creates HTML elements with omitted or null props', () => {
       expect(createElement('button')).toBeInstanceOf(HTMLButtonElement)
       expect(createElement('input', null)).toBeInstanceOf(HTMLInputElement)
@@ -36,7 +35,7 @@ describe.each([{ name: 'plain', createElement, bind, dispose, h: createVNode }, 
         class: ['primary', 'active'],
         style: { color: 'red' },
         data: { state: 'ready' },
-        children: ['Save ', 2, null, [child, h('span')]],
+        children: ['Save ', 2, null, [child, createElement('span')]],
         ref,
       })
       expect(button.className).toBe('primary active')

@@ -1,10 +1,10 @@
-import * as reactivity from './reactivity-ops'
-import type { ElementVNode, VNodeChild, VNode } from './types'
-import { isElementVNode, isVNode } from './vnode'
+import * as reactivity from '../reactivity-ops'
+import type { ElementVNode, Child, VNode } from '../types'
+import { isElementVNode, isVNode } from '../vnode'
 
-export type { VNodeChild } from './types'
+export type { Child } from '../types'
 
-export function renderToString(tree: VNodeChild): string {
+export function renderToString(tree: Child): string {
   return reactivity.REACTIVE_ENABLED
     ? reactivity.untracked(() => renderChildren(tree, {}))
     : renderChildren(tree, {})

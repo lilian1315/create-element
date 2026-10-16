@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vite-plus/test'
+import { assert, describe, expect, it, vi } from 'vite-plus/test'
 
 import { fixtures } from './reactivity-fixtures'
 
@@ -37,7 +37,8 @@ describe.each(fixtures)('$name specialization', (fixture) => {
         children: fixture.h('span', { title: title.value, ref: () => release }),
       }),
     )
-    const child = parent.firstElementChild as HTMLElement
+    const child = parent.firstElementChild
+    assert.instanceOf(child, HTMLElement)
     const destination = document.createElement('div')
     destination.append(child)
     fixture.dispose(parent)
@@ -140,7 +141,8 @@ describe.each(fixtures)('$name reactive content and structured props', (fixture)
     const clicked = vi.fn()
     const content = fixture.source(fixture.h('button', { onclick: clicked, children: 'old' }))
     const element = fixture.build(fixture.h('div', { children: content.value }))
-    const oldButton = element.querySelector('button') as HTMLButtonElement
+    const oldButton = element.querySelector('button')
+    assert.instanceOf(oldButton, HTMLButtonElement)
     oldButton.click()
     expect(clicked).toHaveBeenCalledOnce()
     content.set(fixture.h('span', { children: 'new' }))
@@ -164,7 +166,8 @@ describe.each(fixtures)('$name reactive content and structured props', (fixture)
     const title = fixture.source('before')
     const element = document.createElement('div')
     const stop = fixture.bind(element, { children: fixture.h('span', { title: title.value }) })
-    const child = element.firstElementChild as HTMLSpanElement
+    const child = element.firstElementChild
+    assert.instanceOf(child, HTMLSpanElement)
     expect(child.title).toBe('before')
     stop()
     title.set('after')

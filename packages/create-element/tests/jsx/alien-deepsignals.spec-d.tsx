@@ -1,30 +1,26 @@
 /** @jsxImportSource @lilian1315/create-element/alien-deepsignals */
 
-import type { VNode } from '@lilian1315/create-element/alien-deepsignals'
-import { build } from '@lilian1315/create-element/alien-deepsignals/dom'
-import type { JSX } from '@lilian1315/create-element/alien-deepsignals/jsx-runtime'
+import type { ElementProps } from '@lilian1315/create-element/alien-deepsignals'
+import { createVNode } from '@lilian1315/create-element/alien-deepsignals/virtual'
 import { signal } from 'alien-deepsignals'
 import { expectTypeOf, it } from 'vite-plus/test'
 
-it('infers JSX refs and build results and checks native source payloads', () => {
-  const title = signal('save')
-  const props: JSX.IntrinsicElements['button'] = { title, children: signal(1) }
-  const tree = <button {...props} />
-  expectTypeOf(tree).toEqualTypeOf<VNode>()
-  expectTypeOf(build<'button'>(tree)).toEqualTypeOf<HTMLButtonElement>()
-  const inputTree = (
+it('checks native source payloads and infers DOM refs', () => {
+  const props: ElementProps<'button'> = { title: signal('Save'), children: signal(1) }
+  expectTypeOf(<button {...props} />).toEqualTypeOf<Node>()
+  expectTypeOf(<div>{signal(createVNode('span'))}</div>).toEqualTypeOf<Node>()
+  const input = (
     <input
-      ref={(input) => {
-        expectTypeOf(input).toEqualTypeOf<HTMLInputElement>()
-        return () => {}
+      ref={(node) => {
+        expectTypeOf(node).toEqualTypeOf<HTMLInputElement>()
       }}
     />
   )
-  expectTypeOf(inputTree).toEqualTypeOf<VNode>()
-  // @ts-expect-error a boolean prop needs a boolean source
-  const invalidPayload = <button disabled={signal('false')} />
-  // @ts-expect-error children and innerHTML are exclusive in JSX too
-  const invalidContent = <div innerHTML="raw">text</div>
-  void invalidPayload
-  void invalidContent
+  expectTypeOf(input).toEqualTypeOf<Node>()
+  // @ts-expect-error disabled requires a boolean payload
+  const _invalid = <button disabled={signal('yes')} />
+  // @ts-expect-error children must resolve to supported child values
+  const _children = <button>{signal({})}</button>
+  // @ts-expect-error children and innerHTML are mutually exclusive
+  const _html = <div innerHTML="html">text</div>
 })
