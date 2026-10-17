@@ -116,14 +116,34 @@ const generatedInterfaces = selectedInterfaces.map((iface) => {
       (name && excludedMembers.includes(name)) ||
       ts.isMethodSignature(member) ||
       ts.isGetAccessorDeclaration(member) ||
-      ts.isIndexSignatureDeclaration(member) ||
-      (ts.isPropertySignature(member) &&
-        member.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ReadonlyKeyword))
+      ts.isIndexSignatureDeclaration(member)
     ) {
       continue
     }
 
-    if (ts.isSetAccessorDeclaration(member)) {
+    if (ts.isPropertySignature(member)) {
+      const svgBaseValType = getSVGAnimatedBaseValType(member)
+
+      if (svgBaseValType) {
+        const svgAnimatedMember = ts.factory.createPropertySignature(
+          undefined,
+          member.name,
+          undefined,
+          ts.factory.createKeywordTypeNode(ts.SyntaxKind.NeverKeyword),
+        )
+
+        ts.addSyntheticLeadingComment(
+          svgAnimatedMember,
+          ts.SyntaxKind.MultiLineCommentTrivia,
+          '* Not supported yet. You must use a ref to set this property manually. ',
+          true,
+        )
+
+        members.push(svgAnimatedMember)
+      } else if (!member.modifiers?.some((m) => m.kind === ts.SyntaxKind.ReadonlyKeyword)) {
+        members.push(member)
+      }
+    } else if (ts.isSetAccessorDeclaration(member)) {
       const parameter = member.parameters[0]
       setterProperties.push(
         ts.factory.createPropertySignature(undefined, member.name, undefined, parameter.type),
@@ -147,6 +167,34 @@ const generatedInterfaces = selectedInterfaces.map((iface) => {
   )
 })
 progressBar.stop()
+
+function getSVGAnimatedBaseValType(member: ts.PropertySignature): ts.TypeNode | undefined {
+  const type = member.type
+  if (
+    !type ||
+    !ts.isTypeNode(type) ||
+    !ts.isTypeReferenceNode(type) ||
+    !ts.isIdentifier(type.typeName)
+  ) {
+    return undefined
+  }
+
+  const typeName = type?.typeName?.text
+
+  if (!typeName) return undefined
+
+  if (!typeName.startsWith('SVGAnimated')) return undefined
+
+  const iface = interfacesByName.get(typeName)
+  const baseVal = iface?.members.find(
+    (member) =>
+      ts.isPropertySignature(member) &&
+      ts.isIdentifier(member.name) &&
+      member.name.text === 'baseVal',
+  )
+
+  return baseVal && ts.isPropertySignature(baseVal) ? baseVal.type : undefined
+}
 
 const namespace = ts.factory.createModuleDeclaration(
   [ts.factory.createModifier(ts.SyntaxKind.ExportKeyword)],

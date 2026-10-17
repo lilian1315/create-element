@@ -3356,6 +3356,8 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGAElement/rel)
          */
         rel: string;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        target: never;
         /**
          * The **`type`** property of the SVGAElement interface returns a string indicating the MIME type of the linked resource.
          *
@@ -3369,6 +3371,8 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGGraphicsElement)
      */
     export interface SVGGraphicsElement extends SVGElement, SVGTests {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        transform: never;
     }
     /**
      * All of the SVG DOM interfaces that correspond directly to elements in the SVG language derive from the **`SVGElement`** interface.
@@ -3380,6 +3384,8 @@ export namespace DOMTypes {
     interface SVGTests {
     }
     interface SVGURIReference {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        href: never;
     }
     /**
      * The **`SVGAnimateElement`** interface corresponds to the <animate> element.
@@ -3415,6 +3421,12 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGCircleElement)
      */
     export interface SVGCircleElement extends SVGGeometryElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        cx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        cy: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        r: never;
     }
     /**
      * The **`SVGGeometryElement`** interface represents SVG elements whose rendering is defined by geometry with an equivalent path, and which can be filled and stroked. This includes paths and the basic shapes.
@@ -3422,6 +3434,8 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGGeometryElement)
      */
     export interface SVGGeometryElement extends SVGGraphicsElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        pathLength: never;
     }
     /**
      * The **`SVGClipPathElement`** interface provides access to the properties of <clipPath> elements, as well as methods to manipulate them.
@@ -3429,6 +3443,10 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGClipPathElement)
      */
     export interface SVGClipPathElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        clipPathUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        transform: never;
     }
     /**
      * The **`SVGComponentTransferFunctionElement`** interface represents a base interface used by the component transfer function interfaces.
@@ -3436,6 +3454,20 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGComponentTransferFunctionElement)
      */
     export interface SVGComponentTransferFunctionElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        amplitude: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        exponent: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        intercept: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        offset: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        slope: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        tableValues: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        type: never;
     }
     /**
      * The **`SVGDefsElement`** interface corresponds to the <defs> element.
@@ -3457,6 +3489,14 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGEllipseElement)
      */
     export interface SVGEllipseElement extends SVGGeometryElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        cx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        cy: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        rx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        ry: never;
     }
     /**
      * The **`SVGFEBlendElement`** interface corresponds to the <feBlend> element.
@@ -3464,8 +3504,24 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEBlendElement)
      */
     export interface SVGFEBlendElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in2: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        mode: never;
     }
     interface SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        result: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGFEColorMatrixElement`** interface corresponds to the <feColorMatrix> element.
@@ -3473,6 +3529,12 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEColorMatrixElement)
      */
     export interface SVGFEColorMatrixElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        type: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        values: never;
     }
     /**
      * The **`SVGFEComponentTransferElement`** interface corresponds to the <feComponentTransfer> element.
@@ -3480,6 +3542,8 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEComponentTransferElement)
      */
     export interface SVGFEComponentTransferElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
     }
     /**
      * The **`SVGFECompositeElement`** interface corresponds to the <feComposite> element.
@@ -3487,6 +3551,20 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFECompositeElement)
      */
     export interface SVGFECompositeElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in2: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        k1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        k2: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        k3: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        k4: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        operator: never;
     }
     /**
      * The **`SVGFEConvolveMatrixElement`** interface corresponds to the <feConvolveMatrix> element.
@@ -3494,6 +3572,30 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEConvolveMatrixElement)
      */
     export interface SVGFEConvolveMatrixElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        bias: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        divisor: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        edgeMode: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        kernelMatrix: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        kernelUnitLengthX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        kernelUnitLengthY: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        orderX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        orderY: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        preserveAlpha: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        targetX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        targetY: never;
     }
     /**
      * The **`SVGFEDiffuseLightingElement`** interface corresponds to the <feDiffuseLighting> element.
@@ -3501,6 +3603,16 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEDiffuseLightingElement)
      */
     export interface SVGFEDiffuseLightingElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        diffuseConstant: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        kernelUnitLengthX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        kernelUnitLengthY: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        surfaceScale: never;
     }
     /**
      * The **`SVGFEDisplacementMapElement`** interface corresponds to the <feDisplacementMap> element.
@@ -3508,6 +3620,16 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEDisplacementMapElement)
      */
     export interface SVGFEDisplacementMapElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in2: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        scale: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        xChannelSelector: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        yChannelSelector: never;
     }
     /**
      * The **`SVGFEDistantLightElement`** interface corresponds to the <feDistantLight> element.
@@ -3515,6 +3637,10 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEDistantLightElement)
      */
     export interface SVGFEDistantLightElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        azimuth: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        elevation: never;
     }
     /**
      * The **`SVGFEDropShadowElement`** interface corresponds to the <feDropShadow> element.
@@ -3522,6 +3648,16 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEDropShadowElement)
      */
     export interface SVGFEDropShadowElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        dx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        dy: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        stdDeviationX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        stdDeviationY: never;
     }
     /**
      * The **`SVGFEFloodElement`** interface corresponds to the <feFlood> element.
@@ -3564,6 +3700,12 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEGaussianBlurElement)
      */
     export interface SVGFEGaussianBlurElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        stdDeviationX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        stdDeviationY: never;
     }
     /**
      * The **`SVGFEImageElement`** interface corresponds to the <feImage> element.
@@ -3571,6 +3713,8 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEImageElement)
      */
     export interface SVGFEImageElement extends SVGElement, SVGFilterPrimitiveStandardAttributes, SVGURIReference {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        preserveAspectRatio: never;
     }
     /**
      * The **`SVGFEMergeElement`** interface corresponds to the <feMerge> element.
@@ -3585,6 +3729,8 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEMergeNodeElement)
      */
     export interface SVGFEMergeNodeElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
     }
     /**
      * The **`SVGFEMorphologyElement`** interface corresponds to the <feMorphology> element.
@@ -3592,6 +3738,14 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEMorphologyElement)
      */
     export interface SVGFEMorphologyElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        operator: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        radiusX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        radiusY: never;
     }
     /**
      * The **`SVGFEOffsetElement`** interface corresponds to the <feOffset> element.
@@ -3599,6 +3753,12 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEOffsetElement)
      */
     export interface SVGFEOffsetElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        dx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        dy: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
     }
     /**
      * The **`SVGFEPointLightElement`** interface corresponds to the <fePointLight> element.
@@ -3606,6 +3766,12 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFEPointLightElement)
      */
     export interface SVGFEPointLightElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        z: never;
     }
     /**
      * The **`SVGFESpecularLightingElement`** interface corresponds to the <feSpecularLighting> element.
@@ -3613,6 +3779,18 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFESpecularLightingElement)
      */
     export interface SVGFESpecularLightingElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        kernelUnitLengthX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        kernelUnitLengthY: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        specularConstant: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        specularExponent: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        surfaceScale: never;
     }
     /**
      * The **`SVGFESpotLightElement`** interface corresponds to the <feSpotLight> element.
@@ -3620,6 +3798,22 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFESpotLightElement)
      */
     export interface SVGFESpotLightElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        limitingConeAngle: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        pointsAtX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        pointsAtY: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        pointsAtZ: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        specularExponent: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        z: never;
     }
     /**
      * The **`SVGFETileElement`** interface corresponds to the <feTile> element.
@@ -3627,6 +3821,8 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFETileElement)
      */
     export interface SVGFETileElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        in1: never;
     }
     /**
      * The **`SVGFETurbulenceElement`** interface corresponds to the <feTurbulence> element.
@@ -3634,6 +3830,18 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFETurbulenceElement)
      */
     export interface SVGFETurbulenceElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        baseFrequencyX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        baseFrequencyY: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        numOctaves: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        seed: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        stitchTiles: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        type: never;
     }
     /**
      * The **`SVGFilterElement`** interface provides access to the properties of <filter> elements, as well as methods to manipulate them.
@@ -3641,6 +3849,18 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGFilterElement)
      */
     export interface SVGFilterElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        filterUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        primitiveUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGForeignObjectElement`** interface provides access to the properties of <foreignObject> elements, as well as methods to manipulate them.
@@ -3648,6 +3868,14 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGForeignObjectElement)
      */
     export interface SVGForeignObjectElement extends SVGGraphicsElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGGElement`** interface corresponds to the <g> element.
@@ -3662,6 +3890,12 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGGradientElement)
      */
     export interface SVGGradientElement extends SVGElement, SVGURIReference {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        gradientTransform: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        gradientUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        spreadMethod: never;
     }
     /**
      * The **`SVGImageElement`** interface corresponds to the <image> element.
@@ -3675,6 +3909,16 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGImageElement/crossOrigin)
          */
         crossOrigin: string | null;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        preserveAspectRatio: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGLineElement`** interface provides access to the properties of <line> elements, as well as methods to manipulate them.
@@ -3682,6 +3926,14 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGLineElement)
      */
     export interface SVGLineElement extends SVGGeometryElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x2: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y2: never;
     }
     /**
      * The **`SVGLinearGradientElement`** interface corresponds to the <linearGradient> element.
@@ -3689,6 +3941,14 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGLinearGradientElement)
      */
     export interface SVGLinearGradientElement extends SVGGradientElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x2: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y1: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y2: never;
     }
     /**
      * The **`SVGMPathElement`** interface corresponds to the <mpath> element.
@@ -3703,8 +3963,26 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGMarkerElement)
      */
     export interface SVGMarkerElement extends SVGElement, SVGFitToViewBox {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        markerHeight: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        markerUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        markerWidth: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        orientAngle: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        orientType: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        refX: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        refY: never;
     }
     interface SVGFitToViewBox {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        preserveAspectRatio: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        viewBox: never;
     }
     /**
      * The **`SVGMaskElement`** interface provides access to the properties of <mask> elements, as well as methods to manipulate them.
@@ -3712,6 +3990,18 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGMaskElement)
      */
     export interface SVGMaskElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        maskContentUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        maskUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGMetadataElement`** interface corresponds to the <metadata> element.
@@ -3726,6 +4016,8 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGPathElement)
      */
     export interface SVGPathElement extends SVGGeometryElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        pathLength: never;
     }
     /**
      * The **`SVGPatternElement`** interface corresponds to the <pattern> element.
@@ -3733,6 +4025,20 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGPatternElement)
      */
     export interface SVGPatternElement extends SVGElement, SVGFitToViewBox, SVGURIReference {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        patternContentUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        patternTransform: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        patternUnits: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGPolygonElement`** interface provides access to the properties of <polygon> elements, as well as methods to manipulate them.
@@ -3756,6 +4062,18 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGRadialGradientElement)
      */
     export interface SVGRadialGradientElement extends SVGGradientElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        cx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        cy: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        fr: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        fx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        fy: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        r: never;
     }
     /**
      * The **`SVGRectElement`** interface provides access to the properties of <rect> elements, as well as methods to manipulate them.
@@ -3763,6 +4081,18 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGRectElement)
      */
     export interface SVGRectElement extends SVGGeometryElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        rx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        ry: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGSVGElement`** interface provides access to the properties of <svg> elements, as well as methods to manipulate them. This interface contains also various miscellaneous commonly-used utility methods, such as matrix operations and the ability to control the time of redraw on visual rendering devices.
@@ -3776,6 +4106,14 @@ export namespace DOMTypes {
          * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGSVGElement/currentScale)
          */
         currentScale: number;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGScriptElement`** interface corresponds to the SVG <script> element.
@@ -3803,6 +4141,8 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGStopElement)
      */
     export interface SVGStopElement extends SVGElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        offset: never;
     }
     /**
      * The **`SVGStyleElement`** interface corresponds to the SVG <style> element.
@@ -3863,6 +4203,16 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGTextPositioningElement)
      */
     export interface SVGTextPositioningElement extends SVGTextContentElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        dx: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        dy: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        rotate: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGTextContentElement`** interface is implemented by elements that support rendering child text content. It is inherited by various text-related interfaces, such as SVGTextElement, SVGTSpanElement, and SVGTextPathElement.
@@ -3870,6 +4220,10 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGTextContentElement)
      */
     export interface SVGTextContentElement extends SVGGraphicsElement {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        lengthAdjust: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        textLength: never;
     }
     /**
      * The **`SVGTextElement`** interface corresponds to the <text> elements.
@@ -3884,6 +4238,12 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGTextPathElement)
      */
     export interface SVGTextPathElement extends SVGTextContentElement, SVGURIReference {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        method: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        spacing: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        startOffset: never;
     }
     /**
      * The **`SVGTitleElement`** interface corresponds to the <title> element.
@@ -3898,6 +4258,14 @@ export namespace DOMTypes {
      * [MDN Reference](https://developer.mozilla.org/docs/Web/API/SVGUseElement)
      */
     export interface SVGUseElement extends SVGGraphicsElement, SVGURIReference {
+        /** Not supported yet. You must use a ref to set this property manually. */
+        height: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        width: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        x: never;
+        /** Not supported yet. You must use a ref to set this property manually. */
+        y: never;
     }
     /**
      * The **`SVGViewElement`** interface provides access to the properties of <view> elements, as well as methods to manipulate them.
