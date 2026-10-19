@@ -24,10 +24,10 @@ describe.each(fixtures)('$name reactive child reconciliation', (fixture) => {
     const item = (key: string) => h('input', { key, ref, title: key === 'a' ? title.value : key })
     const content = source([item('a'), item('b'), item('c')])
     const element = build(h('div', { children: content.value }))
-    const [a, b, c] = [...element.querySelectorAll('input')]
+    const [a, b, c] = Array.from(element.querySelectorAll('input'))
     b!.value = 'typed by user'
     content.set([item('c'), item('d'), item('b'), item('a')])
-    const inputs = [...element.querySelectorAll('input')]
+    const inputs = Array.from(element.querySelectorAll('input'))
     expect(inputs).toEqual([c, inputs[1], b, a])
     expect(inputs[1]!.title).toBe('d')
     expect(b!.value).toBe('typed by user')
@@ -59,7 +59,7 @@ describe.each(fixtures)('$name reactive child reconciliation', (fixture) => {
     expect(move).not.toHaveBeenCalled()
     content.set([h('input', { key: 'b' }), h('input', { key: 'a' })])
     expect(move).toHaveBeenCalled()
-    expect([...target.querySelectorAll('input')]).toEqual([b, a])
+    expect(Array.from(target.querySelectorAll('input'))).toEqual([b, a])
     expect(document.activeElement).toBe(a)
     expect(a!.selectionStart).toBe(1)
     expect(a!.selectionEnd).toBe(3)
@@ -73,9 +73,9 @@ describe.each(fixtures)('$name reactive child reconciliation', (fixture) => {
     const element = build(h('div', { children: content.value }))
     Object.defineProperty(element, 'moveBefore', { value: undefined })
     const insert = vi.spyOn(element, 'insertBefore')
-    const [a, b] = [...element.children]
+    const [a, b] = Array.from(element.children)
     content.set([h('i', { key: 'b' }), h('i', { key: 'a' })])
-    expect([...element.children]).toEqual([b, a])
+    expect(Array.from(element.children)).toEqual([b, a])
     expect(insert).toHaveBeenCalled()
     dispose(element)
   })
@@ -158,18 +158,18 @@ describe.each(fixtures)('$name reactive child reconciliation', (fixture) => {
       jsx(component as any, { key: 'b', label: 'B' }),
     ])
     const element = build(h('div', { children: content.value }))
-    const [a, aa, b, bb] = [...element.children]
+    const [a, aa, b, bb] = Array.from(element.children)
     content.set([
       jsx(component as any, { key: 'b', label: 'B!' }),
       jsx(component as any, { key: 'a', label: 'A!' }),
     ])
-    expect([...element.children]).toEqual([b, bb, a, aa])
+    expect(Array.from(element.children)).toEqual([b, bb, a, aa])
     expect(element.textContent).toBe('B!B!A!A!')
     content.set([
       jsx(component as any, { key: 'b', label: '' }),
       jsx(component as any, { key: 'a', label: 'A' }),
     ])
-    expect([...element.children]).toEqual([a, aa])
+    expect(Array.from(element.children)).toEqual([a, aa])
     content.set([
       jsx(component as any, { key: 'b', label: 'back' }),
       jsx(component as any, { key: 'a', label: 'A' }),
@@ -191,9 +191,9 @@ describe.each(fixtures)('$name reactive child reconciliation', (fixture) => {
       )
     const content = source([fragment('a'), fragment('b')])
     const element = build(h('div', { children: content.value }))
-    const [a, aa, b, bb] = [...element.children]
+    const [a, aa, b, bb] = Array.from(element.children)
     content.set([fragment('b'), fragment('a')])
-    expect([...element.children]).toEqual([b, bb, a, aa])
+    expect(Array.from(element.children)).toEqual([b, bb, a, aa])
     text.set('two')
     expect(a!.textContent).toBe('two')
     expect(b!.textContent).toBe('two')
@@ -246,6 +246,6 @@ describe.each(fixtures)('$name reactive child reconciliation', (fixture) => {
     expect(node.value).toBe('typed')
     expect(target.lastElementChild).toBe(external)
     stop()
-    expect([...target.children]).toEqual([external])
+    expect(Array.from(target.children)).toEqual([external])
   })
 })
